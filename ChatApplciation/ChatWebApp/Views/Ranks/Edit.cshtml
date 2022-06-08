@@ -1,0 +1,44 @@
+﻿@model ChatWebApp.Models.Rank
+<div class="default">
+
+	@{
+		ViewData["Title"] = "Edit";
+	}
+
+	<h3 class="header-text">Edit @Html.DisplayFor(model => model.Username)'s rank</h3>
+
+	<hr />
+	<div class="row center">
+		<div class="col-md-4">
+			<form asp-action="Edit">
+				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+				<input type="hidden" asp-for="Username" />
+				<div class="form-group">
+					<label asp-for="NumeralRank" class="control-label def-text"></label>
+					<input asp-for="NumeralRank" class="form-control" />
+					<span asp-validation-for="NumeralRank" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Feedback" class="control-label def-text"></label>
+					<input asp-for="Feedback" class="form-control def-text" />
+					<span asp-validation-for="Feedback" class="text-danger"></span>
+				</div>
+				<div type="hidden" class="form-group">
+@*					<label asp-for="SubmitTime" class="control-label"></label>
+*@					<input type="hidden" asp-for="SubmitTime" class="form-control def-text" />
+@*					<span asp-validation-for="SubmitTime" class="text-danger"></span>
+*@				</div>
+				<div class="form-group">
+					<input type="submit" value="Save" class="btn btn-primary" />
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div>
+		<a asp-action="Index">Back to List</a>
+	</div>
+</div>
+@*@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	}*@
