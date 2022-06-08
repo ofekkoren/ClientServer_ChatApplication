@@ -1,0 +1,87 @@
+﻿@model IEnumerable<ChatWebApp.Models.Rank>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="default">
+    <h3 class="header-text">Application rankings</h3>
+    <hr />
+    <div class="def-text">The average rank of the app is @ViewBag.Ranks.ToString("0.00") </div>
+    <hr />
+    <form id="searchInRanks" asp-action="Search">
+        <input name="query" id="searchQuery" />
+        <input type="submit" value="Search" class="btn btn-primary btn-sm" />
+    </form>
+    <hr />
+    <p>
+        <a asp-action="Create">Add a review</a>
+    </p>
+    <table style="width:100%" class="table">
+        <thead>
+            <tr>
+                <th id="username-col">
+                    <div class="def-text">@Html.DisplayNameFor(model => model.Username)</div>
+                </th>
+                <th id="numeral-rank-col" >
+                    <div class="def-text">@Html.DisplayNameFor(model => model.NumeralRank)</div>
+                </th>
+                <th id="feedback-col">
+                    <div class="def-text">@Html.DisplayNameFor(model => model.Feedback)</div>
+                </th>
+                <th id="time-col">
+                    <div class="def-text">@Html.DisplayNameFor(model => model.SubmitTime)</div>
+                </th>
+                <th id="options-col"></th>
+            </tr>
+        </thead>
+        <tbody id="theBody">
+            @foreach (var item in Model)
+            {
+                <tr =>
+                    <td>
+                        <div class="def-text wrap-text">@Html.DisplayFor(modelItem => item.Username)</div>
+                    </td>
+                    <td>
+                        <div class="def-text wrap-text">@Html.DisplayFor(modelItem => item.NumeralRank)</div>
+                    </td>
+                    <td>
+                        <div class="def-text wrap-text">@Html.DisplayFor(modelItem => item.Feedback)</div>
+                    </td>
+                    <td>
+                        <div class="def-text wrap-text">@Html.DisplayFor(modelItem => item.SubmitTime)</div>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-Username="@item.Username">Edit</a> |
+                        <a asp-action="Details" asp-route-Username="@item.Username">Details</a> |
+                        <a asp-action="Delete" asp-route-Username="@item.Username">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+    <script type="text/html" id="searchTemplate">
+                <tr>
+                    <td>
+                        <div class="def-text wrap-text">{username}</div>
+                    </td>
+                    <td>
+                        <div class="def-text wrap-text">{numeralRank}</div>
+                    </td>
+                    <td>
+                        <div class="def-text wrap-text">{feedback}</div>
+                    </td>
+                    <td>
+                        <div class="def-text wrap-text">{submitTime}</div>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-Username="{username}">Edit</a> |
+                        <a asp-action="Details" asp-route-Username="{username}">Details</a> |
+                        <a asp-action="Delete" asp-route-Username="{username}">Delete</a>
+                    </td>
+                </tr>
+     </script>
+    <script src="~/js/RanksSearch.js"></script>
+}

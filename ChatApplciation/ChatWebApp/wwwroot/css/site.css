@@ -1,0 +1,83 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-image: url(../background.jpg);
+    background-size: cover;
+}
+
+.default {
+    background-color: #C0D9FF;
+    text-align: center !important;
+    border-radius: 20px;
+    border: 2px solid #21549f;
+    box-shadow: -1px 4px 20px -6px black;
+}
+
+.def-text {
+    color: #21549f !important;
+}
+
+.header-text {
+    color: #21549f !important;
+    font-family: fantasy;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.to-left {
+    text-align: start;
+}
+
+.form-control {
+    margin: 10px;
+}
+
+.control-group {
+    margin: 2px;
+}
+
+.btn {
+    margin: 1px
+}
+
+.wrap-text {
+    white-space: pre-wrap; /*starts new line for newLine character*/
+    word-break: break-all; /*starts new line if the text is too long*/
+}
+
+#username-col{
+    width:20%;
+}
+
+#numeral-rank-col {
+    width: 5%;
+}
+
+#feedback-col {
+    width: 37%;
+}
+
+#time-col {
+    width: 18%;
+}
+
+#options-col {
+    width: 20%;
+}
