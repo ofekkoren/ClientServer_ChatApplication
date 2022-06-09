@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUp"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/Username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:layout_margin="10dp"
+        android:inputType="text"
+        />
+
+    <EditText
+        android:id="@+id/Nickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nickname"
+        android:layout_margin="10dp"
+        android:inputType="text"
+        />
+
+    <EditText
+        android:id="@+id/Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:layout_margin="10dp"
+        android:inputType="textPassword"
+
+        />
+
+    <EditText
+        android:id="@+id/RepeatPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Repeat password"
+        android:layout_margin="10dp"
+        android:inputType="textPassword"
+        />
+
+    <Button
+        android:id="@+id/submitSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="PROCEED"
+        android:textColor="@android:color/white"
+        tools:ignore="ButtonStyle" />
+
+</LinearLayout>
