@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".conversation.Conversation"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/conversationHeader"
+        android:layout_weight="0.1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="user name "
+        android:textSize="30dp"
+        android:background="@color/darkBlue"/>
+
+    <TextView
+        android:layout_weight="0.8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="user name change it"
+        android:background="@color/red"/>
+
+    <LinearLayout
+        android:layout_weight="0.1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkBlue"
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="1dp"
+            android:background="@drawable/send_text_box"
+            android:hint="Type your message ..."
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textSize="25dp"
+            >
+        </EditText>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:background="@drawable/send_btn"
+            android:src="@drawable/ic_textbox_sendbtn">
+        </ImageButton>
+
+    </LinearLayout>
+</LinearLayout>

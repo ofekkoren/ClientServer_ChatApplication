@@ -5,14 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUp"
+    tools:context=".signup.SignUp"
     android:orientation="vertical">
 
     <EditText
         android:id="@+id/Username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
+        android:hint="@string/signup_etUsername"
         android:layout_margin="10dp"
         android:inputType="text"
         />
@@ -21,7 +21,7 @@
         android:id="@+id/Nickname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nickname"
+        android:hint="@string/signup_etNickname"
         android:layout_margin="10dp"
         android:inputType="text"
         />
@@ -30,7 +30,7 @@
         android:id="@+id/Password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="@string/signup_etPassword"
         android:layout_margin="10dp"
         android:inputType="textPassword"
 
@@ -40,17 +40,31 @@
         android:id="@+id/RepeatPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Repeat password"
+        android:hint="@string/signup_eRepeat_password"
         android:layout_margin="10dp"
         android:inputType="textPassword"
         />
+
+    <Button
+        android:id="@+id/profileImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Upload profile image"
+        android:textColor="@android:color/white"
+        tools:ignore="ButtonStyle" />
+
+    <ImageView
+        android:id="@+id/profileImageView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"/>
 
     <Button
         android:id="@+id/submitSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="PROCEED"
+        android:text="Sign Up"
         android:textColor="@android:color/white"
         tools:ignore="ButtonStyle" />
 

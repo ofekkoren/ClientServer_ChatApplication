@@ -1,4 +1,4 @@
-package com.example.chatapp;
+package com.example.chatapp.signup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,8 @@ public interface SignUpAPI {
     @POST("api/SignUp")
     Call<signUpResults> signUp(@Body signUpParams parameters);
 
-  /*  @GET("api/Contacts")
-    Call <ArrayList<ContactToJson>> getContacts(@Header("Authorization") String authorization);
+    @GET("api/Contacts")
+    Call <ArrayList<ContactToJson>> getContacts(@Header("Cookie") String session);
 
     public class ContactToJson{
         public String id ;
@@ -45,7 +45,7 @@ public interface SignUpAPI {
         public String getLastdate() {
             return lastdate;
         }
-    }*/
+    }
 
     public class signUpParams {
         public String username;

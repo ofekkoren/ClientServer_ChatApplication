@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">ChatApp</string>
     <string name="base_url">http://10.0.2.2:5170/</string>
+    <string name="signup_etUsername">Username</string>
+    <string name="signup_etNickname">Nickname</string>
+    <string name="signup_etPassword">Password</string>
+    <string name="signup_eRepeat_password">Repeat password</string>
 </resources>
