@@ -1,0 +1,53 @@
+﻿@model ChatWebApp.Models.Rank
+
+@{
+	ViewData["Title"] = "Create";
+}
+
+<div class="default">
+
+	<h3 class="header-text">Add your rank</h3>
+
+	<hr />
+	<div class="row center">
+		<div class="col-md-4 center">
+			<form class="center" asp-action="Create">
+				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+				<div class="form-group">
+					<label asp-for="Username" class="control-label def-text"></label>
+					<input asp-for="Username" class="form-control" />
+					<span asp-validation-for="Username" id="username-validation" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="NumeralRank" class="control-label def-text"></label>
+					<input asp-for="NumeralRank" class="form-control" />
+					<span asp-validation-for="NumeralRank" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Feedback" class="control-label def-text"></label>
+					<input asp-for="Feedback" class="form-control" />
+					<span asp-validation-for="Feedback" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					@*                <label asp-for="SubmitTime" class="control-label"></label>
+					*@                <input type="hidden" asp-for="SubmitTime" class="form-control" />
+					@*                <span asp-validation-for="SubmitTime" class="text-danger"></span>
+					*@
+				</div>
+				<div class="form-group">
+					<input type="submit" value="Create" class="btn btn-primary" />
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div>
+		<a asp-action="Index">Back to List</a>
+	</div>
+</div>
+
+@section Scripts {
+    @{
+	await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
