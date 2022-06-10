@@ -26,7 +26,7 @@ namespace ChatWebApi.Controllers
                 return NotFound();
             }
             // Checking if one of the fields is empty and returning a suitable json.
-            if (parameters.username == null || parameters.password == null)
+            if (parameters.username == null || parameters.password == null || parameters.username == "" || parameters.password == "")
             {
                 var invalidEmptyUser = new
                 {
