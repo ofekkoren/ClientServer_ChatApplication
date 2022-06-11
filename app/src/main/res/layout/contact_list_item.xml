@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_gravity="start">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
-        android:background="@color/SignAndLogBtns">
-    >
+        android:radius="2dp"
+        android:topRightRadius="0dp"
+        android:bottomRightRadius="0dp"
+        android:bottomLeftRadius="0dp"
+        android:background="@drawable/contact_background"
+        android:width="1dp"
+        android:color="@android:color/black"
+        >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -23,7 +27,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginStart="20dp"
-                tools:src="@color/red"/>
+                tools:src="@color/red" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -36,10 +40,10 @@
                     android:id="@+id/contact_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="User Name"
                     android:textColor="@color/white"
                     android:textSize="25dp"
                     android:textStyle="bold"
+                    tools:text="User Name"
 
                     />
 
@@ -47,11 +51,10 @@
                     android:id="@+id/contact_last_massage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Hi, how are you?"
+                    android:layout_marginTop="5dp"
                     android:textColor="@color/white"
                     android:textSize="10dp"
-                    android:layout_marginTop="5dp"
-                    />
+                    tools:text="Hi, how are you?" />
 
             </LinearLayout>
 

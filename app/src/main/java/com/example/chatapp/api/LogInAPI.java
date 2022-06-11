@@ -1,4 +1,6 @@
-package com.example.chatapp.login;
+package com.example.chatapp.api;
+
+import com.example.chatapp.models.ContactToJson;
 
 import java.util.ArrayList;
 
@@ -12,8 +14,8 @@ public interface LogInAPI {
     @POST("LogIn")
     Call<LogInResults> checkValidation(@Body LogInParams parameters);
 
-    @GET("api/Contacts")
-    Call <ArrayList<ContactToJson>> getContacts(@Header("Cookie") String session);
+    @GET("Contacts")
+    Call <ArrayList<com.example.chatapp.models.ContactToJson>> getContacts(@Header("Cookie") String session);
 
     public class ContactToJson{
         public String id ;

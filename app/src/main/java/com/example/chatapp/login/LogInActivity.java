@@ -33,8 +33,9 @@ public class LogInActivity extends AppCompatActivity {
             String password = logInPassword.getText().toString();
             logInValidationMessage.setText("");
             if(logIn.logInCheckValidation(username, password, logInValidationMessage)) {
-
+                logIn.setCurrentUser();
                 Intent i = new Intent(this, contactsList.class);
+                //pass current user?
                 startActivity(i);
 
             }

@@ -1,11 +1,17 @@
 package com.example.chatapp.login;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
+import com.example.chatapp.api.LogInAPI;
+import com.example.chatapp.models.ContactToJson;
+import com.example.chatapp.models.User;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,8 +46,6 @@ public class LogIn {
                 cookie = response.headers().get("Set-Cookie");
                 if (results.username.equals("valid")) {
                     isValidInfo = true;
-//                    Intent i = new Intent(this, contactsList.class);
-//                    startActivity(i);
                 } else if (results.username.equals("empty")) {
                     textField.setText("All fields must be filled!");
                     textField.setVisibility(View.VISIBLE);
@@ -58,6 +62,23 @@ public class LogIn {
             }
         });
         return isValidInfo;
+    }
+
+    public void setCurrentUser() {
+//        Call<ArrayList<ContactToJson>> y = logInAPI.getContacts(MyApp.getCookie());
+//        y.enqueue(new Callback<ArrayList<ContactToJson>>() {
+//            @Override
+//            public void onResponse(Call<ArrayList<ContactToJson>> call, Response<ArrayList<ContactToJson>> response) {
+//                ArrayList<ContactToJson> M = response.body();
+//                Log.d("dfdf", "Dsfsdsf");
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ArrayList<ContactToJson>> call, Throwable t) {
+//                Log.d("hgj", "ghjjjj");
+//
+//            }
+//        });
     }
 
 }
