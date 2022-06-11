@@ -1,5 +1,7 @@
 package com.example.chatapp.signup;
 
+import static com.example.chatapp.R.drawable.*;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,7 @@ import android.widget.ImageView;
 
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
+import com.example.chatapp.models.ContactToJson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,8 +56,9 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.sign_up);
 
         ImageView image=findViewById(R.id.profileImageView);
-        image.setImageResource(R.drawable.defaultimage);
-
+        final int defaultImage;
+        defaultImage = defaultimage;
+        image.setImageResource(defaultImage);
         Button imageBtn=findViewById(R.id.profileImage);
         imageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,16 +106,16 @@ public class SignUp extends AppCompatActivity {
                         /*var newUser = await getUser(newUserName.toString());
                         setUser(newUser);
                         navigate("../chatScreen");*/
-                        Call<ArrayList<SignUpAPI.ContactToJson>> y = signUpAPI.getContacts(cookie);
-                        y.enqueue(new Callback<ArrayList<SignUpAPI.ContactToJson>>() {
+                        Call<ArrayList<ContactToJson>> y = signUpAPI.getContacts(cookie);
+                        y.enqueue(new Callback<ArrayList<ContactToJson>>() {
                             @Override
-                            public void onResponse(Call<ArrayList<SignUpAPI.ContactToJson>> call, Response<ArrayList<SignUpAPI.ContactToJson>> response) {
-                                ArrayList<SignUpAPI.ContactToJson> M = response.body();
+                            public void onResponse(Call<ArrayList<ContactToJson>> call, Response<ArrayList<ContactToJson>> response) {
+                                ArrayList<ContactToJson> M = response.body();
                                 Log.d("dfdf", "Dsfsdsf");
                             }
 
                             @Override
-                            public void onFailure(Call<ArrayList<SignUpAPI.ContactToJson>> call, Throwable t) {
+                            public void onFailure(Call<ArrayList<ContactToJson>> call, Throwable t) {
                                 Log.d("hgj", "ghjjjj");
 
                             }

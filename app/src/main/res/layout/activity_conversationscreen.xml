@@ -4,51 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".conversation.Conversation"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".conversation.ConversationScreen">
 
     <TextView
         android:id="@+id/conversationHeader"
-        android:layout_weight="0.1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.05"
+        android:background="@color/darkBlue"
         android:gravity="center"
         android:text="user name "
+        android:textColor="@color/black"
         android:textSize="30dp"
-        android:background="@color/darkBlue"/>
+        android:textStyle="bold" />
 
-    <TextView
-        android:layout_weight="0.8"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatBody"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="user name change it"
-        android:background="@color/red"/>
+        android:layout_height="0dp"
+        android:layout_weight="0.9"
+        android:background="@drawable/inner_chat"
+        />
 
     <LinearLayout
-        android:layout_weight="0.1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.05"
         android:background="@color/darkBlue"
         android:orientation="horizontal">
 
         <EditText
+            android:inputType="text"
+            android:id="@+id/textBox"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_margin="1dp"
+            android:layout_weight="1"
             android:background="@drawable/send_text_box"
             android:hint="Type your message ..."
+            android:maxLines="5"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:textSize="25dp"
-            >
+            android:textSize="25dp">
         </EditText>
+
         <ImageButton
+            android:id="@+id/sendBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
             android:background="@drawable/send_btn"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_textbox_sendbtn">
+
         </ImageButton>
 
     </LinearLayout>

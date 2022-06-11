@@ -1,5 +1,7 @@
 package com.example.chatapp.signup;
 
+import com.example.chatapp.models.ContactToJson;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,34 +20,6 @@ public interface SignUpAPI {
 
     @GET("api/Contacts")
     Call <ArrayList<ContactToJson>> getContacts(@Header("Cookie") String session);
-
-    public class ContactToJson{
-        public String id ;
-        public String name ;
-        public String server ;
-        public String last;
-        public String lastdate ;
-
-        public String getId() {
-            return id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getServer() {
-            return server;
-        }
-
-        public String getLast() {
-            return last;
-        }
-
-        public String getLastdate() {
-            return lastdate;
-        }
-    }
 
     public class signUpParams {
         public String username;
