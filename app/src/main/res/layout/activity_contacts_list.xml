@@ -54,7 +54,7 @@
             android:id="@+id/ListOfContacts"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/darker_gray" />
+            tools:listitem="@layout/contact_list_item" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
