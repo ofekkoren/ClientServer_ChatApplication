@@ -24,7 +24,7 @@ public class LogIn {
     public LogIn() {
         //Initializing retrofit
         retrofit = new Retrofit.Builder()
-                .baseUrl(MyApp.context.getString(R.string.BaseUrl))
+                .baseUrl(MyApp.getContext().getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         logInAPI = retrofit.create(LogInAPI.class);

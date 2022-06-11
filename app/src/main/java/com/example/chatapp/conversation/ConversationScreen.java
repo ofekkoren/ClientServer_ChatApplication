@@ -24,7 +24,7 @@ public class ConversationScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversationscreen);
-        Contact con = new Contact(0, "Tomer Eligayev", "Tomer-77", MyApp.getContext().getString(R.string.base_url), "Have " +
+        Contact con = new Contact(0, "Tomer Eligayev", "Tomer-77", MyApp.getContext().getString(R.string.BaseUrl), "Have " +
                 "a nice day", "2022-05-26T03:53:23.8120000");
         currentConversation = new Conversation("Ofek KorenTomer Eligayev", new ArrayList<Message>(), con);
         Message m1 = new Message(1, "Hello, how are you?", "2022-05-26T03:53:23.8120000", true);

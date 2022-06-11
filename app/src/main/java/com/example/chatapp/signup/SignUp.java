@@ -42,7 +42,7 @@ public class SignUp extends AppCompatActivity {
 
     public SignUp() {
         retrofit = new Retrofit.Builder()
-                .baseUrl(MyApp.getContext().getString(R.string.base_url))
+                .baseUrl(MyApp.getContext().getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         signUpAPI = retrofit.create(SignUpAPI.class);
