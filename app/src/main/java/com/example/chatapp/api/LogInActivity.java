@@ -32,6 +32,7 @@ public class LogInActivity extends AppCompatActivity {
             String password = logInPassword.getText().toString();
             logInValidationMessage.setText("");
             if(logIn.logInCheckValidation(username, password, logInValidationMessage)) {
+
                 Intent i = new Intent(this, contactsList.class);
                 startActivity(i);
 

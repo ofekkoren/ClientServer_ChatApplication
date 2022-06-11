@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.chatapp.R;
@@ -19,6 +20,10 @@ public class contactsList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_list);
+        Intent activityIntent = getIntent();
+        if(activityIntent != null) {
+            ///
+        }
 
         RecyclerView listOfContacts = findViewById(R.id.ListOfContacts);
         final ContactsListAdapter adapter = new ContactsListAdapter(this);
