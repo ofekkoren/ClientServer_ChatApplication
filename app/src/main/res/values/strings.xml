@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">ChatApp</string>
+
+    <string name="signup_etUsername">Username</string>
+    <string name="signup_etNickname">Nickname</string>
+    <string name="signup_etPassword">Password</string>
+    <string name="signup_eRepeat_password">Repeat password</string>
     <string name="login_etUsername">Username</string>
     <string name="login_etPassword">Password</string>
     <string name="log_inBtn">LOG-IN</string>

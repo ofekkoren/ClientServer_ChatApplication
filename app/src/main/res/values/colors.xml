@@ -7,11 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="green">#0CBF13</color>
+    <color name="red">#F81010</color>
+    <color name="darkBlue">#748DB3</color>
     <color name="BackgroundOfForm">#C0D9FF</color>
     <color name="SignAndLogBtns">#386AB6</color>
-    <color name="red">#F81010</color>
     <color name="blue">#FF105DF8</color>
-
-
-    #21549f
 </resources>
