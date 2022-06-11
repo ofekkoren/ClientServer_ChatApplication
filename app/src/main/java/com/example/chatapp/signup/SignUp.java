@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -15,12 +16,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.chatapp.api.ContactAPI;
 import com.example.chatapp.DTO.ContactDTO;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
 import com.example.chatapp.api.SignUpAPI;
+import com.example.chatapp.login.LogInActivity;
 
 import java.io.IOException;
 
@@ -34,7 +37,7 @@ public class SignUp extends AppCompatActivity {
     Retrofit retrofit;
     SignUpAPI signUpAPI;
     ContactAPI contactAPI;
-    final int SELECT_IMAGE=1;
+    final int SELECT_IMAGE = 1;
     Bitmap USER_IMAGE;
 
     public SignUp() {
@@ -43,24 +46,25 @@ public class SignUp extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         signUpAPI = retrofit.create(SignUpAPI.class);
-        contactAPI=retrofit.create(ContactAPI.class);
+        contactAPI = retrofit.create(ContactAPI.class);
         //USER_IMAGE = BitmapFactory.decodeResource(MyApp.getContext().getResources(), R.drawable.defaultimage);;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sign_up);
+        setContentView(R.layout.activity_sign_up);
 
-        ImageView image=findViewById(R.id.profileImageView);
+        ImageView image = findViewById(R.id.profileImageView);
+        image.setImageResource(R.drawable.defaultimage);
         final int defaultImage;
-        /*defaultImage = defaultimage;
-        image.setImageResource(defaultImage);*/
-        Button imageBtn=findViewById(R.id.profileImage);
+        defaultImage = R.drawable.defaultimage;
+        image.setImageResource(defaultImage);
+        Button imageBtn = findViewById(R.id.profileImage);
         imageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent imageIntent=new Intent();
+                Intent imageIntent = new Intent();
                 imageIntent.setType("image/*");
                 imageIntent.setAction(Intent.ACTION_GET_CONTENT);
                 launchChooseImageActivity.launch(imageIntent);
@@ -103,8 +107,8 @@ public class SignUp extends AppCompatActivity {
                         /*var newUser = await getUser(newUserName.toString());
                         setUser(newUser);
                         navigate("../chatScreen");*/
-                        ContactDTO.AddContactParams a =new ContactDTO.AddContactParams("ttt","yyyy","serv");
-                        Call<Void> y = contactAPI.addContact(MyApp.getCookie(),a);
+                        ContactDTO.AddContactParams a = new ContactDTO.AddContactParams("ttt", "yyyy", "serv");
+                        Call<Void> y = contactAPI.addContact(MyApp.getCookie(), a);
                         y.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -126,6 +130,7 @@ public class SignUp extends AppCompatActivity {
                 }
             });
         });
+        createLinkToLogIn();
     }
 
     private boolean validateSignUP(String usernameV, String nicknameV, String passwordV, String repeatPasswordV) {
@@ -166,6 +171,15 @@ public class SignUp extends AppCompatActivity {
         return isValid;
     }
 
+    public void createLinkToLogIn() {
+        TextView logInLink = findViewById(R.id.SignUpLinkToLogIn);
+        logInLink.setPaintFlags(logInLink.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        logInLink.setOnClickListener(v -> {
+            Intent intent = new Intent(this, LogInActivity.class);
+            startActivity(intent);
+        });
+    }
+
     ActivityResultLauncher<Intent> launchChooseImageActivity =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
@@ -177,8 +191,7 @@ public class SignUp extends AppCompatActivity {
                         try {
                             selectedImageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),
                                     selectedImageUri);
-                        }
-                        catch (IOException e) {
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }

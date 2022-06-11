@@ -56,6 +56,7 @@ public class ConversationScreen extends AppCompatActivity {
         chatBody.setAdapter(adapter);
         chatBody.setLayoutManager(new LinearLayoutManager(this));
         adapter.setMessages(currentConversation.getMessages());
+        chatBody.scrollToPosition(currentConversation.getMessages().size()-1);
 
     }
 }
