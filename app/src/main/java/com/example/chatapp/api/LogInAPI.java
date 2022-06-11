@@ -1,4 +1,4 @@
-package com.example.chatapp.login;
+package com.example.chatapp.api;
 
 import java.util.ArrayList;
 

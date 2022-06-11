@@ -36,6 +36,12 @@ public class contactsList extends AppCompatActivity {
         contacts.add(new Contact(3, "Alice3","Alice3","555", "hello world", "11:00"));
         contacts.add(new Contact(4, "Alice4","Alice4","555", "hello world", "11:00"));
         contacts.add(new Contact(5, "Alice5","Alice5","555", "hello world", "11:00"));
+        contacts.add(new Contact(6, "Alice1","Alice1","555", "hello world", "11:00"));
+        contacts.add(new Contact(7, "Alice2","Alice2","555", "hello world", "11:00"));
+        contacts.add(new Contact(8, "Alice3","Alice3","555", "hello world", "11:00"));
+        contacts.add(new Contact(9, "Alice4","Alice4","555", "hello world", "11:00"));
+        contacts.add(new Contact(10, "Alice5","Alice5","555", "hello world", "11:00"));
+
         adapter.setContacts(contacts);
     }
 }
