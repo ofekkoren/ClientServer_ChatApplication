@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.chatapp.ContactAPI;
+import com.example.chatapp.ContactDTO;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
 import com.example.chatapp.models.ContactToJson;
@@ -36,6 +38,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SignUp extends AppCompatActivity {
     Retrofit retrofit;
     SignUpAPI signUpAPI;
+    ContactAPI contactAPI;
     final int SELECT_IMAGE=1;
     Bitmap USER_IMAGE;
 
@@ -45,7 +48,7 @@ public class SignUp extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         signUpAPI = retrofit.create(SignUpAPI.class);
-
+        contactAPI=retrofit.create(ContactAPI.class);
         //USER_IMAGE = BitmapFactory.decodeResource(MyApp.getContext().getResources(), R.drawable.defaultimage);;
     }
 
@@ -105,16 +108,17 @@ public class SignUp extends AppCompatActivity {
                         /*var newUser = await getUser(newUserName.toString());
                         setUser(newUser);
                         navigate("../chatScreen");*/
-                        Call<ArrayList<ContactToJson>> y = signUpAPI.getContacts(MyApp.getCookie());
-                        y.enqueue(new Callback<ArrayList<ContactToJson>>() {
+                        ContactDTO.AddContactParams a =new ContactDTO.AddContactParams("ttt","yyyy","serv");
+                        Call<Void> y = contactAPI.addContact(MyApp.getCookie(),a);
+                        y.enqueue(new Callback<Void>() {
                             @Override
-                            public void onResponse(Call<ArrayList<ContactToJson>> call, Response<ArrayList<ContactToJson>> response) {
-                                ArrayList<ContactToJson> M = response.body();
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                Void M = response.body();
                                 Log.d("dfdf", "Dsfsdsf");
                             }
 
                             @Override
-                            public void onFailure(Call<ArrayList<ContactToJson>> call, Throwable t) {
+                            public void onFailure(Call<Void> call, Throwable t) {
                                 Log.d("hgj", "ghjjjj");
 
                             }
