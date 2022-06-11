@@ -33,12 +33,12 @@ public class LogIn {
     //    // Checks validation
     public void logInCheckValidation(String username, String password, TextView textField) {
         LogInAPI.LogInParams params = new LogInAPI.LogInParams(username, password);
-        cookie =
         Call<LogInAPI.LogInResults> call = logInAPI.checkValidation(params);
         call.enqueue(new Callback<LogInAPI.LogInResults>() {
             @Override
             public void onResponse(Call<LogInAPI.LogInResults> call, Response<LogInAPI.LogInResults> response) {
                 LogInAPI.LogInResults results = response.body();
+                cookie = response.headers().get("Set-Cookie");
                 if (results.username.equals("valid")) {
 //                    Intent i = new Intent(this, MainActivity.class);
 //                    startActivity(i);
