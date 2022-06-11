@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.chatapp.ContactsList.contactsList;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
 
@@ -18,6 +19,7 @@ public class LogIn {
     public static String cookie;
     Retrofit retrofit;
     LogInAPI logInAPI;
+    boolean isValidInfo;
 
     public LogIn() {
         //Initializing retrofit
@@ -26,12 +28,11 @@ public class LogIn {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         logInAPI = retrofit.create(LogInAPI.class);
+        isValidInfo = false;
     }
 
-
     // Checks validation
-    //    // Checks validation
-    public void logInCheckValidation(String username, String password, TextView textField) {
+    public boolean logInCheckValidation(String username, String password, TextView textField) {
         LogInAPI.LogInParams params = new LogInAPI.LogInParams(username, password);
         Call<LogInAPI.LogInResults> call = logInAPI.checkValidation(params);
         call.enqueue(new Callback<LogInAPI.LogInResults>() {
@@ -40,7 +41,8 @@ public class LogIn {
                 LogInAPI.LogInResults results = response.body();
                 cookie = response.headers().get("Set-Cookie");
                 if (results.username.equals("valid")) {
-//                    Intent i = new Intent(this, MainActivity.class);
+                    isValidInfo = true;
+//                    Intent i = new Intent(this, contactsList.class);
 //                    startActivity(i);
                 } else if (results.username.equals("empty")) {
                     textField.setText("All fields must be filled!");
@@ -57,24 +59,7 @@ public class LogIn {
             public void onFailure(Call<LogInAPI.LogInResults> call, Throwable t) {
             }
         });
-//        return true;
+        return isValidInfo;
     }
-
-
-
-//    public void checkValidation() {
-//        Call<List<Post>> call = webServiceAPI.checkValidation("Ofek Koren", "123456K");
-//
-//        call.enqueue(new Callback<List<Post>>() {
-//            @Override
-//            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-//                List<Post> posts = response.body();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Post>> call, Throwable t) {
-//            }
-//        });
-//    }
 
 }
