@@ -1,4 +1,4 @@
-package com.example.chatapp.api;
+package com.example.chatapp.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.chatapp.ContactsList.contactsList;
 import com.example.chatapp.MainActivity;
 import com.example.chatapp.R;
+import com.example.chatapp.signup.SignUp;
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -52,8 +53,7 @@ public class LogInActivity extends AppCompatActivity {
         TextView LogInLinkToSignUp = (TextView) findViewById(R.id.LogInLinkToSignUp);
         LogInLinkToSignUp.setPaintFlags(LogInLinkToSignUp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         LogInLinkToSignUp.setOnClickListener(v -> {
-//            Intent i = new Intent(this, SignUp.class);
-            Intent i = new Intent(this, MainActivity.class);
+            Intent i = new Intent(this, SignUp.class);
             startActivity(i);
         });
     }

@@ -1,11 +1,9 @@
-package com.example.chatapp.api;
+package com.example.chatapp.login;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.chatapp.ContactsList.contactsList;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
 

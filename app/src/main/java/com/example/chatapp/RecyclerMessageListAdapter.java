@@ -52,7 +52,6 @@ public class RecyclerMessageListAdapter extends RecyclerView.Adapter<RecyclerMes
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
         }
 
     }
