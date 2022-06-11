@@ -65,22 +65,8 @@ public class LogIn {
     }
 
     public void setCurrentUser() {
-        Call<>
+//        Call<>
 
-//        Call<ArrayList<ContactToJson>> y = logInAPI.getContacts(MyApp.getCookie());
-//        y.enqueue(new Callback<ArrayList<ContactToJson>>() {
-//            @Override
-//            public void onResponse(Call<ArrayList<ContactToJson>> call, Response<ArrayList<ContactToJson>> response) {
-//                ArrayList<ContactToJson> M = response.body();
-//                Log.d("dfdf", "Dsfsdsf");
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArrayList<ContactToJson>> call, Throwable t) {
-//                Log.d("hgj", "ghjjjj");
-//
-//            }
-//        });
     }
 
 }
