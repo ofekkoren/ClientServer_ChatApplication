@@ -36,13 +36,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SignUp extends AppCompatActivity {
     Retrofit retrofit;
     SignUpAPI signUpAPI;
-    public static String cookie;
     final int SELECT_IMAGE=1;
     Bitmap USER_IMAGE;
 
     public SignUp() {
         retrofit = new Retrofit.Builder()
-                .baseUrl(MyApp.getContext().getString(R.string.BaseUrl))
+                .baseUrl(MyApp.getBaseUrl())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         signUpAPI = retrofit.create(SignUpAPI.class);
@@ -57,8 +56,8 @@ public class SignUp extends AppCompatActivity {
 
         ImageView image=findViewById(R.id.profileImageView);
         final int defaultImage;
-        defaultImage = defaultimage;
-        image.setImageResource(defaultImage);
+        /*defaultImage = defaultimage;
+        image.setImageResource(defaultImage);*/
         Button imageBtn=findViewById(R.id.profileImage);
         imageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,13 +99,13 @@ public class SignUp extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<SignUpAPI.signUpResults> call, Response<SignUpAPI.signUpResults> response) {
                     SignUpAPI.signUpResults res = response.body();
-                    cookie = response.headers().get("Set-Cookie");
+                    MyApp.setCookie(response.headers().get("Set-Cookie"));
                     if (validateSignUP(res.usernameV, res.nicknameV, res.passwordV, res.repeatPasswordV)) {
                         Log.d("sadsa", "Sadsa");
                         /*var newUser = await getUser(newUserName.toString());
                         setUser(newUser);
                         navigate("../chatScreen");*/
-                        Call<ArrayList<ContactToJson>> y = signUpAPI.getContacts(cookie);
+                        Call<ArrayList<ContactToJson>> y = signUpAPI.getContacts(MyApp.getCookie());
                         y.enqueue(new Callback<ArrayList<ContactToJson>>() {
                             @Override
                             public void onResponse(Call<ArrayList<ContactToJson>> call, Response<ArrayList<ContactToJson>> response) {
