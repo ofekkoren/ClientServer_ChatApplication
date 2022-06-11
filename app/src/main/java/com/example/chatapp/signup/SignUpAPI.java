@@ -15,10 +15,10 @@ import retrofit2.http.POST;
 
 public interface SignUpAPI {
 
-    @POST("api/SignUp")
+    @POST("SignUp")
     Call<signUpResults> signUp(@Body signUpParams parameters);
 
-    @GET("api/Contacts")
+    @GET("Contacts")
     Call <ArrayList<ContactToJson>> getContacts(@Header("Cookie") String session);
 
     public class signUpParams {
