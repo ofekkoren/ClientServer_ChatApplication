@@ -1,4 +1,4 @@
-package com.example.chatapp;
+package com.example.chatapp.DTO;
 
 public class ContactDTO {
 
@@ -31,5 +31,4 @@ public class ContactDTO {
             this.content = content;
         }
     }
-
 }

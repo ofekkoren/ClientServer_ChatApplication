@@ -1,5 +1,6 @@
-package com.example.chatapp;
+package com.example.chatapp.api;
 
+import com.example.chatapp.DTO.ContactDTO;
 import com.example.chatapp.models.Contact;
 import com.example.chatapp.models.ContactToJson;
 import com.example.chatapp.models.Message;

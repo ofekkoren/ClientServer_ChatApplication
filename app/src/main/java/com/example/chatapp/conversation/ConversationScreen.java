@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
-import com.example.chatapp.RecyclerMessageListAdapter;
+import com.example.chatapp.adapters.RecyclerMessageListAdapter;
 import com.example.chatapp.models.Contact;
 import com.example.chatapp.models.Conversation;
 import com.example.chatapp.models.Message;

@@ -1,4 +1,4 @@
-package com.example.chatapp.signup;
+package com.example.chatapp.api;
 
 import com.example.chatapp.models.ContactToJson;
 
@@ -18,8 +18,9 @@ public interface SignUpAPI {
     @POST("SignUp")
     Call<signUpResults> signUp(@Body signUpParams parameters);
 
-    @GET("Contacts")
-    Call <ArrayList<ContactToJson>> getContacts(@Header("Cookie") String session);
+    //TODO delete!!!
+/*    @GET("Contacts")
+    Call <ArrayList<ContactToJson>> getContacts(@Header("Cookie") String session);*/
 
     public class signUpParams {
         public String username;
