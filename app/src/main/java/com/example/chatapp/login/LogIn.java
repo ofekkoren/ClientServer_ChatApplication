@@ -65,6 +65,7 @@ public class LogIn {
     }
 
     public void setCurrentUser() {
+        Call<>
 
 //        Call<ArrayList<ContactToJson>> y = logInAPI.getContacts(MyApp.getCookie());
 //        y.enqueue(new Callback<ArrayList<ContactToJson>>() {
