@@ -1,7 +1,5 @@
 package com.example.chatapp.signup;
 
-import static com.example.chatapp.R.drawable.*;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,8 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,14 +16,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.chatapp.ContactAPI;
-import com.example.chatapp.ContactDTO;
+import com.example.chatapp.api.ContactAPI;
+import com.example.chatapp.DTO.ContactDTO;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
-import com.example.chatapp.models.ContactToJson;
+import com.example.chatapp.api.SignUpAPI;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
