@@ -15,8 +15,8 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        baseUrl = "http://10.0.2.2:5170/api/";
         context = getApplicationContext();
+        baseUrl = context.getString(R.string.BaseUrl);
         currentUser = null;
     }
 
