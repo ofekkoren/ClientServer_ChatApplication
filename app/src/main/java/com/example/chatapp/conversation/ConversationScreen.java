@@ -5,16 +5,30 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
 import com.example.chatapp.adapters.RecyclerMessageListAdapter;
+import com.example.chatapp.api.ContactAPI;
+import com.example.chatapp.api.SignUpAPI;
+import com.example.chatapp.api.TransferAPI;
+import com.example.chatapp.api.UsersAPI;
 import com.example.chatapp.models.Contact;
 import com.example.chatapp.models.Conversation;
 import com.example.chatapp.models.Message;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ConversationScreen extends AppCompatActivity {
 
@@ -56,7 +70,43 @@ public class ConversationScreen extends AppCompatActivity {
         chatBody.setAdapter(adapter);
         chatBody.setLayoutManager(new LinearLayoutManager(this));
         adapter.setMessages(currentConversation.getMessages());
-        chatBody.scrollToPosition(currentConversation.getMessages().size()-1);
-
+        chatBody.scrollToPosition(currentConversation.getMessages().size() - 1);
+        setSendBtnListener();
     }
+
+    private void setSendBtnListener() {
+        ImageButton sendBtn = findViewById(R.id.sendBtn);
+        sendBtn.setOnClickListener(view -> {
+            EditText textBox = findViewById(R.id.textBox);
+            if (textBox.getText().toString().trim().equals(""))
+                return;
+            String messageContent = textBox.getText().toString();
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(MyApp.getBaseUrl())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            TransferAPI transferAPI = retrofit.create(TransferAPI.class);
+            //TODO fix to
+            TransferAPI.TransferParams params = new TransferAPI.TransferParams(MyApp.getCurrentUser().getId(), "to",
+                    messageContent);
+            Call<Void> call= transferAPI.transferMessage(MyApp.getCookie(),params);
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+
+                }
+            });
+
+            ContactAPI contactAPIAPI = retrofit.create(ContactAPI.class);
+
+
+            textBox.setText("");
+        });
+    }
+
 }

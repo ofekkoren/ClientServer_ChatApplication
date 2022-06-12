@@ -117,7 +117,7 @@ namespace ChatWebApi.Controllers
 
         //Post Contacts/{id}/messages
         [HttpPost("{id}/messages")]
-        public IActionResult CreateNewMessage(string id, [FromBody] MessageContent parameter) //todo - check it receives id
+        public IActionResult CreateNewMessage(string id, [FromBody] MessageContent parameter)
         {
             if (HttpContext.Session.GetString(currentUser) == null)
                 return Redirect(redirectTo);

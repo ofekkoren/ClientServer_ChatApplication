@@ -18,12 +18,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.chatapp.ContactsList.contactsList;
 import com.example.chatapp.api.ContactAPI;
-import com.example.chatapp.DTO.ContactDTO;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
 import com.example.chatapp.api.SignUpAPI;
+import com.example.chatapp.api.UsersAPI;
 import com.example.chatapp.login.LogInActivity;
+import com.example.chatapp.models.User;
 
 import java.io.IOException;
 
@@ -36,7 +38,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SignUp extends AppCompatActivity {
     Retrofit retrofit;
     SignUpAPI signUpAPI;
-    ContactAPI contactAPI;
+    UsersAPI usersAPI;
     final int SELECT_IMAGE = 1;
     Bitmap USER_IMAGE;
 
@@ -46,7 +48,7 @@ public class SignUp extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         signUpAPI = retrofit.create(SignUpAPI.class);
-        contactAPI = retrofit.create(ContactAPI.class);
+        usersAPI = retrofit.create(UsersAPI.class);
         //USER_IMAGE = BitmapFactory.decodeResource(MyApp.getContext().getResources(), R.drawable.defaultimage);;
     }
 
@@ -103,23 +105,20 @@ public class SignUp extends AppCompatActivity {
                     SignUpAPI.signUpResults res = response.body();
                     MyApp.setCookie(response.headers().get("Set-Cookie"));
                     if (validateSignUP(res.usernameV, res.nicknameV, res.passwordV, res.repeatPasswordV)) {
-                        Log.d("sadsa", "Sadsa");
                         /*var newUser = await getUser(newUserName.toString());
                         setUser(newUser);
                         navigate("../chatScreen");*/
-                        ContactDTO.AddContactParams a = new ContactDTO.AddContactParams("ttt", "yyyy", "serv");
-                        Call<Void> y = contactAPI.addContact(MyApp.getCookie(), a);
-                        y.enqueue(new Callback<Void>() {
+//                        ContactDTO.AddContactParams a = new ContactDTO.AddContactParams("ttt", "yyyy", "serv");
+                        Call<User> userRequest = usersAPI.getCurrentUser(MyApp.getCookie());
+                        userRequest.enqueue(new Callback<User>() {
                             @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
-                                Void M = response.body();
-                                Log.d("dfdf", "Dsfsdsf");
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                User newUser = response.body();
+                                logInAfterRegistration(newUser);
                             }
 
                             @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                Log.d("hgj", "ghjjjj");
-
+                            public void onFailure(Call<User> call, Throwable t) {
                             }
                         });
                     }
@@ -131,6 +130,12 @@ public class SignUp extends AppCompatActivity {
             });
         });
         createLinkToLogIn();
+    }
+
+    private void logInAfterRegistration(User user){
+        MyApp.setCurrentUser(user);
+        Intent intent = new Intent(this, contactsList.class);
+        startActivity(intent);
     }
 
     private boolean validateSignUP(String usernameV, String nicknameV, String passwordV, String repeatPasswordV) {
