@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
 import com.example.chatapp.adapters.ContactsListAdapter;
 import com.example.chatapp.entities.Contact;
@@ -22,7 +23,9 @@ public class contactsList extends AppCompatActivity {
         setContentView(R.layout.activity_contacts_list);
         Intent activityIntent = getIntent();
         if(activityIntent != null) {
-            ///
+            if(MyApp.getCurrentUser() != null) {
+                int x = 5;
+            }
         }
 
         RecyclerView listOfContacts = findViewById(R.id.ListOfContacts);
