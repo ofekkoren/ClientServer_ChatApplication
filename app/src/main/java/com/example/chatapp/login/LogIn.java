@@ -1,5 +1,7 @@
 package com.example.chatapp.login;
 
+import static com.example.chatapp.MyApp.getCookie;
+
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
 import com.example.chatapp.api.LogInAPI;
+import com.example.chatapp.api.UsersAPI;
 import com.example.chatapp.models.ContactToJson;
 import com.example.chatapp.models.User;
 
@@ -22,16 +25,24 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LogIn {
     public static String cookie;
     Retrofit retrofit;
+    Retrofit userRetrofit;
     LogInAPI logInAPI;
+    UsersAPI usersAPI;
     boolean isValidInfo;
 
     public LogIn() {
         //Initializing retrofit
         retrofit = new Retrofit.Builder()
-                .baseUrl(MyApp.getContext().getString(R.string.BaseUrl))
+                .baseUrl(MyApp.getBaseUrl())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         logInAPI = retrofit.create(LogInAPI.class);
+        userRetrofit = new Retrofit.Builder()
+                .baseUrl(MyApp.getBaseUrl())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        usersAPI = userRetrofit.create(UsersAPI.class);
+
         isValidInfo = false;
     }
 
@@ -44,6 +55,7 @@ public class LogIn {
             public void onResponse(Call<LogInAPI.LogInResults> call, Response<LogInAPI.LogInResults> response) {
                 LogInAPI.LogInResults results = response.body();
                 cookie = response.headers().get("Set-Cookie");
+                MyApp.setCookie(cookie);
                 if (results.username.equals("valid")) {
                     isValidInfo = true;
                 } else if (results.username.equals("empty")) {
@@ -65,8 +77,18 @@ public class LogIn {
     }
 
     public void setCurrentUser() {
-//        Call<>
-
+        Call<User> user = usersAPI.getCurrentUser(getCookie());
+        user.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User user1 = response.body();
+                MyApp.setCurrentUser(user1);
+                int x = 5;
+            }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+            }
+        });
     }
 
 }
