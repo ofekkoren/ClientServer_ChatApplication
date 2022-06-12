@@ -15,7 +15,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface UsersAPI {
-    @GET("Users")
+    @POST("Users")
     Call<User> getCurrentUser(@Header("Cookie") String session);
 
     @POST("Users/GetAllConversationsOfUser")
