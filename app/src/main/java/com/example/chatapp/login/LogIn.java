@@ -76,19 +76,23 @@ public class LogIn {
         return isValidInfo;
     }
 
-    public void setCurrentUser() {
-        Call<User> user = usersAPI.getCurrentUser(getCookie());
-        user.enqueue(new Callback<User>() {
+    public void getAndSetCurrentUser() {
+        Call<User> userRequest = usersAPI.getCurrentUser(MyApp.getCookie());
+        userRequest.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                User user1 = response.body();
-                MyApp.setCurrentUser(user1);
-                int x = 5;
+                User user = response.body();
+                setCurrentUser(user);
+//                MyApp.setCurrentUser(user1);
             }
+
             @Override
             public void onFailure(Call<User> call, Throwable t) {
             }
         });
     }
 
+    public void setCurrentUser(User user) {
+        MyApp.setCurrentUser(user);
+    }
 }

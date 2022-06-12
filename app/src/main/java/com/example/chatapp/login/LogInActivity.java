@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.example.chatapp.ContactsList.contactsList;
 import com.example.chatapp.MainActivity;
+import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
+import com.example.chatapp.models.User;
 import com.example.chatapp.signup.SignUp;
 
 public class LogInActivity extends AppCompatActivity {
@@ -33,7 +35,7 @@ public class LogInActivity extends AppCompatActivity {
             String password = logInPassword.getText().toString();
             logInValidationMessage.setText("");
             if(logIn.logInCheckValidation(username, password, logInValidationMessage)) {
-                logIn.setCurrentUser();
+                logIn.getAndSetCurrentUser();
                 Intent i = new Intent(this, contactsList.class);
                 //pass current user?
                 startActivity(i);
