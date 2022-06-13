@@ -1,12 +1,35 @@
 package com.example.chatapp.models;
 
-import java.util.ArrayList;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
 
+import com.example.chatapp.models.Contact;
+import com.example.chatapp.models.Message;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
 public class Conversation {
 
-    private String ConversationId ;
-    private ArrayList<Message> messages ;
-    private Contact contact ;
+    @PrimaryKey(autoGenerate = true)
+    public int conId;
+    public String ConversationId;
+    @Embedded
+    public ArrayList<Message> messages;
+    @Embedded
+    public Contact contact;
+
+//    @TypeConverter
+//    public List<Message> getAllMessages() {
+//
+//    }
+
+
+    public Conversation() {
+    }
 
     public Conversation(String conversationId, ArrayList<Message> messages, Contact contact) {
         ConversationId = conversationId;

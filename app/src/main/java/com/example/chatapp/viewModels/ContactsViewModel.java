@@ -1,11 +1,6 @@
 package com.example.chatapp.viewModels;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
-
-import com.example.chatapp.entities.Contact;
-
-import java.util.List;
 
 public class ContactsViewModel extends ViewModel {
     // Manages the interaction in front of db, server.

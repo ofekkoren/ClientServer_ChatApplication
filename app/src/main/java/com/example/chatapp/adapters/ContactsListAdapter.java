@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatapp.R;
-import com.example.chatapp.entities.Contact;
+import com.example.chatapp.models.Contact;
 
 import java.util.List;
 

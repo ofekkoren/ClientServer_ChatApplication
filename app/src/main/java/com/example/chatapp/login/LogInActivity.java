@@ -10,10 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.chatapp.ContactsList.contactsList;
-import com.example.chatapp.MainActivity;
-import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
-import com.example.chatapp.models.User;
 import com.example.chatapp.signup.SignUp;
 
 public class LogInActivity extends AppCompatActivity {
@@ -23,6 +20,9 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
         LogIn logIn = new LogIn();
+//        db = Room.databaseBuilder(getApplicationContext(), MyAppDB.class, "MyAppDB")
+//                .allowMainThreadQueries().build();
+//        conversationDao = db.conversationDao();
 
         Button logInButton = findViewById(R.id.LogInButton);
         EditText logInUsername = findViewById(R.id.LogInUsername);
@@ -39,17 +39,12 @@ public class LogInActivity extends AppCompatActivity {
                 Intent i = new Intent(this, contactsList.class);
                 //pass current user?
                 startActivity(i);
-
             }
             else {
                 logInValidationMessage.setText("");
             }
-
-            // if(logInCheckValidation(username,password) == true) {
-            //  Intent i = new Intent(this, ChatScreen.class);
-//            startActivity(i);
-//            }
         });
+
     }
 
     public void SignUpLink() {

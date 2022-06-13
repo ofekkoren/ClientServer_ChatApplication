@@ -5,8 +5,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -15,9 +13,7 @@ import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
 import com.example.chatapp.adapters.RecyclerMessageListAdapter;
 import com.example.chatapp.api.ContactAPI;
-import com.example.chatapp.api.SignUpAPI;
 import com.example.chatapp.api.TransferAPI;
-import com.example.chatapp.api.UsersAPI;
 import com.example.chatapp.models.Contact;
 import com.example.chatapp.models.Conversation;
 import com.example.chatapp.models.Message;
