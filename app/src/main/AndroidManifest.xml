@@ -19,7 +19,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <service
-            android:name=".firebaseMessageService"
+            android:name=".FirebaseMessageService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
