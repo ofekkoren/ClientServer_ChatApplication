@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.chatapp.ContactsList.contactsList;
+import com.example.chatapp.DTO.usersDTO;
 import com.example.chatapp.api.ContactAPI;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
@@ -26,6 +27,7 @@ import com.example.chatapp.api.SignUpAPI;
 import com.example.chatapp.api.UsersAPI;
 import com.example.chatapp.login.LogInActivity;
 import com.example.chatapp.models.User;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
 
@@ -134,6 +136,11 @@ public class SignUp extends AppCompatActivity {
 
     private void logInAfterRegistration(User user){
         MyApp.setCurrentUser(user);
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( this, instanceIdResult -> {
+            usersDTO.IdClass parameter=new usersDTO.IdClass(instanceIdResult.getToken());
+            UsersAPI usersAPI = retrofit.create(UsersAPI.class);
+            usersAPI.setFirebaseToken(MyApp.getCookie(),parameter);
+        });
         Intent intent = new Intent(this, contactsList.class);
         startActivity(intent);
     }

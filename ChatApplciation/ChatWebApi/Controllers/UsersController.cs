@@ -10,6 +10,7 @@ namespace ChatWebApi.Controllers
     {
         private static IUserService _userService;
         private static IConversationService _conversationService;
+        private static IFirebaseTokenService _firebaseTokenService;
 
         private readonly string redirectTo = "http://localhost:3000/";
         private readonly string currentUser = "currentUser";
@@ -18,6 +19,7 @@ namespace ChatWebApi.Controllers
         {
             _userService = new UserService();
             _conversationService = new ConversationService();
+            _firebaseTokenService = new FirebaseTokenService();
         }
 
         [HttpPost]
@@ -70,6 +72,15 @@ namespace ChatWebApi.Controllers
                 return Redirect(redirectTo);
             Conversation conversation = _conversationService.GetConversation(HttpContext.Session.GetString(currentUser), parameter.id);
             return Json(conversation);
+        }
+
+        [HttpPost("SetFirebaseToken")]
+        public IActionResult SetFirebaseToken([FromBody] IdClass parameter)
+        {
+            if (HttpContext.Session.GetString(currentUser) == null)
+                return BadRequest();
+            _firebaseTokenService.SetToken(HttpContext.Session.GetString(currentUser),parameter.id);
+            return StatusCode(201);
         }
     }
 }
