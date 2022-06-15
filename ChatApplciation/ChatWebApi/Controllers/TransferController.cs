@@ -48,28 +48,35 @@ namespace ChatWebApi.Controllers
             ParametersForSendAsyncNewMessage hubParams = new ParametersForSendAsyncNewMessage() { from = parameters.from, to = parameters.to, id = msg.id, content = msg.content, created = msg.created, sent = msg.sent };
             await _appHub.Clients.All.SendAsync("ReceiveMessage", hubParams);
             var sendToToken = _firebaseTokenService.GetToken(parameters.to);
-
-            // See documentation on defining a message payload.
-            var message = new FirebaseAdmin.Messaging.Message()
+            if (sendToToken != null)
             {
-                Data = new Dictionary<string, string>()
-            {
-                { "score", "850fffffffff" },
-                { "time", "2:45dddd" },
-            },
-                Notification = new Notification
+                // See documentation on defining a message payload.
+                var message = new FirebaseAdmin.Messaging.Message()
                 {
-                    Title = "bla title",
-                    Body = "blabla Body"
-                },
-                Token = sendToToken,
-            };
+                    Data = new Dictionary<string, string>()
+            {
+                { "type","message" },
+                { "sentTo", parameters.to },
+                { "sender", parameters.from },
+                { "id", msg.id.ToString() },
+                { "content", msg.content },
+                { "created", msg.created },
+                { "sent", msg.sent.ToString() },
+            },
+                    Notification = new Notification
+                    {
+                        Title = "New message from " + conv.contact.name,
+                        Body = msg.content
+                    },
+                    Token = sendToToken,
+                };
 
-            // Send a message to the device corresponding to the provided
-            // registration token.
-            string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
+                // Send a message to the device corresponding to the provided
+                // registration token.
+                string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
+                Console.WriteLine("Successfully sent message: " + response);
+            }
             // Response is a message ID string.
-            Console.WriteLine("Successfully sent message: " + response);
             return StatusCode(201);
         }
     }
