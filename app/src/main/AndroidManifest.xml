@@ -21,6 +21,19 @@
         <activity
             android:name=".AddNewContact"
             android:exported="false" />
+            android:name=".settings.SettingsScreen"
+            android:exported="false" >
+        </activity>
+
+        <service
+            android:name=".FirebaseMessageService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".conversation.ConversationScreen"
             android:exported="false">
@@ -44,8 +57,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
+        </activity>        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity

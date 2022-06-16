@@ -13,6 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.chatapp.ContactsList.contactsList;
+
+import com.example.chatapp.DTO.usersDTO;
+import com.example.chatapp.MainActivity;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
 //<<<<<<< HEAD
@@ -22,6 +25,9 @@ import com.example.chatapp.api.UsersAPI;
 import com.example.chatapp.models.User;
 //>>>>>>> fe232e855793507b9a0c04ed383a671772ab748b
 import com.example.chatapp.signup.SignUp;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.util.concurrent.Executor;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,7 +53,6 @@ public class LogInActivity extends AppCompatActivity {
         logInPassword.setText("");
         TextView logInValidationMessage = findViewById(R.id.LogInValidationMessage);
         SignUpLink();
-
         logInButton.setOnClickListener(v -> {
             String username = logInUsername.getText().toString();
             String password = logInPassword.getText().toString();
@@ -109,9 +114,6 @@ public class LogInActivity extends AppCompatActivity {
             }
             else {
                 logInValidationMessage.setText("");
-<<<<<<< HEAD
-            }
-=======
             }*/
 
             // if(logInCheckValidation(username,password) == true) {
@@ -124,6 +126,24 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private void moveToContactList(User user) {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( this, instanceIdResult -> {
+            usersDTO.IdClass parameter=new usersDTO.IdClass(instanceIdResult.getToken());
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(MyApp.getBaseUrl())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            UsersAPI usersAPI = retrofit.create(UsersAPI.class);
+            Call<Void> sendToken =usersAPI.setFirebaseToken(MyApp.getCookie(),parameter);
+            sendToken.enqueue(new Callback<Void>() {@Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("dsasss","sad");
+            }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                }
+            });
+        });
         Intent intent = new Intent(this, contactsList.class);
         startActivity(intent);
     }

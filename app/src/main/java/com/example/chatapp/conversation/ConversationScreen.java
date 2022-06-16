@@ -73,7 +73,7 @@ public class ConversationScreen extends AppCompatActivity {
     }
 
     private void setBackBtnListener(){
-        ImageButton backBtn=findViewById(R.id.backBtn);
+        ImageButton backBtn=findViewById(R.id.conversationBackBtn);
         backBtn.setOnClickListener(view ->{
             this.finish();
             //TODO set current cur to null?

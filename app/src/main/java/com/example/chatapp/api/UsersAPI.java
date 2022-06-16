@@ -25,4 +25,7 @@ public interface UsersAPI {
 
     @POST("Users/GetConversation")
     Call<Conversation> getConversation(@Header("Cookie") String session, @Body usersDTO.IdClass parameter);
+
+    @POST("Users/SetFirebaseToken")
+    Call<Void> setFirebaseToken(@Header("Cookie") String session, @Body usersDTO.IdClass parameter);
 }

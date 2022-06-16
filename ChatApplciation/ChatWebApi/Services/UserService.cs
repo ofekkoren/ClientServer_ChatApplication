@@ -5,9 +5,11 @@ namespace ChatWebApi.Services
     public class UserService : IUserService
     {
         private static List<User> users = new List<User>();
+        private IFirebaseTokenService _firebaseTokenService;
 
         public UserService()
         {
+            _firebaseTokenService = new FirebaseTokenService();
             if (users.Count == 0)
             {
                 Conversation conversationOfekTomer = new Conversation()
@@ -116,6 +118,7 @@ namespace ChatWebApi.Services
         {
             User newUser = new User { id = id, name = name, password = password, conversations = new List<Conversation>() };
             users.Add(newUser);
+            _firebaseTokenService.AddUser(id);
         }
 
         /*
