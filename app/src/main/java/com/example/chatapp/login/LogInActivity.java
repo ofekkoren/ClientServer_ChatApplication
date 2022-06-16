@@ -13,13 +13,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.chatapp.ContactsList.contactsList;
+
 import com.example.chatapp.DTO.usersDTO;
 import com.example.chatapp.MainActivity;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
+//<<<<<<< HEAD
+//=======
 import com.example.chatapp.api.LogInAPI;
 import com.example.chatapp.api.UsersAPI;
 import com.example.chatapp.models.User;
+//>>>>>>> fe232e855793507b9a0c04ed383a671772ab748b
 import com.example.chatapp.signup.SignUp;
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -38,10 +42,15 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
         LogIn logIn = new LogIn();
+//        db = Room.databaseBuilder(getApplicationContext(), MyAppDB.class, "MyAppDB")
+//                .allowMainThreadQueries().build();
+//        conversationDao = db.conversationDao();
 
         Button logInButton = findViewById(R.id.LogInButton);
         EditText logInUsername = findViewById(R.id.LogInUsername);
         EditText logInPassword = findViewById(R.id.LogInPassword);
+        logInUsername.setText("");
+        logInPassword.setText("");
         TextView logInValidationMessage = findViewById(R.id.LogInValidationMessage);
         SignUpLink();
         logInButton.setOnClickListener(v -> {
@@ -101,7 +110,7 @@ public class LogInActivity extends AppCompatActivity {
                 Intent i = new Intent(this, contactsList.class);
                 //pass current user?
                 startActivity(i);
-
+            }
             }
             else {
                 logInValidationMessage.setText("");
@@ -111,7 +120,9 @@ public class LogInActivity extends AppCompatActivity {
             //  Intent i = new Intent(this, ChatScreen.class);
 //            startActivity(i);
 //            }
+//>>>>>>> fe232e855793507b9a0c04ed383a671772ab748b
         });
+
     }
 
     private void moveToContactList(User user) {

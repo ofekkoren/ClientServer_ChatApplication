@@ -1,7 +1,6 @@
 package com.example.chatapp.DTO;
 
 public class usersDTO {
-
     public static class IdClass
     {
         public String id;
@@ -13,6 +12,7 @@ public class usersDTO {
     {
         public String id;
         public String username;
+
         public parametersForMoveConversation(String id, String username) {
             this.id = id;
             this.username = username;

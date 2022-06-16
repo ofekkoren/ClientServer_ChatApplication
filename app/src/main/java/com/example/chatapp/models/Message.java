@@ -1,7 +1,11 @@
 package com.example.chatapp.models;
 
-public class Message {
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity
+public class Message {
+    @PrimaryKey(autoGenerate = true)
     private int id ;
     private String content ;
     private String created ;

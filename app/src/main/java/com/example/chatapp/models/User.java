@@ -6,7 +6,7 @@ public class User {
     private String id ;
     private String name ;
     private String password ;
-    private ArrayList<Conversation> conversations ;
+    private ArrayList<Conversation> conversations;
 
     public User(String id, String name, String password, ArrayList<Conversation> conversations) {
         this.id = id;
