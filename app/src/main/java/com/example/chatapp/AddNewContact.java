@@ -70,8 +70,9 @@ public class AddNewContact extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_contact);
         Intent activityIntent = getIntent();
-        db = Room.databaseBuilder(getApplicationContext(), MyAppDB.class, "MyAppDB")
-                .allowMainThreadQueries().build();
+        db = MyAppDB.getInstance(getApplicationContext());
+//        db = Room.databaseBuilder(getApplicationContext(), MyAppDB.class, "MyAppDB")
+//                .allowMainThreadQueries().build();
         conversationDao = db.conversationDao();
 
         Button submitNewContactDetails = findViewById(R.id.SubmitNewContactDetails);
@@ -115,6 +116,8 @@ public class AddNewContact extends AppCompatActivity {
                 public void onResponse(Call<Void> call, Response<Void> response) {
                    response.body();
                    if(response.code() == 400) {
+                       addNewContactValidationMessage.setText("Invalid user!");
+                       addNewContactValidationMessage.setVisibility(View.VISIBLE);
                        return;
                    }
                    //todo - check status
@@ -133,7 +136,10 @@ public class AddNewContact extends AppCompatActivity {
                             addNewContactValidationMessage.setText("User added successfully :)");
                             addNewContactValidationMessage.setVisibility(View.VISIBLE);
                             List<Conversation> conversations = conversationDao.getAllConversations();
-                            conversationDao.deleteAll(conversationDao.getAllConversations());
+//                            conversationDao.deleteAll(conversationDao.getAllConversations());
+                            for (Conversation c : conversations) {
+                                conversationDao.delete(c);
+                            }
                             conversationDao.insert(conversation);
                             for (Conversation c : conversations) {
                                 conversationDao.insert(c);

@@ -73,8 +73,9 @@ public class contactsList extends AppCompatActivity {
         toplogInUsername.setText(MyApp.getCurrentUser().getId());
         topProfilePictureLogInUser.setImageResource(R.drawable.defaultimage);
 
-        db = Room.databaseBuilder(getApplicationContext(), MyAppDB.class, "MyAppDB")
-                .allowMainThreadQueries().build();
+//        db = Room.databaseBuilder(getApplicationContext(), MyAppDB.class, "MyAppDB")
+//                .allowMainThreadQueries().build();
+        db = MyAppDB.getInstance(getApplicationContext());
         conversationDao = db.conversationDao();
 //        viewModel = new ViewModelProvider(this).get(ConversationsViewModel.class);
 
@@ -90,11 +91,17 @@ public class contactsList extends AppCompatActivity {
                 public void onResponse(Call<List<Conversation>> call, Response<List<Conversation>> response) {
 //                    List<Conversation> conversationList = response.body();
 //                    List<Contact> contactsList = new ArrayList<>();
-                    conversationsList = new ArrayList<>();
+//                    conversationsList = new ArrayList<>();
                     conversationsList = response.body();
+                    List<Conversation> conversationList = conversationDao.getAllConversations();
+                    for (Conversation c : conversationList) {
+                        conversationDao.delete(c);
+                    }
+//                    conversationDao.deleteAll(conversationDao.getAllConversations());
 //        List<Conversation> conversations = conversationDao.getAllConversations();
                     for (Conversation c : conversationsList) {
                         contactList.add(c.contact);
+                        //todo
                         conversationDao.insert(c);
                     }
                     adapter.setContacts(contactList);
@@ -131,18 +138,28 @@ public class contactsList extends AppCompatActivity {
 //        adapter.setContacts(contacts);
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        List<Conversation> conDao = conversationDao.getAllConversations();
-        List<Conversation> currentConList = conversationsList;
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        List<Conversation> conDao = conversationDao.getAllConversations();
+//        List<Conversation> currentConList = conversationsList;
 //        contactList.clear();
 //        conversationsList.clear();
-//        conversationDao.deleteAll(conversationDao.getAllConversations());
+//        conversationsList.addAll(conversationDao.getAllConversations());
+////        List<Conversation> conversationList = conversationDao.getAllConversations();
+////        List<Contact> contactsList;
 //        for (Conversation c : conversationsList) {
-//            conversationDao.insert(c);
+//            contactList.add(c.contact);
 //        }
-    }
+////        contactList.addAll(contactsList);
+//        adapter.notifyDataSetChanged();
+//        //        contactList.clear();
+////        conversationsList.clear();
+////        conversationDao.deleteAll(conversationDao.getAllConversations());
+////        for (Conversation c : conversationsList) {
+////            conversationDao.insert(c);
+////        }
+//    }
 
     @Override
     protected void onResume() {
@@ -159,11 +176,11 @@ public class contactsList extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        conversationDao.deleteAll(conversationDao.getAllConversations());
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        conversationDao.deleteAll(conversationDao.getAllConversations());
+//    }
 
     //    public List<Contact> getAllContacts(List<Conversation> conversations) {
 //        List<Contact> contactsList = new ArrayList<>();

@@ -21,24 +21,29 @@ public abstract class MyAppDB extends RoomDatabase {
 
     public static MyAppDB getInstance(Context context) {
         if(instance == null) {
-            synchronized (MyAppDB.class) {
-                if(instance == null) {
-                    instance = Room.databaseBuilder(context.getApplicationContext(), MyAppDB.class, "MyAppDB")
-                            .addCallback(prepuplateDB()).build();
-                }
-            }
+            instance = buildDBInstance(context);
+//            synchronized (MyAppDB.class) {
+//                if(instance == null) {
+//                    instance = Room.databaseBuilder(context.getApplicationContext(), MyAppDB.class, "MyAppDB")
+//                            .addCallback(prepuplateDB()).build();
+//                }
+//            }
         }
         return instance;
     }
 
-    private static Callback prepuplateDB() {
-        return new Callback() {
-            @Override
-            public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                super.onCreate(db);
-                ContentValues contentValues = new ContentValues();
-//                contentValues.put();
-            }
-        };
+    private static MyAppDB buildDBInstance(Context context) {
+        return Room.databaseBuilder(context, MyAppDB.class, "MyAppDB")
+                            .allowMainThreadQueries().build();
     }
+//    private static Callback prepuplateDB() {
+//        return new Callback() {
+//            @Override
+//            public void onCreate(@NonNull SupportSQLiteDatabase db) {
+//                super.onCreate(db);
+//                ContentValues contentValues = new ContentValues();
+////                contentValues.put();
+//            }
+//        };
+//    }
 }

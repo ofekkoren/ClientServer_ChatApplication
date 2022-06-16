@@ -43,6 +43,8 @@ public class LogInActivity extends AppCompatActivity {
         Button logInButton = findViewById(R.id.LogInButton);
         EditText logInUsername = findViewById(R.id.LogInUsername);
         EditText logInPassword = findViewById(R.id.LogInPassword);
+        logInUsername.setText("");
+        logInPassword.setText("");
         TextView logInValidationMessage = findViewById(R.id.LogInValidationMessage);
         SignUpLink();
 
