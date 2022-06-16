@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chatapp.R;
 import com.example.chatapp.models.Contact;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapter.ContactsViewHolder> {
@@ -51,6 +54,16 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
             holder.username.setText(current.getName());
             holder.lastMessage.setText(current.getLast());
             holder.laseTime.setText(current.getLastdate());
+            String strDateTime;
+            DateFormat from = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS");
+            DateFormat to = new SimpleDateFormat("yyyy.MM.dd, HH:mm");
+            try {
+                strDateTime = to.format(from.parse(current.getLastdate()));
+                holder.laseTime.setText(strDateTime);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 //            holder.contactProfile.setImageResource(current.getContactProfile());
         }
     }

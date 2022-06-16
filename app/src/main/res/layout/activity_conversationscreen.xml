@@ -7,25 +7,42 @@
     android:orientation="vertical"
     tools:context=".conversation.ConversationScreen">
 
-    <TextView
-        android:id="@+id/conversationHeader"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.05"
         android:background="@color/darkBlue"
-        android:gravity="center"
-        android:text="user name "
-        android:textColor="@color/black"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:layout_gravity="start"
+            android:paddingStart="5dp"
+            android:background="@color/darkBlue"
+            android:src="@drawable/ic_textbox_back_btn">
+        </ImageButton>
+
+        <TextView
+            android:id="@+id/conversationHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="user name"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatBody"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.9"
-        android:background="@drawable/inner_chat"
-        />
+        android:background="@drawable/inner_chat" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +52,6 @@
         android:orientation="horizontal">
 
         <EditText
-            android:inputType="text"
             android:id="@+id/textBox"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -43,10 +59,12 @@
             android:layout_weight="1"
             android:background="@drawable/send_text_box"
             android:hint="Type your message ..."
+            android:inputType="text"
             android:maxLines="5"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:textSize="25dp">
+
         </EditText>
 
         <ImageButton

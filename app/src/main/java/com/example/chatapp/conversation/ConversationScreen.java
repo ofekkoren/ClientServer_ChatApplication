@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.chatapp.DTO.ContactDTO;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
 import com.example.chatapp.adapters.RecyclerMessageListAdapter;
@@ -67,7 +68,16 @@ public class ConversationScreen extends AppCompatActivity {
         chatBody.setLayoutManager(new LinearLayoutManager(this));
         adapter.setMessages(currentConversation.getMessages());
         chatBody.scrollToPosition(currentConversation.getMessages().size() - 1);
+        setBackBtnListener();
         setSendBtnListener();
+    }
+
+    private void setBackBtnListener(){
+        ImageButton backBtn=findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(view ->{
+            this.finish();
+            //TODO set current cur to null?
+        });
     }
 
     private void setSendBtnListener() {
@@ -83,13 +93,19 @@ public class ConversationScreen extends AppCompatActivity {
                     .build();
             TransferAPI transferAPI = retrofit.create(TransferAPI.class);
             //TODO fix to
-            TransferAPI.TransferParams params = new TransferAPI.TransferParams(MyApp.getCurrentUser().getId(), "to",
-                    messageContent);
-            Call<Void> call= transferAPI.transferMessage(MyApp.getCookie(),params);
-            call.enqueue(new Callback<Void>() {
+            TransferAPI.TransferParams params = new TransferAPI.TransferParams(MyApp.getCurrentUser().getId(),
+                    currentConversation.getContact().getUsername(), messageContent);
+            Call<Void> transferCall = transferAPI.transferMessage(MyApp.getCookie(), params);
+            transferCall.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
-
+                    if (response.isSuccessful()) {
+                        ContactAPI contactAPI = retrofit.create(ContactAPI.class);
+                        ContactDTO.MessageContent content = new ContactDTO.MessageContent(messageContent);
+                        Call<Void> postCall = contactAPI.AddMessage(currentConversation.getContact().getUsername(),
+                                MyApp.getCookie(), content);
+                        //TODO MOVE UP CHAT??
+                    }
                 }
 
                 @Override

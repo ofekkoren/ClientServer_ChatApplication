@@ -1,10 +1,12 @@
 package com.example.chatapp.DAO;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.chatapp.models.Contact;
 import com.example.chatapp.models.Conversation;
 
 import java.util.List;
@@ -24,6 +26,10 @@ public interface ConversationDao {
     @Update
     void update(Conversation...conversations);
 
-//    @Delete
-//    void delete(Contact...contacts);
+    @Delete
+    void delete(Conversation...conversations);
+
+    @Delete
+    void deleteAll(List<Conversation> conversationList);
+
 }
