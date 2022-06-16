@@ -50,7 +50,7 @@ public class FirebaseMessageService extends FirebaseMessagingService {
         createNotificationChannel();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,
                 getString(R.string.newMessageChannelId))
-                .setSmallIcon(R.drawable.ic_message)
+                .setSmallIcon(R.drawable.ic_message_notification)
                 .setContentTitle(remoteMessage.getNotification().getTitle())
                 .setContentText(remoteMessage.getNotification().getBody())
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getNotification().getBody()))
