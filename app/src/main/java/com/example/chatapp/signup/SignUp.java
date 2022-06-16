@@ -11,7 +11,6 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.chatapp.ContactsList.contactsList;
-import com.example.chatapp.api.ContactAPI;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
 import com.example.chatapp.api.SignUpAPI;
