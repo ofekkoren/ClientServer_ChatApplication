@@ -7,13 +7,16 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.chatapp.DAO.ConversationDao;
+import com.example.chatapp.DAO.Converters;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.models.Conversation;
 
 @Database(entities = {Conversation.class}, version = 1)
+@TypeConverters({Converters.class})
 public abstract class MyAppDB extends RoomDatabase {
 
     private static volatile MyAppDB instance;

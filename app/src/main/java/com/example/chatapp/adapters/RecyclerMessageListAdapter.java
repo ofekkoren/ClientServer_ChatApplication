@@ -73,6 +73,17 @@ public class RecyclerMessageListAdapter extends RecyclerView.Adapter<RecyclerMes
         notifyDataSetChanged();
     }
 
+    public void updateList(List<Message> messages){
+        this.messages.clear();
+        this.messages.addAll(messages);
+        notifyDataSetChanged();
+    }
+
+    public void addMessage(Message message){
+        this.messages.add(message);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         if (messages != null)
