@@ -5,86 +5,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginHorizontal="10dp"
     android:background="@drawable/background"
+    android:gravity="center"
     android:orientation="vertical"
-    tools:context=".signup.SignUp"
-    android:gravity="center">
+    tools:context=".signup.SignUp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/BackgroundOfForm"
+        android:background="@drawable/form_background"
         android:gravity="center"
         android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/Username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="@string/signup_etUsername"
-        android:autofillHints="username"
-        android:inputType="text" />
+        <EditText
+            android:id="@+id/Username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:autofillHints="username"
+            android:hint="@string/signup_etUsername"
+            android:inputType="text" />
 
-    <EditText
-        android:id="@+id/Nickname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:autofillHints="name"
-        android:hint="@string/signup_etNickname"
-        android:inputType="text" />
+        <EditText
+            android:id="@+id/Nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:autofillHints="name"
+            android:hint="@string/signup_etNickname"
+            android:inputType="text" />
 
-    <EditText
-        android:id="@+id/Password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:autofillHints="password"
-        android:hint="@string/signup_etPassword"
-        android:inputType="textPassword"
+        <EditText
+            android:id="@+id/Password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:autofillHints="password"
+            android:hint="@string/signup_etPassword"
+            android:inputType="textPassword"
 
-        />
+            />
 
-    <EditText
-        android:id="@+id/RepeatPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:autofillHints="password"
-        android:hint="@string/signup_eRepeat_password"
-        android:inputType="textPassword" />
+        <EditText
+            android:id="@+id/RepeatPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:autofillHints="password"
+            android:hint="@string/signup_eRepeat_password"
+            android:inputType="textPassword" />
 
-    <Button
-        android:id="@+id/profileImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Upload profile image"
-        android:textColor="@android:color/white"
-        tools:ignore="ButtonStyle"
-        android:backgroundTint="@color/SignAndLogBtns"
-        />
+        <Button
+            android:id="@+id/profileImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/SignAndLogBtns"
+            android:text="Upload profile image"
+            android:textColor="@android:color/white"
+            tools:ignore="ButtonStyle" />
 
-    <ImageView
-        android:id="@+id/profileImageView"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        />
+        <ImageView
+            android:id="@+id/profileImageView"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
 
-    <Button
-        android:id="@+id/submitSignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign-Up"
-        android:backgroundTint="@color/SignAndLogBtns"
-        android:textColor="@android:color/white"
-        tools:ignore="ButtonStyle"
-        android:layout_marginTop="20dp"/>
+        <Button
+            android:id="@+id/submitSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/SignAndLogBtns"
+            android:text="Sign-Up"
+            android:textColor="@android:color/white"
+            tools:ignore="ButtonStyle" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:layout_gravity="center"
+            android:orientation="horizontal"
             android:padding="20dp">
 
             <TextView

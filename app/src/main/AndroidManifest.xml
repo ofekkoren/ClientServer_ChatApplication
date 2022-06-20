@@ -5,6 +5,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
 
     <application
         android:name=".MyApp"
@@ -21,8 +23,10 @@
         <activity
             android:name=".AddNewContact"
             android:exported="false" />
+
+        <activity
             android:name=".settings.SettingsScreen"
-            android:exported="false" >
+            android:exported="false">
         </activity>
 
         <service
@@ -57,7 +61,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>        <activity
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity

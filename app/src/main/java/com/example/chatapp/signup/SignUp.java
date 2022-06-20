@@ -8,8 +8,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +30,10 @@ import com.example.chatapp.login.LogInActivity;
 import com.example.chatapp.models.User;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -115,6 +120,7 @@ public class SignUp extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<User> call, Response<User> response) {
                                 User newUser = response.body();
+                                createUserPicture(newUser.getId());
                                 logInAfterRegistration(newUser);
                             }
 
@@ -195,17 +201,56 @@ public class SignUp extends AppCompatActivity {
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     Intent data = result.getData();
-                    // do your operation from here....
                     if (data != null && data.getData() != null) {
                         Uri selectedImageUri = data.getData();
-                        Bitmap selectedImageBitmap;
+                        ImageView image = findViewById(R.id.profileImageView);
+                        image.setImageURI(selectedImageUri);
+                        /*Bitmap selectedImageBitmap;
                         try {
                             selectedImageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),
                                     selectedImageUri);
                         } catch (IOException e) {
                             e.printStackTrace();
-                        }
+                        }*/
                     }
                 }
             });
+
+    private void createUserPicture(String username){
+        ImageView image = findViewById(R.id.profileImageView);
+        /*BitmapDrawable drawable=(BitmapDrawable) image.getDrawable();
+        MediaStore.Images.Media.getBitmap(this.getContentResolver(), image.get);
+        Bitmap imageBitmap=drawable.getBitmap();*/
+        image.buildDrawingCache();
+        Bitmap imageBitmap=image.getDrawingCache();
+        OutputStream outputStream ;
+        File path= Environment.getExternalStorageDirectory();
+        File directory=new File(path.getAbsolutePath()+"/"+getString(R.string.app_name)+"/");
+        File imageFile=new File(directory,username+".png");
+        boolean created=false;
+        if (!directory.exists())
+            directory.mkdirs();
+        try {
+            outputStream = new FileOutputStream(imageFile);
+            created=true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        if (created){
+            imageBitmap.compress(Bitmap.CompressFormat.PNG,100,outputStream);
+        }
+        try {
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }

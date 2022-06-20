@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.chatapp.ContactsList.contactsList;
@@ -15,6 +16,7 @@ import com.example.chatapp.DAO.ConversationDao;
 import com.example.chatapp.DB.MyAppDB;
 import com.example.chatapp.DTO.ContactDTO;
 import com.example.chatapp.DTO.usersDTO;
+import com.example.chatapp.adapters.ContactsListAdapter;
 import com.example.chatapp.api.ContactAPI;
 import com.example.chatapp.api.InvitationsAPI;
 import com.example.chatapp.api.LogInAPI;
@@ -22,6 +24,7 @@ import com.example.chatapp.api.UsersAPI;
 import com.example.chatapp.models.Contact;
 import com.example.chatapp.models.Conversation;
 import com.example.chatapp.models.Message;
+import com.google.gson.Gson;
 
 import org.w3c.dom.Text;
 
@@ -38,7 +41,7 @@ import retrofit2.http.Header;
 
 public class AddNewContact extends AppCompatActivity {
     Retrofit retrofit;
-//    UsersAPI usersAPI;
+    //    UsersAPI usersAPI;
     Retrofit contactRetrofit;
     InvitationsAPI invitationsAPI;
     ContactAPI contactAPI;
@@ -74,9 +77,9 @@ public class AddNewContact extends AppCompatActivity {
 //        db = Room.databaseBuilder(getApplicationContext(), MyAppDB.class, "MyAppDB")
 //                .allowMainThreadQueries().build();
         conversationDao = db.conversationDao();
-
+        setBackBtnListener();
         Button submitNewContactDetails = findViewById(R.id.SubmitNewContactDetails);
-        submitNewContactDetails.setOnClickListener(view-> {
+        submitNewContactDetails.setOnClickListener(view -> {
             EditText newContactsUsername = findViewById(R.id.newContactsUsername);
             String username = newContactsUsername.getText().toString();
             EditText newContactsNickname = findViewById(R.id.newContactsNickname);
@@ -88,12 +91,12 @@ public class AddNewContact extends AppCompatActivity {
             addNewContactValidationMessage.setText("");
             addNewContactValidationMessage.setVisibility(View.VISIBLE);
 
-            if(username.equals("") || nickname.equals("") || server.equals("")) {
+            if (username.equals("") || nickname.equals("") || server.equals("")) {
                 addNewContactValidationMessage.setText("All fields must be filled!");
                 addNewContactValidationMessage.setVisibility(View.VISIBLE);
                 return;
             }
-            if(username.equals(MyApp.getCurrentUser().getId())) {
+            if (username.equals(MyApp.getCurrentUser().getId())) {
                 addNewContactValidationMessage.setText("You can't add yourself honey");
                 addNewContactValidationMessage.setVisibility(View.VISIBLE);
                 return;
@@ -101,7 +104,7 @@ public class AddNewContact extends AppCompatActivity {
             List<Conversation> conversationList = conversationDao.getAllConversations();
             boolean isValidUser = true;
             for (Conversation c : conversationList) {
-                if(c.contact.getUsername() == username) {
+                if (c.contact.getUsername() == username) {
                     addNewContactValidationMessage.setText("This user is already talking with you!");
                     addNewContactValidationMessage.setVisibility(View.VISIBLE);
                     isValidUser = false;
@@ -114,42 +117,58 @@ public class AddNewContact extends AppCompatActivity {
             invitationRequest.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
-                   response.body();
-                   if(response.code() == 400) {
-                       addNewContactValidationMessage.setText("Invalid user!");
-                       addNewContactValidationMessage.setVisibility(View.VISIBLE);
-                       return;
-                   }
-                   //todo - check status
-                    Contact contact = new Contact(0,username,nickname,server, "", "");
+                    response.body();
+                    if (response.code() != 201) {
+                        addNewContactValidationMessage.setText("Invalid user!");
+                        addNewContactValidationMessage.setVisibility(View.VISIBLE);
+                        return;
+                    }
+                    //todo - check status
+                    Contact contact = new Contact(0, username, nickname, server, "", "");
                     String conId = MyApp.getCurrentUser().getId() + username;
-                    Conversation conversation = new Conversation(conId,new ArrayList<Message>(), contact);
+                    Conversation conversation = new Conversation(conId, new ArrayList<Message>(), contact);
 //                    conversationDao.insert(conversation);
-                    ContactDTO.AddContactParams parameters = new ContactDTO.AddContactParams(username,nickname,server);
+                    ContactDTO.AddContactParams parameters = new ContactDTO.AddContactParams(username, nickname, server);
                     Call<Void> newContactRequest = contactAPI.addContact(MyApp.getCookie(), parameters);
                     newContactRequest.enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
-                            if(response.code() == 404) {
+                            if (response.code() == 404) {
                                 return;
                             }
                             addNewContactValidationMessage.setText("User added successfully :)");
                             addNewContactValidationMessage.setVisibility(View.VISIBLE);
+                            /*UsersAPI usersAPI=retrofit.create(UsersAPI.class);
+                            usersDTO.IdClass parameter=new usersDTO.IdClass(MyApp.getCurrentUser().getId());
+                            usersAPI.getAllConversations(MyApp.getCookie(),parameter);*/
                             List<Conversation> conversations = conversationDao.getAllConversations();
 //                            conversationDao.deleteAll(conversationDao.getAllConversations());
-                            for (Conversation c : conversations) {
+                            /*for (Conversation c : conversations) {
                                 conversationDao.delete(c);
-                            }
+                            }*/
                             conversationDao.insert(conversation);
-                            for (Conversation c : conversations) {
+                            /*for (Conversation c : conversations) {
                                 conversationDao.insert(c);
-                            }
+                            }*/
+
+                           /* for (Conversation c : conversations) {
+                                Conversation newC=new Conversation(c.ConversationId,c.messages,c.contact);
+                                conversationDao.delete(c);
+                                conversationDao.insert(newC);
+                            }*/
+
+                            /*Gson gson = new Gson();
+                            ContactsListAdapter adapter = gson.fromJson(getIntent().getStringExtra("contactAdapter"),
+                                    ContactsListAdapter.class);
+                            adapter.notifyDataSetChanged();*/
                         }
+
                         @Override
                         public void onFailure(Call<Void> call, Throwable t) {
                         }
                     });
                 }
+
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
                 }
@@ -157,6 +176,13 @@ public class AddNewContact extends AppCompatActivity {
 //            finish();
 //            Intent i = new Intent(this, contactsList.class);
 //            startActivity(i);
+        });
+    }
+
+    private void setBackBtnListener() {
+        ImageButton backBtn = findViewById(R.id.addContactBackBtn);
+        backBtn.setOnClickListener(view -> {
+            this.finish();
         });
     }
 }

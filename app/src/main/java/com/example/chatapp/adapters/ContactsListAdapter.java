@@ -1,6 +1,7 @@
 package com.example.chatapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatapp.R;
+import com.example.chatapp.conversation.ConversationScreen;
 import com.example.chatapp.models.Contact;
+import com.example.chatapp.settings.SettingsScreen;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -54,6 +57,16 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
             holder.username.setText(current.getName());
             holder.lastMessage.setText(current.getLast());
             holder.laseTime.setText(current.getLastdate());
+            holder.contactProfile.setImageResource(R.drawable.defaultimage);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent conversationIntent=new Intent(v.getContext(), ConversationScreen.class);
+                    conversationIntent.putExtra(v.getContext().getString(R.string.conversationContactExtraKey),
+                            current.getUsername());
+                    v.getContext().startActivity(conversationIntent);
+                }
+            });
             String strDateTime;
             DateFormat from = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS");
             DateFormat to = new SimpleDateFormat("yyyy.MM.dd, HH:mm");

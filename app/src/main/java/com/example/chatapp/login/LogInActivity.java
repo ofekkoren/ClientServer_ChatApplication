@@ -95,6 +95,7 @@ public class LogInActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<User> call, Throwable t) {
+                                Log.d("sda","Adds");
                             }
                         });
                     }/* else
@@ -136,7 +137,6 @@ public class LogInActivity extends AppCompatActivity {
             Call<Void> sendToken =usersAPI.setFirebaseToken(MyApp.getCookie(),parameter);
             sendToken.enqueue(new Callback<Void>() {@Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                Log.d("dsasss","sad");
             }
 
                 @Override
