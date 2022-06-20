@@ -1,13 +1,20 @@
 package com.example.chatapp.conversation;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.chatapp.DAO.ConversationDao;
 import com.example.chatapp.DB.MyAppDB;
@@ -37,6 +44,16 @@ public class ConversationScreen extends AppCompatActivity {
     private MyAppDB db;
     private ConversationDao conversationDao;
     private RecyclerMessageListAdapter messagesListAdapter;
+    private BroadcastReceiver broadcastReceiver;
+
+/*    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String message = intent.getStringExtra("message");
+            Log.d("qqqq","rcded");
+        }
+    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +95,9 @@ public class ConversationScreen extends AppCompatActivity {
         chatBody.setLayoutManager(new LinearLayoutManager(this));
         messagesListAdapter.setMessages(currentConversation.getMessages());
         chatBody.scrollToPosition(currentConversation.getMessages().size() - 1);
+        createMessageBroadcastReceiver();
+/*        LocalBroadcastManager.getInstance(MyApp.getContext()).registerReceiver(mMessageReceiver,
+                new IntentFilter("custom-event-name"));*/
         setBackBtnListener();
         setSendBtnListener();
     }
@@ -128,7 +148,7 @@ public class ConversationScreen extends AppCompatActivity {
                                         Conversation conversation = response.body();
                                         Message newMessage =
                                                 conversation.getMessages().get(conversation.getMessages().size() - 1);
-                                        addNewMessage(newMessage,conversation);
+                                        addNewMessage(newMessage, conversation);
                                     }
 
                                     @Override
@@ -154,18 +174,42 @@ public class ConversationScreen extends AppCompatActivity {
     }
 
     private void addNewMessage(Message message, Conversation updatedConversation) {
-        db = MyAppDB.getInstance(getApplicationContext());
-        conversationDao = db.conversationDao();
+/*        db = MyAppDB.getInstance(getApplicationContext());
+        conversationDao = db.conversationDao();*/
         Conversation existingConversation = conversationDao.getConversation(currentConversation.getContact().getUsername());
         existingConversation.setContact(updatedConversation.getContact());
         existingConversation.messages.add(message);
         conversationDao.update(existingConversation);
         messagesListAdapter.addMessage(message);
         //messagesListAdapter.updateList(existingConversation.messages);
+        currentConversation = existingConversation;
         RecyclerView chatBody = findViewById(R.id.chatBody);
         chatBody.scrollToPosition(currentConversation.getMessages().size() - 1);
 
 
     }
 
+    private void createMessageBroadcastReceiver() {
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String contactName =
+                        intent.getExtras().getString(context.getString(R.string.broadcastReceiverContactName));
+                if (contactName.equals(currentConversation.getContact().getUsername())) {
+                    Conversation conversation = conversationDao.getConversation(contactName);
+                    currentConversation = conversation;
+                    messagesListAdapter.setMessages(conversation.getMessages());
+                    Toast.makeText(getApplicationContext(), "New message", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        LocalBroadcastManager.getInstance(MyApp.getContext()).registerReceiver(broadcastReceiver,
+                new IntentFilter("new-message"));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(MyApp.getContext()).unregisterReceiver(broadcastReceiver);
+    }
 }

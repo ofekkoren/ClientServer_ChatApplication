@@ -55,7 +55,7 @@ namespace ChatWebApi.Controllers
                 {
                     Data = new Dictionary<string, string>()
             {
-                { "type","message" },
+                { "type","newMessage" },
                 { "sentTo", parameters.to },
                 { "sender", parameters.from },
                 { "id", msg.id.ToString() },
@@ -70,13 +70,8 @@ namespace ChatWebApi.Controllers
                     },
                     Token = sendToToken,
                 };
-
-                // Send a message to the device corresponding to the provided
-                // registration token.
                 string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
-                Console.WriteLine("Successfully sent message: " + response);
             }
-            // Response is a message ID string.
             return StatusCode(201);
         }
     }

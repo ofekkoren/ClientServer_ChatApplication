@@ -13,5 +13,7 @@
     <string name="newMessageChannelDesc">notifying about a new message that the user received</string>
     <string name="newMessageChannelId">1</string>
     <string name="conversationContactExtraKey">ContactKey</string>
+    <string name="broadcastReceiverContactName">contactUsername</string>
+
 
 </resources>

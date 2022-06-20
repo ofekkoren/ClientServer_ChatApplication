@@ -57,6 +57,7 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
             holder.username.setText(current.getName());
             holder.lastMessage.setText(current.getLast());
             holder.laseTime.setText(current.getLastdate());
+            holder.contactProfile.setImageResource(R.drawable.defaultimage);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

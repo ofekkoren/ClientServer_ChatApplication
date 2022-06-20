@@ -118,7 +118,7 @@ public class AddNewContact extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     response.body();
-                    if (response.code() == 400) {
+                    if (response.code() != 201) {
                         addNewContactValidationMessage.setText("Invalid user!");
                         addNewContactValidationMessage.setVisibility(View.VISIBLE);
                         return;

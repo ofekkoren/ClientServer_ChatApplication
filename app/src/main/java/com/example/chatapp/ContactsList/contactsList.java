@@ -1,16 +1,20 @@
 package com.example.chatapp.ContactsList;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,17 +25,16 @@ import com.example.chatapp.DTO.usersDTO;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
 import com.example.chatapp.adapters.ContactsListAdapter;
-import com.example.chatapp.api.LogInAPI;
 import com.example.chatapp.api.UsersAPI;
 import com.example.chatapp.models.Contact;
 import com.example.chatapp.models.Conversation;
+import com.example.chatapp.settings.SettingsScreen;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
 //import com.example.chatapp.viewModels.ConversationsViewModel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,6 +51,8 @@ public class contactsList extends AppCompatActivity {
     Retrofit retrofit;
     UsersAPI usersAPI;
     private boolean firstInitialization;
+    private BroadcastReceiver broadcastReceiver;
+
 //    ConversationDao conversationDao;
 //    private ConversationsViewModel viewModel;
 
@@ -76,7 +81,7 @@ public class contactsList extends AppCompatActivity {
         TextView toplogInUsername = findViewById(R.id.ToplogInUsername);
         toplogInUsername.setText(MyApp.getCurrentUser().getId());
         ImageView topProfilePictureLogInUser = findViewById(R.id.topProfilePictureLogInUser);
-        toplogInUsername.setText(MyApp.getCurrentUser().getId());
+        toplogInUsername.setText(MyApp.getCurrentUser().getName());
         topProfilePictureLogInUser.setImageResource(R.drawable.defaultimage);
 
 //        db = Room.databaseBuilder(getApplicationContext(), MyAppDB.class, "MyAppDB")
@@ -110,17 +115,16 @@ public class contactsList extends AppCompatActivity {
                     //todo
                     conversationDao.insert(c);
                 }
-                conversationsList=conversationDao.getAllConversations();
-                for (Conversation c: conversationsList)
-                {
+                conversationsList = conversationDao.getAllConversations();
+                for (Conversation c : conversationsList) {
                     contactList.add(c.contact);
                 }
                 adapter.setContacts(contactList);
+                createMessageBroadcastReceiver();
             }
 
             @Override
             public void onFailure(Call<List<Conversation>> call, Throwable t) {
-                Log.d("errorContact", "error"); //TODO DEL
             }
         });
         FloatingActionButton btnAddNewContact = findViewById(R.id.btnAddNewContact);
@@ -131,6 +135,7 @@ public class contactsList extends AppCompatActivity {
             i.putExtra("contactAdapter", myJson);*/
             startActivity(i);
         });
+        setSettingsBtnListener();
 //        viewModel.getAllConversations().observe(this, conversations -> {
 //            List<Contact> contactsList = getAllContacts(conversations);
 //            adapter.setContacts(contactsList);
@@ -166,7 +171,8 @@ public class contactsList extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (!firstInitialization) {
-            contactList.clear();
+            refreshContactList();
+            /*contactList.clear();
             conversationsList.clear();
             conversationsList.addAll(conversationDao.getAllConversations());
 //        List<Conversation> conversationList = conversationDao.getAllConversations();
@@ -175,11 +181,57 @@ public class contactsList extends AppCompatActivity {
                 contactList.add(c.contact);
             }
 //        contactList.addAll(contactsList);
-            adapter.setContacts(contactList);
+            adapter.setContacts(contactList);*/
         } else
             firstInitialization = false;
     }
 
+    public void refreshContactList() {
+        contactList.clear();
+        conversationsList.clear();
+        conversationsList.addAll(conversationDao.getAllConversations());
+//        List<Conversation> conversationList = conversationDao.getAllConversations();
+//        List<Contact> contactsList;
+        for (Conversation c : conversationsList) {
+            contactList.add(c.contact);
+        }
+//        contactList.addAll(contactsList);
+        adapter.setContacts(contactList);
+    }
+
+    private void setSettingsBtnListener() {
+        ImageButton backBtn = findViewById(R.id.contactListSettingsBtn);
+        backBtn.setOnClickListener(view -> {
+            Intent settingsIntent = new Intent(view.getContext(), SettingsScreen.class);
+            view.getContext().startActivity(settingsIntent);
+        });
+    }
+
+    private void createMessageBroadcastReceiver() {
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                refreshContactList();
+            }
+        };
+        LocalBroadcastManager.getInstance(MyApp.getContext()).registerReceiver(broadcastReceiver,
+                new IntentFilter("new-message"));
+        LocalBroadcastManager.getInstance(MyApp.getContext()).registerReceiver(broadcastReceiver,
+                new IntentFilter("new-contact"));
+    }
+
+    private void setProfilePicture() {
+        ImageView topProfilePictureLogInUser = findViewById(R.id.topProfilePictureLogInUser);
+        File path = Environment.getExternalStorageDirectory();
+        String imagePath = path.getAbsolutePath() + "/" + getString(R.string.app_name) + "/" + MyApp.getCurrentUser().getId() + ".png";
+        File imageFile = new File(imagePath);
+        if (imageFile.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            topProfilePictureLogInUser.setImageBitmap(bitmap);
+        }
+        else
+            topProfilePictureLogInUser.setImageResource(R.drawable.defaultimage);
+    }
 //    @Override
 //    protected void onDestroy() {
 //        super.onDestroy();
