@@ -46,6 +46,8 @@ namespace ChatWebApi.Controllers
                 return NotFound();
             }
             Conversation conv = await _conversationService.GetConversation(_context, parameters.to, parameters.from);
+            if(conv==null)
+                return NotFound();
             Models.Message msg = conv.messages[conv.messages.Count - 1];
             ParametersForSendAsyncNewMessage hubParams = new ParametersForSendAsyncNewMessage() { from = parameters.from, to = parameters.to, id = msg.id, content = msg.content, created = msg.created, sent = msg.sent };
             await _appHub.Clients.All.SendAsync("ReceiveMessage", hubParams);
