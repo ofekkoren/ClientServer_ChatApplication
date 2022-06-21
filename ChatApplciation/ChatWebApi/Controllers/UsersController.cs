@@ -49,9 +49,9 @@ namespace ChatWebApi.Controllers
                 return Redirect(redirectTo);
             var user = await _userService.GetUser(_context, HttpContext.Session.GetString(currentUser));
 
-/*            var user = from u in _context.User
-                       where u.name.Equals(HttpContext.Session.GetString(currentUser))
-                       select u;*/
+            /*            var user = from u in _context.User
+                                   where u.name.Equals(HttpContext.Session.GetString(currentUser))
+                                   select u;*/
             /*            User? user = await Utils.GetUser(HttpContext.Session.GetString(currentUser));
             */
             if (user == null)

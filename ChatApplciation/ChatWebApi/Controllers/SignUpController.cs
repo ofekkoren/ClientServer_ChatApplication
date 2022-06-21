@@ -44,9 +44,9 @@ namespace ChatWebApi.Controllers
                 signUpFeedback[nicknameIndex] = "Nickname is required";
 
 
-/*            *Checking the password chosen by the user. It must be longer than 6 character and contain al least one letter
-            * and one number.
-*/
+            /*            *Checking the password chosen by the user. It must be longer than 6 character and contain al least one letter
+                        * and one number.
+            */
 
             if (parameters.password == null || parameters.password.Length < passwordMinLength)
                 signUpFeedback[passwordIndex] = "Password must contain at least 6 characters";
