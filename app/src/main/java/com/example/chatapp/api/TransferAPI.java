@@ -9,7 +9,7 @@ import retrofit2.http.POST;
 
 public interface TransferAPI {
 
-    @POST("transfer")
+    @POST("api/transfer")
     Call<Void> transferMessage(@Header("Cookie") String session, @Body TransferParams parameters);
 
     public class TransferParams {

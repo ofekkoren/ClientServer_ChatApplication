@@ -3,13 +3,18 @@ package com.example.chatapp.signup;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -21,6 +26,7 @@ import android.widget.TextView;
 
 import com.example.chatapp.ContactsList.contactsList;
 import com.example.chatapp.DTO.usersDTO;
+import com.example.chatapp.MainActivity;
 import com.example.chatapp.api.ContactAPI;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
@@ -139,12 +145,23 @@ public class SignUp extends AppCompatActivity {
         createLinkToLogIn();
     }
 
-    private void logInAfterRegistration(User user){
+    private void logInAfterRegistration(User user) {
         MyApp.setCurrentUser(user);
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( this, instanceIdResult -> {
-            usersDTO.IdClass parameter=new usersDTO.IdClass(instanceIdResult.getToken());
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
+            usersDTO.IdClass parameter = new usersDTO.IdClass(instanceIdResult.getToken());
             UsersAPI usersAPI = retrofit.create(UsersAPI.class);
-            usersAPI.setFirebaseToken(MyApp.getCookie(),parameter);
+            Call<Void> sendToken = usersAPI.setFirebaseToken(MyApp.getCookie(), parameter);
+            sendToken.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+
+                }
+            });
         });
         Intent intent = new Intent(this, contactsList.class);
         startActivity(intent);
@@ -216,29 +233,34 @@ public class SignUp extends AppCompatActivity {
                 }
             });
 
-    private void createUserPicture(String username){
+    private void createUserPicture(String username) {
         ImageView image = findViewById(R.id.profileImageView);
-        /*BitmapDrawable drawable=(BitmapDrawable) image.getDrawable();
-        MediaStore.Images.Media.getBitmap(this.getContentResolver(), image.get);
-        Bitmap imageBitmap=drawable.getBitmap();*/
-        image.buildDrawingCache();
-        Bitmap imageBitmap=image.getDrawingCache();
-        OutputStream outputStream ;
-        File path= Environment.getExternalStorageDirectory();
-        File directory=new File(path.getAbsolutePath()+"/"+getString(R.string.app_name)+"/");
-        File imageFile=new File(directory,username+".png");
-        boolean created=false;
+        BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
+        //MediaStore.Images.Media.getBitmap(this.getContentResolver(), image);
+        Bitmap imageBitmap = drawable.getBitmap();
+        FileOutputStream outputStream;
+        boolean dirmake = false;//todo del
+        File path = Environment.getExternalStorageDirectory();
+        File directory = new File(path.getAbsolutePath());
         if (!directory.exists())
-            directory.mkdirs();
+            dirmake = directory.mkdir();
+        File imageFile = new File(directory, username + ".jpg");
+        try {
+            imageFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        boolean created = false;
+
         try {
             outputStream = new FileOutputStream(imageFile);
-            created=true;
+            created = true;
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
-        if (created){
-            imageBitmap.compress(Bitmap.CompressFormat.PNG,100,outputStream);
+        if (created) {
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         }
         try {
             outputStream.flush();

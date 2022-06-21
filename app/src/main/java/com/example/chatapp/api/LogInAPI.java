@@ -11,13 +11,13 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface LogInAPI {
-    @POST("LogIn")
+    @POST("api/LogIn")
     Call<LogInResults> checkValidation(@Body LogInParams parameters);
 
-    @GET("Contacts")
-    Call <ArrayList<com.example.chatapp.models.ContactToJson>> getContacts(@Header("Cookie") String session);
+/*    @GET("api/Contacts")
+    Call <ArrayList<com.example.chatapp.models.ContactToJson>> getContacts(@Header("Cookie") String session);*/
 
-    public class ContactToJson{
+/*    public class ContactToJson{
         public String id ;
         public String name ;
         public String server ;
@@ -43,7 +43,7 @@ public interface LogInAPI {
         public String getLastdate() {
             return lastdate;
         }
-    }
+    }*/
 
 
     public class LogInParams {

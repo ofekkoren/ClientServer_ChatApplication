@@ -6,7 +6,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface InvitationsAPI {
-    @POST("invitations")
+    @POST("api/invitations")
     Call<Void> invitation(@Header("Cookie") String session, @Body InvitationsAPI.InvitationParams parameters);
 
     public class InvitationParams {
