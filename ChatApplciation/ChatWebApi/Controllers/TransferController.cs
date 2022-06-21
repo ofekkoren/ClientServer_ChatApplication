@@ -3,10 +3,10 @@ using ChatWebApi.Hubs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using ChatWebApi.Models;
-using FirebaseAdmin.Messaging;
+using ChatWebApi.Data;
 
-using FirebaseAdmin;
 using FirebaseAdmin.Messaging;
+using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using System;
 using System.IO;
@@ -21,14 +21,16 @@ namespace ChatWebApi.Controllers
     [Route("api/[controller]")]
     public class TransferController : Controller
     {
+        private static ChatWebApiContext _context;
         private IConversationService _conversationService;
         private IFirebaseTokenService _firebaseTokenService;
         private readonly IHubContext<AppHub> _appHub;
 
-        public TransferController(IHubContext<AppHub> newHub)
+        public TransferController(IHubContext<AppHub> newHub, ChatWebApiContext context)
         {
-            _conversationService = new ConversationService();
+            _context = context;
             _firebaseTokenService = new FirebaseTokenService();
+            _conversationService = new ConversationService();
             _appHub = newHub;
         }
 
@@ -39,16 +41,16 @@ namespace ChatWebApi.Controllers
         {
             if (string.IsNullOrWhiteSpace(parameters.from) || string.IsNullOrWhiteSpace(parameters.to) || string.IsNullOrWhiteSpace(parameters.content))
                 return BadRequest();
-            if (_conversationService.AddNewMessage(parameters.to, parameters.from, parameters.content, false) == false)
+            if (await _conversationService.AddNewMessage(_context, parameters.to, parameters.from, parameters.content, false) == false)
             {
                 return NotFound();
             }
-            Conversation conv = _conversationService.GetConversation(parameters.to, parameters.from);
+            Conversation conv = await _conversationService.GetConversation(_context, parameters.to, parameters.from);
             Models.Message msg = conv.messages[conv.messages.Count - 1];
             ParametersForSendAsyncNewMessage hubParams = new ParametersForSendAsyncNewMessage() { from = parameters.from, to = parameters.to, id = msg.id, content = msg.content, created = msg.created, sent = msg.sent };
             await _appHub.Clients.All.SendAsync("ReceiveMessage", hubParams);
-            var sendToToken = _firebaseTokenService.GetToken(parameters.to);
-            if (sendToToken != null)
+            var sendToToken = await _firebaseTokenService.GetToken(_context, parameters.to);
+            if (!sendToToken.Equals(""))
             {
                 // See documentation on defining a message payload.
                 var message = new FirebaseAdmin.Messaging.Message()
@@ -68,7 +70,7 @@ namespace ChatWebApi.Controllers
                         Title = "New message from " + conv.contact.name,
                         Body = msg.content
                     },
-                    Token = sendToToken,
+                    Token =  sendToToken,
                 };
                 string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
             }

@@ -1,90 +1,125 @@
-﻿using ChatWebApi.Models;
+﻿using ChatWebApi.Data;
+using ChatWebApi.Models;
 
 namespace ChatWebApi.Services
 {
     public class ContactService : IContactService
     {
-        private static IUserService? _userService;
+/*        private readonly ChatWebApiContext _context;
+*/        private static IUserService? _userService;
         private static IConversationService? _conversationService;
         // Counts the number of total contacts we have in system so far
-        private static int _ids=8;
-
+/*        private static int _ids = 8;
+*/
         public ContactService()
         {
+/*            ChatWebApiContext context = new ChatWebApiContext(new Microsoft.EntityFrameworkCore.DbContextOptions<ChatWebApiContext>());
+*/
             _userService = new UserService();
             _conversationService = new ConversationService();
         }
 
-        /*
-         * Adding a new contact to the username list of contacts.
-         */
-        public bool Add(string username, string id, string name, string server)
+        
+/*         * Adding a new contact to the username list of contacts.
+*/
+        public async Task<bool> Add(ChatWebApiContext context, string username, string id, string name, string server)
         {
             // Check if the username of the user exist in the users db
-            if (username == null || _userService == null || _userService.GetUser(username) == null )
+            if (username == null || _userService == null || _userService.GetUser(context, username) == null)
                 return false;
-            List<Conversation>? conversation = _userService.GetUser(username).conversations;
-            if (conversation == null)
+            User user = await _userService.GetUser(context, username);
+            if (user == null)
                 return false;
-            int convLength = conversation.Count();
+            List<Conversation>? conversations = user.conversations;
+            if (conversations == null)
+            {
+                user.conversations = new List<Conversation>();
+/*                context.SaveChanges();
+*/                conversations = user.conversations;
+                /*                return false;
+*/
+            }
+
+            int convLength = conversations.Count();
             for (int i = 0; i < convLength; i++)
             {
-                if (id.Equals(conversation[i].contact.username))
+                if (id.Equals(conversations[i].contact.username))
                     return false;
             }
-            Contact contact = new Contact() { id = _ids, username = id, name = name, server = server, last="", lastdate="" };
+            Contact contact = new Contact() { username = id, name = name, server = server, last = "", lastdate = "" };
+/*            Contact contact = new Contact() { id = _ids, username = id, name = name, server = server, last = "", lastdate = "" };
             _ids++;
-            if (_conversationService == null || _conversationService.Add(username, contact) == false)
+*/
+            if (_conversationService == null || await _conversationService.Add(context, username, contact) == false)
                 return false;
+            //todo
+
+            context.SaveChanges();
+
+            /*            await context.SaveChangesAsync();
+            */
             return true;
         }
 
-        /*
-         * Deleting the conversation of a user with the given username of contact.
-         */
-        public bool Delete(string username, string id)
+        
+/*         * Deleting the conversation of a user with the given username of contact.
+*/
+        public async Task<bool> Delete(ChatWebApiContext context, string username, string id)
         {
             if (_userService == null || _conversationService == null)
                 return false;
-            Contact? contact = GetContact(username, id);
+            Contact? contact = await GetContact(context, username, id);
             if (contact == null)
                 return false;
-            List<Conversation>? conversations = _userService.GetAllConversations(username);
+            List<Conversation>? conversations = await _userService.GetAllConversations(context, username);
             if (conversations == null)
                 return false;
-            Conversation? conversation = _conversationService.GetConversation(username, id);
+            Conversation conversation = await _conversationService.GetConversation(context, username, id);
             if (conversation == null)
                 return false;
-            conversations.Remove(conversation);
-            return true;
+            /*            context.User.Include(x => x.conversations).Where(u => u.id.Equals(id));
+            *//*            context.User.Include(x => x.conversations).ToList().Find(u=>u.id.Equals(username).ToString().Remove()
+            */
+            context.Conversation.Attach(conversation);
+            context.Conversation.Remove(conversation);
+
+/*            conversations.Remove(conversation);
+*/            //todo
+/*            User user = await _userService.GetUser(context, username);
+            user.conversations = conversations;
+*/            context.SaveChanges();
+/*            await context.SaveChangesAsync();
+*/            return true;
         }
 
-        /*
-         * Editing the information of the log in user with the given id (username) of contact.
-         */
-        public bool Edit(string username, string id, string name, string server)
+        
+/*         * Editing the information of the log in user with the given id(username) of contact.
+*/
+        public async Task<bool> Edit(ChatWebApiContext context, string username, string id, string name, string server)
         {
-            Contact? contact = GetContact(username, id);
+            Contact? contact = await GetContact(context, username, id);
             if (contact != null)
             {
                 //todo - make sure it updates it in the list.
                 contact.name = name;
                 contact.server = server;
+                //todo
+                await context.SaveChangesAsync();
                 return true;
             }
             return false;
         }
 
-        /*
-         * Getting the log-in user's contact with the given id (username).
-         */
-        public Contact? GetContact(string username, string id)
+        
+/*         * Getting the log-in user's contact with the given id (username).
+*/         
+        public async Task<Contact?> GetContact(ChatWebApiContext context, string username, string id)
         {
             if (_userService == null)
                 return null;
             if (id == null)
                 return null;
-            List<Conversation>? conversations = _userService.GetAllConversations(username);
+            List<Conversation>? conversations = await _userService.GetAllConversations(context, username);
             if (conversations == null)
                 return null;
             foreach (Conversation conversation in conversations)
@@ -97,17 +132,17 @@ namespace ChatWebApi.Services
             return null;
         }
 
-        /*
-         * Getting the log-in user's contact with the given id (username), in the required format.
-         */
-        public ContactToJson? Get(string username, string id)
+        
+/*         * Getting the log-in user's contact with the given id (username), in the required format.
+*/         
+        public async Task<ContactToJson?> Get(ChatWebApiContext context, string username, string id)
         {
             if (_userService == null)
                 return null;
             Contact? contact = null;
             if (id == null)
                 return null;
-            List<Conversation>? conversations = _userService.GetAllConversations(username);
+            List<Conversation>? conversations = await _userService.GetAllConversations(context, username);
             if (conversations == null)
                 return null;
             foreach (Conversation conversation in conversations)
@@ -121,21 +156,28 @@ namespace ChatWebApi.Services
             {
                 return null;
             }
-            ContactToJson contactToJson = new ContactToJson() { id = contact.username,
-                name = contact.name, server = contact.server, last = contact.last, lastdate = contact.lastdate };
+            ContactToJson contactToJson = new ContactToJson()
+            {
+                id = contact.username,
+                name = contact.name,
+                server = contact.server,
+                last = contact.last,
+                lastdate = contact.lastdate
+            };
             return contactToJson;
-
         }
 
-        /*
-         * Getting all the contacts of the username received as a parameter.
-         */
-        public List<ContactToJson>? GetAll(string username)
+        
+/*         * Getting all the contacts of the username received as a parameter.
+*/
+
+        public async Task<List<ContactToJson>?> GetAll(ChatWebApiContext context, string username)
         {
             if (_userService == null)
                 return null;
             List<ContactToJson> contactToJsons = new List<ContactToJson>();
-            List<Conversation>? conversations = _userService.GetAllConversations(username);
+            User user = await _userService.GetUser(context, username);
+            List<Conversation>? conversations = await _userService.GetAllConversations(context, username);
             if (conversations == null)
             {
                 return null;

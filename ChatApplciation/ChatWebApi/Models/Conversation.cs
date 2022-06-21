@@ -7,7 +7,7 @@ namespace ChatWebApi.Models
         [Key]
         public string ConversationId { get; set; }
 
-        public List<Message>? messages { get; set; }
+        public virtual List<Message>? messages { get; set; }
 
         [Required]
         public Contact contact { get; set; }

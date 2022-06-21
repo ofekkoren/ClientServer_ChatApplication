@@ -1,19 +1,20 @@
-﻿using ChatWebApi.Models;
+﻿using ChatWebApi.Data;
+using ChatWebApi.Models;
 
 namespace ChatWebApi.Services
 {
     public interface IContactService
     {
-        public List<ContactToJson>? GetAll(string username);
+        public Task<List<ContactToJson>?> GetAll(ChatWebApiContext context, string username);
 
-        public Contact? GetContact(string username, string id);
+        public Task<Contact?> GetContact(ChatWebApiContext context, string username, string id);
 
-        public ContactToJson? Get(string username, string id);
+        public Task<ContactToJson?> Get(ChatWebApiContext context, string username, string id);
 
-        public bool Add(string username, string id, string name, string server);
+        public Task<bool> Add(ChatWebApiContext context, string username, string id, string name, string server);
 
-        public bool Delete(string username, string id);
+        public Task<bool> Delete(ChatWebApiContext context, string username, string id);
 
-        public bool Edit(string username, string id, string name, string server);
+        public Task<bool> Edit(ChatWebApiContext context, string username, string id, string name, string server);
     }
 }
