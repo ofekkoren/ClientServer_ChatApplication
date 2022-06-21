@@ -27,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.chatapp.ContactsList.contactsList;
+import com.example.chatapp.DAO.ProfileImageDao;
+import com.example.chatapp.DB.MyAppDB;
 import com.example.chatapp.DTO.usersDTO;
 import com.example.chatapp.MainActivity;
 import com.example.chatapp.api.ContactAPI;
@@ -36,6 +38,7 @@ import com.example.chatapp.api.SignUpAPI;
 import com.example.chatapp.api.UsersAPI;
 import com.example.chatapp.login.LogInActivity;
 import com.example.chatapp.models.User;
+import com.example.chatapp.models.UserProfilePicture;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.ByteArrayOutputStream;
@@ -74,9 +77,9 @@ public class SignUp extends AppCompatActivity {
 
         ImageView image = findViewById(R.id.profileImageView);
         image.setImageResource(R.drawable.defaultimage);
-        final int defaultImage;
+/*        final int defaultImage;
         defaultImage = R.drawable.defaultimage;
-        image.setImageResource(defaultImage);
+        image.setImageResource(defaultImage);*/
         Button imageBtn = findViewById(R.id.profileImage);
         imageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,8 +169,22 @@ public class SignUp extends AppCompatActivity {
                 }
             });
         });
+        clearFields();
         Intent intent = new Intent(this, contactsList.class);
         startActivity(intent);
+    }
+
+    private void clearFields(){
+        EditText username = findViewById(R.id.Username);
+        username.setText("");
+        EditText nickname = findViewById(R.id.Nickname);
+        nickname.setText("");
+        EditText password = findViewById(R.id.Password);
+        password.setText("");
+        EditText repeatPassword = findViewById(R.id.RepeatPassword);
+        repeatPassword.setText("");
+        ImageView image = findViewById(R.id.profileImageView);
+        image.setImageResource(R.drawable.defaultimage);
     }
 
     private boolean validateSignUP(String usernameV, String nicknameV, String passwordV, String repeatPasswordV) {
@@ -244,7 +261,11 @@ public class SignUp extends AppCompatActivity {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         String base64Image=Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
-        byte[] decodedBytes = Base64.decode(base64Image.substring(base64Image.indexOf(",")  + 1), Base64.DEFAULT);
-        Bitmap img =BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+/*        byte[] decodedBytes = Base64.decode(base64Image.substring(base64Image.indexOf(",")  + 1), Base64.DEFAULT);
+        Bitmap img =BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);*/
+        MyAppDB db = MyAppDB.getInstance(getApplicationContext());
+        ProfileImageDao profileImageDao = db.profileImageDao();
+        UserProfilePicture userProfilePicture=new UserProfilePicture(username,base64Image);
+        profileImageDao.insert(userProfilePicture);
     }
 }

@@ -70,7 +70,7 @@ namespace ChatWebApi.Controllers
                     Notification = new Notification
                     {
                         Title = "New chat with " + conv.contact.name,
-                        Body = conv.contact.name + " want to talk"
+                        Body = conv.contact.name + " wants to talk"
                     },
                     Token = sendToToken,
                 };

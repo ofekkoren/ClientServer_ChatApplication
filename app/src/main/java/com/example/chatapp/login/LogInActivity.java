@@ -90,6 +90,7 @@ public class LogInActivity extends AppCompatActivity {
                             public void onResponse(Call<User> call, Response<User> response) {
                                 User user = response.body();
                                 MyApp.setCurrentUser(user);
+                                clearField();
                                 moveToContactList(user);
                             }
 
@@ -124,6 +125,13 @@ public class LogInActivity extends AppCompatActivity {
 //>>>>>>> fe232e855793507b9a0c04ed383a671772ab748b
         });
 
+    }
+
+    private void clearField(){
+        EditText logInUsername = findViewById(R.id.LogInUsername);
+        logInUsername.setText("");
+        EditText logInPassword = findViewById(R.id.LogInPassword);
+        logInPassword.setText("");
     }
 
     private void moveToContactList(User user) {
