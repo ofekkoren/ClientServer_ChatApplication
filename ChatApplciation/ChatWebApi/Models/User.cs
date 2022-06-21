@@ -14,7 +14,7 @@ namespace ChatWebApi.Models
         [Required]
         public string password { get; set; }
 
-        public List<Conversation> conversations { get; set; }
+        public virtual List<Conversation> conversations { get; set; }
 
     }
 }

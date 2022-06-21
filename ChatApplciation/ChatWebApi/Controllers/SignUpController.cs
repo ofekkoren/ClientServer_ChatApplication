@@ -1,4 +1,5 @@
-﻿using ChatWebApi.Services;
+﻿using ChatWebApi.Data;
+using ChatWebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 
@@ -9,15 +10,19 @@ namespace ChatWebApi.Controllers
     public class SignUpController : Controller
     {
         private static IUserService _userService;
+        private static ChatWebApiContext _context;
 
-        public SignUpController()
+        /*        private readonly ChatWebApiContext _context;
+        */
+        public SignUpController(ChatWebApiContext context)
         {
             _userService = new UserService();
+            _context = context;
         }
 
         // POST: SignUpController
         [HttpPost]
-        public IActionResult Index([FromBody] SignInparameters parameters)
+        public async Task<IActionResult> Index([FromBody] SignInparameters parameters)
         {
             const int feedbackSize = 4;
             const int usernameIndex = 0;
@@ -31,17 +36,18 @@ namespace ChatWebApi.Controllers
             //Checking the username. We want it to be unique and not an empty string.
             if ((parameters.username == null) || (parameters.username.Equals("")))
                 signUpFeedback[usernameIndex] = "Username is required";
-            else if (_userService.GetUser(parameters.username) != null)
+            else if (_userService.GetUser(_context, parameters.username).Result != null)
                 signUpFeedback[usernameIndex] = "Such username already exists";
 
             //Checking the nickname. We don't allow empty string as nickname.
             if ((parameters.nickname == null) || (parameters.nickname.Equals("")))
                 signUpFeedback[nicknameIndex] = "Nickname is required";
 
-            /*
-            * Checking the password chosen by the user. It must be longer than 6 character and contain al least one letter
+
+/*            *Checking the password chosen by the user. It must be longer than 6 character and contain al least one letter
             * and one number.
-            */
+*/
+
             if (parameters.password == null || parameters.password.Length < passwordMinLength)
                 signUpFeedback[passwordIndex] = "Password must contain at least 6 characters";
             else if (Regex.IsMatch(parameters.password, @"\d") == false)
@@ -66,10 +72,10 @@ namespace ChatWebApi.Controllers
             }
             if (isValid)
             {
-                _userService.AddUser(parameters.username, parameters.nickname, parameters.password);
+                _userService.AddUser(_context, parameters.username, parameters.nickname, parameters.password);
                 HttpContext.Session.SetString("currentUser", parameters.username);
             }
-            
+
             //Returning the result of the validation to the client
             var validationResult = new
             {

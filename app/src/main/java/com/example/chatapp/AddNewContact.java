@@ -1,7 +1,6 @@
 package com.example.chatapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,22 +10,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.chatapp.ContactsList.contactsList;
 import com.example.chatapp.DAO.ConversationDao;
 import com.example.chatapp.DB.MyAppDB;
 import com.example.chatapp.DTO.ContactDTO;
-import com.example.chatapp.DTO.usersDTO;
-import com.example.chatapp.adapters.ContactsListAdapter;
 import com.example.chatapp.api.ContactAPI;
 import com.example.chatapp.api.InvitationsAPI;
-import com.example.chatapp.api.LogInAPI;
-import com.example.chatapp.api.UsersAPI;
 import com.example.chatapp.models.Contact;
 import com.example.chatapp.models.Conversation;
 import com.example.chatapp.models.Message;
-import com.google.gson.Gson;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +27,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
-import retrofit2.http.Header;
 
 public class AddNewContact extends AppCompatActivity {
-    Retrofit retrofit;
-    //    UsersAPI usersAPI;
+    Retrofit invitationsRetrofit;
     Retrofit contactRetrofit;
     InvitationsAPI invitationsAPI;
     ContactAPI contactAPI;
@@ -49,11 +37,11 @@ public class AddNewContact extends AppCompatActivity {
     private ConversationDao conversationDao;
 
     public AddNewContact() {
-        retrofit = new Retrofit.Builder()
+        /*invitationsRetrofit = new Retrofit.Builder()
                 .baseUrl(MyApp.getBaseUrl())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        invitationsAPI = retrofit.create(InvitationsAPI.class);
+        invitationsAPI = invitationsRetrofit.create(InvitationsAPI.class);*/
 
         contactRetrofit = new Retrofit.Builder()
                 .baseUrl(MyApp.getBaseUrl())
@@ -111,8 +99,15 @@ public class AddNewContact extends AppCompatActivity {
                     break;
                 }
             }
-
-            InvitationsAPI.InvitationParams params = new InvitationsAPI.InvitationParams(MyApp.getCurrentUser().getId(), username, "localhost:5170");
+            String contactServer = Utils.backendToAndroidServer(server);
+            invitationsRetrofit = new Retrofit.Builder()
+                    .baseUrl(contactServer)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            invitationsAPI = invitationsRetrofit.create(InvitationsAPI.class);
+            String myServer = Utils.androidToBackendServer(MyApp.getBaseUrl());
+            InvitationsAPI.InvitationParams params =
+                    new InvitationsAPI.InvitationParams(MyApp.getCurrentUser().getId(), username, myServer);
             Call<Void> invitationRequest = invitationsAPI.invitation(MyApp.getCookie(), params);
             invitationRequest.enqueue(new Callback<Void>() {
                 @Override
@@ -165,12 +160,15 @@ public class AddNewContact extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<Void> call, Throwable t) {
+
                         }
                     });
                 }
 
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
+                    addNewContactValidationMessage.setText("Server is not active");
+                    addNewContactValidationMessage.setVisibility(View.VISIBLE);
                 }
             });
 //            finish();

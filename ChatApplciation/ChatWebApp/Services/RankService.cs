@@ -1,54 +1,66 @@
 ﻿using System;
+using ChatWebApp.Data;
 using ChatWebApp.Models;
 
 namespace ChatWebApp.Services
 {
     public class RankService : IRankService
     {
-        private static List<Rank> ranks = new List<Rank>();
-
-        public List<Rank> GetAll()
+/*        private static List<Rank> ranks = new List<Rank>();
+*/
+        public async Task<List<Rank>> GetAll(ChatWebAppContext context)
         {
-            return ranks;
-        }
+            return context.Rank.ToList();
+/*            return ranks;
+*/        }
 
-        public Rank Get(string Username)
+        public async Task<Rank?> Get(ChatWebAppContext context, string Username)
         {
             // returns null if username not found.
-            if (Username != null && ranks != null)
+            if (Username != null && context.Rank != null)
             {
-                return ranks.Find(x => x.Username.Equals(Username));
+/*                return ranks.Find(x => x.Username.Equals(Username));
+*/
+                
+                return context.Rank.ToList().Find(x => x.Username.Equals(Username));
             }
             return null;
         }
 
-        public void Edit(string Username, int NumeralRank, string Feedback, string SubmitTime)
+        public async void Edit(ChatWebAppContext context, string Username, int NumeralRank, string Feedback, string SubmitTime)
         {
-            Rank rank = Get(Username);
+            Rank rank = await Get(context, Username);
             if (rank != null)
             {
                 rank.NumeralRank = NumeralRank;
                 rank.Feedback = Feedback;
                 rank.SubmitTime = SubmitTime;
+                context.SaveChanges();
             }
         }
 
-        public void Delete(string Username)
+        public async void Delete(ChatWebAppContext context, string Username)
         {
-            var rank = Get(Username);
+            var rank = await Get(context, Username);
             if (rank != null)
             {
-                ranks.Remove(rank);
+                context.Rank.Attach(rank);
+                context.Rank.Remove(rank);
+                context.SaveChanges();
+                /*                ranks.Remove(context, rank);
+                */
             }
         }
 
-        public void Add(string Username, int NumeralRank, string Feedback)
+        public async void Add(ChatWebAppContext context, string Username, int NumeralRank, string Feedback)
         {
-            if (Get(Username) != null)
+            if (await Get(context, Username) != null)
                 return;
             Rank rank = new Rank { Username = Username, NumeralRank = NumeralRank, Feedback = Feedback };
             rank.SubmitTime = new (DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
-            ranks.Add(rank);
+            context.Rank.Add(rank);
+/*            ranks.Add(rank);
+*/            context.SaveChanges();
         }
 
 
@@ -67,19 +79,19 @@ namespace ChatWebApp.Services
             return day + "." + month + "." + year + ", " + hour + ":" + minutes;
         }
 
-        public float Average()
+        public async Task<float> Average(ChatWebAppContext context)
         {
             float avg;
-            if (ranks == null || ranks.Any() == false)
+            if (context.Rank == null || context.Rank.ToList().Count() == 0)
                 avg = 0;
             else
             {
                 float sum = 0;
-                for (int i = 0; i < ranks.Count(); i++)
+                for (int i = 0; i < context.Rank.ToList().Count(); i++)
                 {
-                    sum += ranks[i].NumeralRank;         
+                    sum += context.Rank.ToList()[i].NumeralRank;         
                 }
-                avg = sum / ranks.Count();
+                avg = sum / context.Rank.ToList().Count();
             }
             return avg;
 

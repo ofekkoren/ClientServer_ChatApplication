@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.chatapp.AddNewContact;
 import com.example.chatapp.DAO.ConversationDao;
+import com.example.chatapp.DAO.ProfileImageDao;
 import com.example.chatapp.DB.MyAppDB;
 import com.example.chatapp.DTO.usersDTO;
 import com.example.chatapp.MyApp;
@@ -28,6 +30,8 @@ import com.example.chatapp.adapters.ContactsListAdapter;
 import com.example.chatapp.api.UsersAPI;
 import com.example.chatapp.models.Contact;
 import com.example.chatapp.models.Conversation;
+import com.example.chatapp.models.User;
+import com.example.chatapp.models.UserProfilePicture;
 import com.example.chatapp.settings.SettingsScreen;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 //import com.example.chatapp.viewModels.ConversationsViewModel;
@@ -73,6 +77,7 @@ public class contactsList extends AppCompatActivity {
         firstInitialization = true;
         setContentView(R.layout.activity_contacts_list);
         Intent activityIntent = getIntent();
+        db = MyAppDB.getInstance(getApplicationContext());
         if (activityIntent == null) {
 //            if(MyApp.getCurrentUser() != null) {
 //                int x = 5;
@@ -80,13 +85,12 @@ public class contactsList extends AppCompatActivity {
         }
         TextView toplogInUsername = findViewById(R.id.ToplogInUsername);
         toplogInUsername.setText(MyApp.getCurrentUser().getId());
-        ImageView topProfilePictureLogInUser = findViewById(R.id.topProfilePictureLogInUser);
+        //ImageView topProfilePictureLogInUser = findViewById(R.id.topProfilePictureLogInUser);
         toplogInUsername.setText(MyApp.getCurrentUser().getName());
-        topProfilePictureLogInUser.setImageResource(R.drawable.defaultimage);
-
+        //topProfilePictureLogInUser.setImageResource(R.drawable.defaultimage);
+        setProfilePicture();
 //        db = Room.databaseBuilder(getApplicationContext(), MyAppDB.class, "MyAppDB")
 //                .allowMainThreadQueries().build();
-        db = MyAppDB.getInstance(getApplicationContext());
         conversationDao = db.conversationDao();
 //        viewModel = new ViewModelProvider(this).get(ConversationsViewModel.class);
 
@@ -222,14 +226,14 @@ public class contactsList extends AppCompatActivity {
 
     private void setProfilePicture() {
         ImageView topProfilePictureLogInUser = findViewById(R.id.topProfilePictureLogInUser);
-        File path = Environment.getExternalStorageDirectory();
-        String imagePath = path.getAbsolutePath() + "/" + getString(R.string.app_name) + "/" + MyApp.getCurrentUser().getId() + ".png";
-        File imageFile = new File(imagePath);
-        if (imageFile.exists()) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-            topProfilePictureLogInUser.setImageBitmap(bitmap);
-        }
-        else
+        ProfileImageDao profileImageDao = db.profileImageDao();
+        UserProfilePicture userProfilePicture = profileImageDao.getImage(MyApp.getCurrentUser().getId());
+        if (userProfilePicture != null) {
+            String base64Image=userProfilePicture.getImage();
+            byte[] decodedBytes = Base64.decode(base64Image.substring(base64Image.indexOf(",")  + 1), Base64.DEFAULT);
+            Bitmap img =BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+            topProfilePictureLogInUser.setImageBitmap(img);
+        } else
             topProfilePictureLogInUser.setImageResource(R.drawable.defaultimage);
     }
 //    @Override

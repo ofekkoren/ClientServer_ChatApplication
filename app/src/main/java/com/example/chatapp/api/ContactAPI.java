@@ -18,36 +18,36 @@ import retrofit2.http.Path;
 
 public interface ContactAPI {
 
-    @GET("Contacts")
+    @GET("api/Contacts")
     Call<ArrayList<ContactToJson>> getContacts(@Header("Cookie") String session);
 
-    @POST("Contacts")
+    @POST("api/Contacts")
     Call<Void> addContact(@Header("Cookie") String session, @Body ContactDTO.AddContactParams parameters);
 
-    @GET("Contacts/{id}")
+    @GET("api/Contacts/{id}")
     Call<Contact> getContact(@Path("id") String id, @Header("Cookie") String session);
 
-    @PUT("Contacts/{id}")
+    @PUT("api/Contacts/{id}")
     Call<Void> editContact(@Path("id") String id, @Header("Cookie") String session,
                            @Body ContactDTO.EditContactParams parameters);
 
-    @DELETE("Contacts/{id}")
+    @DELETE("api/Contacts/{id}")
     Call<Void> deleteContact(@Path("id") String id, @Header("Cookie") String session);
 
-    @GET("Contacts/{id}/messages")
+    @GET("api/Contacts/{id}/messages")
     Call<ArrayList<Message>> getMessages(@Path("id") String id, @Header("Cookie") String session);
 
-    @POST("Contacts/{id}/messages")
+    @POST("api/Contacts/{id}/messages")
     Call<Void> AddMessage(@Path("id") String id, @Header("Cookie") String session,
                           @Body ContactDTO.MessageContent parameter);
 
-    @GET("Contacts/{id}/messages/{id2}")
+    @GET("api/Contacts/{id}/messages/{id2}")
     Call<Message> getMessage(@Path("id") String id, @Path("id2") int id2, @Header("Cookie") String session);
 
-    @PUT("Contacts/{id}/messages/{id2}")
+    @PUT("api/Contacts/{id}/messages/{id2}")
     Call<Void> editMessage(@Path("id") String id, @Path("id2") int id2, @Header("Cookie") String session,
                            @Body ContactDTO.MessageContent parameter);
 
-    @DELETE("Contacts/{id}/messages/{id2}")
+    @DELETE("api/Contacts/{id}/messages/{id2}")
     Call<Void> deleteMessage(@Path("id") String id, @Path("id2") int id2, @Header("Cookie") String session);
 }

@@ -1,10 +1,12 @@
-﻿namespace ChatWebApi.Services
+﻿using ChatWebApi.Data;
+
+namespace ChatWebApi.Services
 {
     public interface IFirebaseTokenService
     {
-        void AddUser(string username);
-        string? GetToken(string username);
+        public void AddUser(ChatWebApiContext context, string username);
+        public Task<string?> GetToken(ChatWebApiContext context, string username);
 
-        bool SetToken(string username, string token);
+        public Task<bool> SetToken(ChatWebApiContext context, string username, string token);
     }
 }

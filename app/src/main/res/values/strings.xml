@@ -8,7 +8,7 @@
     <string name="login_etUsername">Username</string>
     <string name="login_etPassword">Password</string>
     <string name="log_inBtn">LOG-IN</string>
-    <string name="BaseUrl">http://10.0.2.2:5170/api/</string>
+    <string name="BaseUrl">http://10.0.2.2:5170/</string>
     <string name="newMessageChannel">newMessageChannel</string>
     <string name="newMessageChannelDesc">notifying about a new message that the user received</string>
     <string name="newMessageChannelId">1</string>

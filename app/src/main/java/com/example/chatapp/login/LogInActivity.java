@@ -90,12 +90,13 @@ public class LogInActivity extends AppCompatActivity {
                             public void onResponse(Call<User> call, Response<User> response) {
                                 User user = response.body();
                                 MyApp.setCurrentUser(user);
+                                clearField();
                                 moveToContactList(user);
                             }
 
                             @Override
                             public void onFailure(Call<User> call, Throwable t) {
-                                Log.d("sda","Adds");
+                                Log.d("sda", "Adds");
                             }
                         });
                     }/* else
@@ -126,18 +127,26 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
+    private void clearField(){
+        EditText logInUsername = findViewById(R.id.LogInUsername);
+        logInUsername.setText("");
+        EditText logInPassword = findViewById(R.id.LogInPassword);
+        logInPassword.setText("");
+    }
+
     private void moveToContactList(User user) {
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( this, instanceIdResult -> {
-            usersDTO.IdClass parameter=new usersDTO.IdClass(instanceIdResult.getToken());
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
+            usersDTO.IdClass parameter = new usersDTO.IdClass(instanceIdResult.getToken());
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(MyApp.getBaseUrl())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             UsersAPI usersAPI = retrofit.create(UsersAPI.class);
-            Call<Void> sendToken =usersAPI.setFirebaseToken(MyApp.getCookie(),parameter);
-            sendToken.enqueue(new Callback<Void>() {@Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-            }
+            Call<Void> sendToken = usersAPI.setFirebaseToken(MyApp.getCookie(), parameter);
+            sendToken.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                }
 
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {

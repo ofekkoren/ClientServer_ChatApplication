@@ -22,6 +22,7 @@ import com.example.chatapp.DTO.ContactDTO;
 import com.example.chatapp.DTO.usersDTO;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
+import com.example.chatapp.Utils;
 import com.example.chatapp.adapters.RecyclerMessageListAdapter;
 import com.example.chatapp.api.ContactAPI;
 import com.example.chatapp.api.TransferAPI;
@@ -121,7 +122,12 @@ public class ConversationScreen extends AppCompatActivity {
                     .baseUrl(MyApp.getBaseUrl())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-            TransferAPI transferAPI = retrofit.create(TransferAPI.class);
+            String contactServer = Utils.backendToAndroidServer(currentConversation.getContact().getServer());
+            Retrofit transferRetrofit = new Retrofit.Builder()
+                    .baseUrl(contactServer)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            TransferAPI transferAPI = transferRetrofit.create(TransferAPI.class);
             //TODO fix to
             TransferAPI.TransferParams params = new TransferAPI.TransferParams(MyApp.getCurrentUser().getId(),
                     currentConversation.getContact().getUsername(), messageContent);

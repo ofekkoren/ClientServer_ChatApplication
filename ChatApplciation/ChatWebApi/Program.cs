@@ -5,14 +5,9 @@ using ChatWebApi.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using ChatWebApi.Hubs;
 using Microsoft.AspNetCore.SignalR;
-
 using FirebaseAdmin;
 using FirebaseAdmin.Messaging;
 using Google.Apis.Auth.OAuth2;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ChatWebApiContext>(options =>
@@ -23,10 +18,11 @@ builder.Services.AddDbContext<ChatWebApiContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<IUserService, UserService>();
+/*builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IContactService, ContactService>();
 builder.Services.AddSingleton<IConversationService, ConversationService>();
-builder.Services.AddSingleton<IFirebaseTokenService, FirebaseTokenService>();
+builder.Services.AddSingleton<ChatWebApiContext>();
+*/
 
 builder.Services.AddControllersWithViews();
 
@@ -51,7 +47,6 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
-
 var defaultApp = FirebaseApp.Create(new AppOptions()
 {
     Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "firebasekey.json")),
@@ -72,23 +67,8 @@ app.UseRouting();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Contact}/{action=Index}/{id?}");
+    pattern: "{controller=Contacts}/{action=Index}/{id?}");
 
 app.MapHub<AppHub>("/hubs/chatHub");
 
 app.Run();
-/*
-namespace Firebase.Example
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            var defaultApp = FirebaseApp.Create(new AppOptions()
-            {
-                Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "firebasekey.json")),
-            });
-            Console.WriteLine(defaultApp.Name); // "[DEFAULT]"
-        }
-    }
-}*/

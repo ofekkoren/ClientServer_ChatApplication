@@ -15,7 +15,7 @@ import retrofit2.http.POST;
 
 public interface SignUpAPI {
 
-    @POST("SignUp")
+    @POST("api/SignUp")
     Call<signUpResults> signUp(@Body signUpParams parameters);
 
     //TODO delete!!!

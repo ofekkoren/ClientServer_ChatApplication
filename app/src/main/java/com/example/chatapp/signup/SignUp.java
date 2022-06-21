@@ -3,16 +3,23 @@ package com.example.chatapp.signup;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +27,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.chatapp.ContactsList.contactsList;
+import com.example.chatapp.DAO.ProfileImageDao;
+import com.example.chatapp.DB.MyAppDB;
 import com.example.chatapp.DTO.usersDTO;
+import com.example.chatapp.MainActivity;
 import com.example.chatapp.api.ContactAPI;
 import com.example.chatapp.MyApp;
 import com.example.chatapp.R;
@@ -28,8 +38,10 @@ import com.example.chatapp.api.SignUpAPI;
 import com.example.chatapp.api.UsersAPI;
 import com.example.chatapp.login.LogInActivity;
 import com.example.chatapp.models.User;
+import com.example.chatapp.models.UserProfilePicture;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -65,9 +77,9 @@ public class SignUp extends AppCompatActivity {
 
         ImageView image = findViewById(R.id.profileImageView);
         image.setImageResource(R.drawable.defaultimage);
-        final int defaultImage;
+/*        final int defaultImage;
         defaultImage = R.drawable.defaultimage;
-        image.setImageResource(defaultImage);
+        image.setImageResource(defaultImage);*/
         Button imageBtn = findViewById(R.id.profileImage);
         imageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,15 +151,40 @@ public class SignUp extends AppCompatActivity {
         createLinkToLogIn();
     }
 
-    private void logInAfterRegistration(User user){
+    private void logInAfterRegistration(User user) {
         MyApp.setCurrentUser(user);
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( this, instanceIdResult -> {
-            usersDTO.IdClass parameter=new usersDTO.IdClass(instanceIdResult.getToken());
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
+            usersDTO.IdClass parameter = new usersDTO.IdClass(instanceIdResult.getToken());
             UsersAPI usersAPI = retrofit.create(UsersAPI.class);
-            usersAPI.setFirebaseToken(MyApp.getCookie(),parameter);
+            Call<Void> sendToken = usersAPI.setFirebaseToken(MyApp.getCookie(), parameter);
+            sendToken.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+
+                }
+            });
         });
+        clearFields();
         Intent intent = new Intent(this, contactsList.class);
         startActivity(intent);
+    }
+
+    private void clearFields(){
+        EditText username = findViewById(R.id.Username);
+        username.setText("");
+        EditText nickname = findViewById(R.id.Nickname);
+        nickname.setText("");
+        EditText password = findViewById(R.id.Password);
+        password.setText("");
+        EditText repeatPassword = findViewById(R.id.RepeatPassword);
+        repeatPassword.setText("");
+        ImageView image = findViewById(R.id.profileImageView);
+        image.setImageResource(R.drawable.defaultimage);
     }
 
     private boolean validateSignUP(String usernameV, String nicknameV, String passwordV, String repeatPasswordV) {
@@ -216,41 +253,19 @@ public class SignUp extends AppCompatActivity {
                 }
             });
 
-    private void createUserPicture(String username){
+    private void createUserPicture(String username) {
         ImageView image = findViewById(R.id.profileImageView);
-        /*BitmapDrawable drawable=(BitmapDrawable) image.getDrawable();
-        MediaStore.Images.Media.getBitmap(this.getContentResolver(), image.get);
-        Bitmap imageBitmap=drawable.getBitmap();*/
-        image.buildDrawingCache();
-        Bitmap imageBitmap=image.getDrawingCache();
-        OutputStream outputStream ;
-        File path= Environment.getExternalStorageDirectory();
-        File directory=new File(path.getAbsolutePath()+"/"+getString(R.string.app_name)+"/");
-        File imageFile=new File(directory,username+".png");
-        boolean created=false;
-        if (!directory.exists())
-            directory.mkdirs();
-        try {
-            outputStream = new FileOutputStream(imageFile);
-            created=true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-        if (created){
-            imageBitmap.compress(Bitmap.CompressFormat.PNG,100,outputStream);
-        }
-        try {
-            outputStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
+        //MediaStore.Images.Media.getBitmap(this.getContentResolver(), image);
+        Bitmap imageBitmap = drawable.getBitmap();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        String base64Image=Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
+/*        byte[] decodedBytes = Base64.decode(base64Image.substring(base64Image.indexOf(",")  + 1), Base64.DEFAULT);
+        Bitmap img =BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);*/
+        MyAppDB db = MyAppDB.getInstance(getApplicationContext());
+        ProfileImageDao profileImageDao = db.profileImageDao();
+        UserProfilePicture userProfilePicture=new UserProfilePicture(username,base64Image);
+        profileImageDao.insert(userProfilePicture);
     }
 }

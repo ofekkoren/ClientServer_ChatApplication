@@ -1,14 +1,15 @@
-﻿using ChatWebApi.Models;
+﻿using ChatWebApi.Data;
+using ChatWebApi.Models;
 
 namespace ChatWebApi.Services
 {
     public class FirebaseTokenService : IFirebaseTokenService
     {
-        private static List<FirebaseUserToken> tokensList = new List<FirebaseUserToken>();
-
+/*        private static List<FirebaseUserToken> tokensList = new List<FirebaseUserToken>();
+*/
         public FirebaseTokenService()
         {
-            if (tokensList.Count == 0)
+/*            if (tokensList.Count == 0)
             {
                 tokensList.Add(new FirebaseUserToken() { username = "Ofek Koren", token = null });
                 tokensList.Add(new FirebaseUserToken() { username = "Tomer Eligayev", token = null });
@@ -16,30 +17,37 @@ namespace ChatWebApi.Services
                 tokensList.Add(new FirebaseUserToken() { username = "Avi Cohen", token = null });
                 tokensList.Add(new FirebaseUserToken() { username = "Shir Levi", token = null });
             }
+*/        }
+
+        public async void AddUser(ChatWebApiContext context, string username)
+        {
+            context.FirebaseUserToken.Add(new FirebaseUserToken() { username = username, token = "" });
+            context.SaveChanges();
+            /*            tokensList.Add(new FirebaseUserToken() { username = username, token = null });
+            */
         }
 
-        public void AddUser(string username)
+        public async Task<string?> GetToken(ChatWebApiContext context, string username)
         {
-            tokensList.Add(new FirebaseUserToken() { username = username, token = null });
-        }
+            List<FirebaseUserToken> tokensList = context.FirebaseUserToken.ToList();
 
-        public string? GetToken(string username)
-        {
             foreach (FirebaseUserToken tuple in tokensList)
             {
                 if (tuple.username.Equals(username))
                     return tuple.token;
             }
-            return null;
+            return "";
         }
 
-        public bool SetToken(string username, string token)
+        public async Task<bool> SetToken(ChatWebApiContext context, string username, string token)
         {
+            List<FirebaseUserToken> tokensList = context.FirebaseUserToken.ToList();
             foreach (FirebaseUserToken tuple in tokensList)
             {
                 if (tuple.username.Equals(username))
                 {
                     tuple.token = token;
+                    context.SaveChanges();
                     return true;
                 }
             }

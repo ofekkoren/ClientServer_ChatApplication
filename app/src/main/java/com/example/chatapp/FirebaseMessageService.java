@@ -184,7 +184,7 @@ public class FirebaseMessageService extends FirebaseMessagingService {
         sendToken.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                Log.d("dsasss", "sad");
+                Log.d("dsasss", "sad");//TODO DEL
             }
 
             @Override

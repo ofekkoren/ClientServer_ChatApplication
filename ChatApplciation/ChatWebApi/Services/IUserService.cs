@@ -1,14 +1,15 @@
-﻿using ChatWebApi.Models;
+﻿using ChatWebApi.Data;
+using ChatWebApi.Models;
 
 namespace ChatWebApi.Services
 {
     public interface IUserService
     {
-        public void AddUser(string id, string name, string password);
+        public void AddUser(ChatWebApiContext context, string id, string name, string password);
 
-        public User? GetUser(string id);
+        public Task<User?> GetUser(ChatWebApiContext context, string id);
 
-        public List<Conversation>? GetAllConversations(string username);
+        public Task<List<Conversation>?> GetAllConversations(ChatWebApiContext context, string username);
 
     }
 }

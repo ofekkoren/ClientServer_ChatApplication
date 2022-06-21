@@ -1,11 +1,15 @@
-﻿using ChatWebApi.Hubs;
+﻿using ChatWebApi.Data;
+using ChatWebApi.Hubs;
 using ChatWebApi.Models;
 using ChatWebApi.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using FirebaseAdmin.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
 namespace ChatWebApi.Controllers
+
 {
     /// <summary>
     /// In charge of recieving invitations for new chats for the users of the chat server.
@@ -14,21 +18,23 @@ namespace ChatWebApi.Controllers
     [Route("api/[controller]")]
     public class InvitationsController : Controller
     {
+        private static ChatWebApiContext _context;
         private IUserService _userService;
         private IContactService _contactService;
-        private IConversationService _conversationService;
         private readonly IHubContext<AppHub> _appHub;
+        private IConversationService _conversationService;
         private IFirebaseTokenService _firebaseTokenService;
 
 
-
-        public InvitationsController(IHubContext<AppHub> newHub)
+        public InvitationsController(IHubContext<AppHub> newHub, ChatWebApiContext context)
         {
+            _context = context;
             _contactService = new ContactService();
             _userService = new UserService();
-            _conversationService = new ConversationService();
             _appHub = newHub;
+            _conversationService = new ConversationService();
             _firebaseTokenService = new FirebaseTokenService();
+
 
         }
 
@@ -36,20 +42,21 @@ namespace ChatWebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> IndexAsync([FromBody] ParametersForInvitation parameters)
         {
-            if (_userService.GetUser(parameters.to) == null)
+            if (_userService.GetUser(_context, parameters.to) == null)
             {
                 return BadRequest();
             }
-            if (_contactService.Add(parameters.to, parameters.from, parameters.from, parameters.fromServer) == false)
+            if (await _contactService.Add(_context, parameters.to, parameters.from, parameters.from, parameters.fromServer) == false)
             {
                 return BadRequest();
             }
-            List<Conversation> conversations = _userService.GetAllConversations(parameters.to);
+            List<Conversation> conversations = await _userService.GetAllConversations(_context, parameters.to);
             ParametersForSendAsyncNewContact hunParams = new ParametersForSendAsyncNewContact() { to = parameters.to, conversations = Json(conversations) };
             await _appHub.Clients.All.SendAsync("NewContactAdded", hunParams);
-            Conversation conv = _conversationService.GetConversation(parameters.to, parameters.from);
-            var sendToToken = _firebaseTokenService.GetToken(parameters.to);
-            if (sendToToken != null)
+            //****************************************************
+            Conversation conv = await _conversationService.GetConversation(_context, parameters.to, parameters.from);
+            var sendToToken = await _firebaseTokenService.GetToken(_context, parameters.to);
+            if (!sendToToken.Equals(""))
             {
                 // See documentation on defining a message payload.
                 var message = new FirebaseAdmin.Messaging.Message()
@@ -72,11 +79,10 @@ namespace ChatWebApi.Controllers
                         Title = "New chat with " + conv.contact.name,
                         Body = conv.contact.name + " want to talk"
                     },
-                    Token = sendToToken,
+                    Token =  sendToToken,
                 };
                 string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
             }
-
             return StatusCode(201);
 
         }
