@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +38,7 @@ import com.example.chatapp.login.LogInActivity;
 import com.example.chatapp.models.User;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -238,41 +241,10 @@ public class SignUp extends AppCompatActivity {
         BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
         //MediaStore.Images.Media.getBitmap(this.getContentResolver(), image);
         Bitmap imageBitmap = drawable.getBitmap();
-        FileOutputStream outputStream;
-        boolean dirmake = false;//todo del
-        File path = Environment.getExternalStorageDirectory();
-        File directory = new File(path.getAbsolutePath());
-        if (!directory.exists())
-            dirmake = directory.mkdir();
-        File imageFile = new File(directory, username + ".jpg");
-        try {
-            imageFile.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        boolean created = false;
-
-        try {
-            outputStream = new FileOutputStream(imageFile);
-            created = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-        if (created) {
-            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-        }
-        try {
-            outputStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        String base64Image=Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
+        byte[] decodedBytes = Base64.decode(base64Image.substring(base64Image.indexOf(",")  + 1), Base64.DEFAULT);
+        Bitmap img =BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 }
