@@ -70,7 +70,7 @@ namespace ChatWebApi.Controllers
                         Title = "New message from " + conv.contact.name,
                         Body = msg.content
                     },
-                    Token =  sendToToken,
+                    Token = sendToToken,
                 };
                 string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
             }

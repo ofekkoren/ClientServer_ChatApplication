@@ -1,7 +1,8 @@
 ﻿using ChatWebApi.Data;
 using ChatWebApi.Models;
 /*using System.Data.Entity;
-*/using Microsoft.EntityFrameworkCore;
+*/
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatWebApi.Services
 {
@@ -55,7 +56,7 @@ namespace ChatWebApi.Services
             {
                 int x = 5;
             }
-            return null;  
+            return null;
         }
 
 
@@ -73,4 +74,3 @@ namespace ChatWebApi.Services
         }
     }
 }
-

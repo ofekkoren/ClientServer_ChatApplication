@@ -5,19 +5,20 @@ namespace ChatWebApi.Services
 {
     public class FirebaseTokenService : IFirebaseTokenService
     {
-/*        private static List<FirebaseUserToken> tokensList = new List<FirebaseUserToken>();
-*/
+        /*        private static List<FirebaseUserToken> tokensList = new List<FirebaseUserToken>();
+        */
         public FirebaseTokenService()
         {
-/*            if (tokensList.Count == 0)
-            {
-                tokensList.Add(new FirebaseUserToken() { username = "Ofek Koren", token = null });
-                tokensList.Add(new FirebaseUserToken() { username = "Tomer Eligayev", token = null });
-                tokensList.Add(new FirebaseUserToken() { username = "Moti Luhim", token = null });
-                tokensList.Add(new FirebaseUserToken() { username = "Avi Cohen", token = null });
-                tokensList.Add(new FirebaseUserToken() { username = "Shir Levi", token = null });
-            }
-*/        }
+            /*            if (tokensList.Count == 0)
+                        {
+                            tokensList.Add(new FirebaseUserToken() { username = "Ofek Koren", token = null });
+                            tokensList.Add(new FirebaseUserToken() { username = "Tomer Eligayev", token = null });
+                            tokensList.Add(new FirebaseUserToken() { username = "Moti Luhim", token = null });
+                            tokensList.Add(new FirebaseUserToken() { username = "Avi Cohen", token = null });
+                            tokensList.Add(new FirebaseUserToken() { username = "Shir Levi", token = null });
+                        }
+            */
+        }
 
         public async void AddUser(ChatWebApiContext context, string username)
         {

@@ -79,7 +79,7 @@ namespace ChatWebApi.Controllers
                         Title = "New chat with " + conv.contact.name,
                         Body = conv.contact.name + " want to talk"
                     },
-                    Token =  sendToToken,
+                    Token = sendToToken,
                 };
                 string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
             }

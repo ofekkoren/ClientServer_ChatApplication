@@ -39,8 +39,9 @@ namespace ChatWebApi.Controllers
                 };
                 return Json(invalidEmptyUser);
             }
-/*            User user =  _context.User.Where(u => u.name.Equals(parameters.username)).FirstOrDefault();
-*/            var user = await _userService.GetUser(_context, parameters.username);
+            /*            User user =  _context.User.Where(u => u.name.Equals(parameters.username)).FirstOrDefault();
+            */
+            var user = await _userService.GetUser(_context, parameters.username);
 
             /*            User? user = await Utils.GetUser(parameters.username);
             */            // Checking if no such user exists in the system or if the password of the user does not match what the user has entered.
