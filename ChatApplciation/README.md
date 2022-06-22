@@ -16,7 +16,7 @@ Our project is divided into two sub-projects, "chatWebApp" project and "chatWebA
 - To check the project please sign up with new users to the chat.
 - **Important!** if the database does problems and the application gets stuck after sending messages ,adding new contacts or trying to reach the ranks page please follow the next steps:
 - - Click on "Tools", then click on "NuGet Package Manager" and then click on "Package Manager Console"
-- - In "Default project" choose `ChatWebApi`if the problem is with the server of `ChatWebApp` if the problem is with ranks. If the problem occurs in both cases repeat the next steps for both of the projects.
+- - In "Default project" option in the Package Manager Console choose `ChatWebApi`if the problem is with the server of `ChatWebApp` if the problem is with ranks. If the problem occurs in both cases repeat the next steps for both of the projects.
 - - Type the next commands in the Package Manager Console:
 - - - `EntityFrameworkCore\Add-Migration Testing` 
 - - - `EntityFrameworkCore\Update-Database`
