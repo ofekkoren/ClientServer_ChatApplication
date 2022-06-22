@@ -18,6 +18,13 @@ Ofek Koren, id: 207105933
 -   - Go to the *ChatApplciation* folder, open in visual studio the solution on the project. In the solution explorer of visual studio right click on the solution,click on properties,choose the option "Multiple startup projects" and choose both "ChatWebApi" (for server side) and "ChatWebApp" (for Ranks).
 - If you wish to check our android client and current server with the web application of the chat from ex2 you can go to [the repository of ex2](https://github.com/TOMER-77/AP2-EX2) download ex2 as explaind there, then go to the `clientSide` folder in the reopository of ex2 and follow the instructions to run it. The web application should run on port 3000.
 - When running the android client with the server side sub-projects together you can check the whole project. 
+- Please run the server before running the androit or web applications.
+- **Important!** if the database does problems and the application gets stuck after sending messages or adding new contacts please follow the next steps:
+- - Click on "Tools", then click on "NuGet Package Manager" and then click on "Package Manager Console"
+- - Type the next commands in the Package Manager Console:
+- - - `EntityFrameworkCore\Add-Migration Testing` 
+- - - `EntityFrameworkCore\Update-Database`
+- - This shouldn't be happening but we write this just in case.
 - Few notes about the android application. When receiving a new message in a chat you currently looking on, the chat won't automatically scroll down, to view the message you just need to scroll down the chat. You will be able to notice that a new message was sent by a notification that will be displayes in the notifications bar and by a short toast messae that will pop up in the bottom of the screen. Also when a new chat is added to your chat list (whether after adding a contact or being added by other contact) the chat will appear in the bottom of your chat list. For further explanations about the android chat application please to the [app](https://github.com/ofekkoren/ap2-ex3/tree/main/app) directory in this repository.
 - To check the ranks part please run the web application as explained above. The ranks are reachble from the web application.
 

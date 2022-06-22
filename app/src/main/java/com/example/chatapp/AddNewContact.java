@@ -37,23 +37,11 @@ public class AddNewContact extends AppCompatActivity {
     private ConversationDao conversationDao;
 
     public AddNewContact() {
-        /*invitationsRetrofit = new Retrofit.Builder()
-                .baseUrl(MyApp.getBaseUrl())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        invitationsAPI = invitationsRetrofit.create(InvitationsAPI.class);*/
-
         contactRetrofit = new Retrofit.Builder()
                 .baseUrl(MyApp.getBaseUrl())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         contactAPI = contactRetrofit.create(ContactAPI.class);
-
-//        retrofit = new Retrofit.Builder()
-//                .baseUrl(MyApp.getBaseUrl())
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        invitationsAPI = retrofit.create(LogInAPI.class);
     }
 
     @Override
@@ -62,8 +50,6 @@ public class AddNewContact extends AppCompatActivity {
         setContentView(R.layout.activity_add_new_contact);
         Intent activityIntent = getIntent();
         db = MyAppDB.getInstance(getApplicationContext());
-//        db = Room.databaseBuilder(getApplicationContext(), MyAppDB.class, "MyAppDB")
-//                .allowMainThreadQueries().build();
         conversationDao = db.conversationDao();
         setBackBtnListener();
         Button submitNewContactDetails = findViewById(R.id.SubmitNewContactDetails);
@@ -118,11 +104,9 @@ public class AddNewContact extends AppCompatActivity {
                         addNewContactValidationMessage.setVisibility(View.VISIBLE);
                         return;
                     }
-                    //todo - check status
                     Contact contact = new Contact(0, username, nickname, server, "", "");
                     String conId = MyApp.getCurrentUser().getId() + username;
                     Conversation conversation = new Conversation(conId, new ArrayList<Message>(), contact);
-//                    conversationDao.insert(conversation);
                     ContactDTO.AddContactParams parameters = new ContactDTO.AddContactParams(username, nickname, server);
                     Call<Void> newContactRequest = contactAPI.addContact(MyApp.getCookie(), parameters);
                     newContactRequest.enqueue(new Callback<Void>() {
@@ -133,29 +117,8 @@ public class AddNewContact extends AppCompatActivity {
                             }
                             addNewContactValidationMessage.setText("User added successfully :)");
                             addNewContactValidationMessage.setVisibility(View.VISIBLE);
-                            /*UsersAPI usersAPI=retrofit.create(UsersAPI.class);
-                            usersDTO.IdClass parameter=new usersDTO.IdClass(MyApp.getCurrentUser().getId());
-                            usersAPI.getAllConversations(MyApp.getCookie(),parameter);*/
                             List<Conversation> conversations = conversationDao.getAllConversations();
-//                            conversationDao.deleteAll(conversationDao.getAllConversations());
-                            /*for (Conversation c : conversations) {
-                                conversationDao.delete(c);
-                            }*/
                             conversationDao.insert(conversation);
-                            /*for (Conversation c : conversations) {
-                                conversationDao.insert(c);
-                            }*/
-
-                           /* for (Conversation c : conversations) {
-                                Conversation newC=new Conversation(c.ConversationId,c.messages,c.contact);
-                                conversationDao.delete(c);
-                                conversationDao.insert(newC);
-                            }*/
-
-                            /*Gson gson = new Gson();
-                            ContactsListAdapter adapter = gson.fromJson(getIntent().getStringExtra("contactAdapter"),
-                                    ContactsListAdapter.class);
-                            adapter.notifyDataSetChanged();*/
                         }
 
                         @Override
@@ -171,9 +134,6 @@ public class AddNewContact extends AppCompatActivity {
                     addNewContactValidationMessage.setVisibility(View.VISIBLE);
                 }
             });
-//            finish();
-//            Intent i = new Intent(this, contactsList.class);
-//            startActivity(i);
         });
     }
 

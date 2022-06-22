@@ -27,7 +27,6 @@ public class SettingsScreen extends AppCompatActivity {
         ImageButton backBtn = findViewById(R.id.settingsBackBtn);
         backBtn.setOnClickListener(view -> {
             this.finish();
-            //TODO set current cur to null?
         });
     }
 

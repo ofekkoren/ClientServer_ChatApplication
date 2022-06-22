@@ -17,18 +17,6 @@
         android:color="@android:color/black"
         >
 
-<!--    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:radius="2dp"
-        android:topRightRadius="0dp"
-        android:bottomRightRadius="0dp"
-        android:bottomLeftRadius="0dp"
-        android:background="@drawable/contact_background"
-        android:width="1dp"
-        android:orientation="vertical"
-        android:color="@android:color/black"
-        >-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,10 +60,6 @@
                     android:textColor="@color/black"
                     android:textSize="20dp"
                     tools:text="Hi, how are yofffffffdddfu?" />
-
-                <!--
-            </LinearLayout>
--->
 
             </LinearLayout>
 

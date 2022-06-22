@@ -5,16 +5,11 @@ namespace ChatWebApi.Services
 {
     public class ConversationService : IConversationService
     {
-/*        private readonly ChatWebApiContext _context;
-*/        private static IUserService _userService;
-        // Counts the number of total messages sent so far
-/*        private static int _ids = 27;
-*/
+        private static IUserService _userService;
+
         public ConversationService()
         {
             _userService = new UserService();
-/*            _context = context;
-*/
         }
 
 
@@ -34,7 +29,6 @@ namespace ChatWebApi.Services
                 return null;
             Conversation conversation = null;
             int len = usersConversations.Count;
-            //todo - change with _contex.find?
             for (int i = 0; i < len; i++)
             {
                 if (usersConversations[i].contact.username.Equals(id))
@@ -68,9 +62,6 @@ namespace ChatWebApi.Services
             if (conversation1 == null)
                 return false;
             string creationTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond, DateTimeKind.Unspecified).ToString("O");
-/*            Message m1 = new Message() { id = _ids, content = content, created = creationTime, sent = sent };
-            ++_ids;
-*/
             Message m1 = new Message() { content = content, created = creationTime, sent = sent };
             conversation1.messages.Add(m1);
             conversation1.contact.last = m1.content;

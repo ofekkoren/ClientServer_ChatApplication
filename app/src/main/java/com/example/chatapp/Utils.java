@@ -18,9 +18,6 @@ public class Utils {
 
     public static String androidToBackendServer(String server) {
         if (!server.contains("http://10.0.2.2:")) {
-            /*String newString = server.replace("http://", "");
-            String newString2 = newString.replace("http:", "");
-            return newString2.replace("http", "");*/
             return server;
         }
         String str = server.replace("http://10.0.2.2:", "");

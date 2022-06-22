@@ -67,7 +67,6 @@ public class SignUp extends AppCompatActivity {
                 .build();
         signUpAPI = retrofit.create(SignUpAPI.class);
         usersAPI = retrofit.create(UsersAPI.class);
-        //USER_IMAGE = BitmapFactory.decodeResource(MyApp.getContext().getResources(), R.drawable.defaultimage);;
     }
 
     @Override
@@ -123,10 +122,6 @@ public class SignUp extends AppCompatActivity {
                     SignUpAPI.signUpResults res = response.body();
                     MyApp.setCookie(response.headers().get("Set-Cookie"));
                     if (validateSignUP(res.usernameV, res.nicknameV, res.passwordV, res.repeatPasswordV)) {
-                        /*var newUser = await getUser(newUserName.toString());
-                        setUser(newUser);
-                        navigate("../chatScreen");*/
-//                        ContactDTO.AddContactParams a = new ContactDTO.AddContactParams("ttt", "yyyy", "serv");
                         Call<User> userRequest = usersAPI.getCurrentUser(MyApp.getCookie());
                         userRequest.enqueue(new Callback<User>() {
                             @Override
@@ -242,13 +237,6 @@ public class SignUp extends AppCompatActivity {
                         Uri selectedImageUri = data.getData();
                         ImageView image = findViewById(R.id.profileImageView);
                         image.setImageURI(selectedImageUri);
-                        /*Bitmap selectedImageBitmap;
-                        try {
-                            selectedImageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),
-                                    selectedImageUri);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }*/
                     }
                 }
             });
@@ -256,13 +244,10 @@ public class SignUp extends AppCompatActivity {
     private void createUserPicture(String username) {
         ImageView image = findViewById(R.id.profileImageView);
         BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
-        //MediaStore.Images.Media.getBitmap(this.getContentResolver(), image);
         Bitmap imageBitmap = drawable.getBitmap();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         String base64Image=Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
-/*        byte[] decodedBytes = Base64.decode(base64Image.substring(base64Image.indexOf(",")  + 1), Base64.DEFAULT);
-        Bitmap img =BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);*/
         MyAppDB db = MyAppDB.getInstance(getApplicationContext());
         ProfileImageDao profileImageDao = db.profileImageDao();
         UserProfilePicture userProfilePicture=new UserProfilePicture(username,base64Image);

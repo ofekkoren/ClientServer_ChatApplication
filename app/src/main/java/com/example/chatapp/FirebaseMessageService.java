@@ -101,12 +101,6 @@ public class FirebaseMessageService extends FirebaseMessagingService {
         Intent intent = new Intent("new-message");
         intent.putExtra(getString(R.string.broadcastReceiverContactName), remoteMessage.getData().get("sender"));
         LocalBroadcastManager.getInstance(MyApp.getContext()).sendBroadcast(intent);
-/*
-        Intent intent = new Intent("custom-event-name");
-        // You can also include some extra data.
-        intent.putExtra("message", "This is my message!");
-        LocalBroadcastManager.getInstance(MyApp.getContext()).sendBroadcast(intent);*/
-
     }
 
     private void handleNewChat(RemoteMessage remoteMessage) {
@@ -154,26 +148,6 @@ public class FirebaseMessageService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
-        /*Log.d("token1", "shhh");
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener((Executor) this, instanceIdResult -> {
-            usersDTO.IdClass parameter = new usersDTO.IdClass(instanceIdResult.getToken());
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(MyApp.getBaseUrl())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            UsersAPI usersAPI = retrofit.create(UsersAPI.class);
-            Call<Void> sendToken = usersAPI.setFirebaseToken(MyApp.getCookie(), parameter);
-            sendToken.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    Log.d("dsasss", "sad");
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                }
-            });
-        });*/
         usersDTO.IdClass parameter = new usersDTO.IdClass(token);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(MyApp.getBaseUrl())

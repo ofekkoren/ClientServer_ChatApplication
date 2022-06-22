@@ -77,7 +77,6 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-//            holder.contactProfile.setImageResource(current.getContactProfile());
         }
     }
 

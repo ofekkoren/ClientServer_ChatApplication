@@ -1,7 +1,5 @@
 ﻿using ChatWebApi.Data;
 using ChatWebApi.Models;
-/*using System.Data.Entity;
-*/
 using Microsoft.EntityFrameworkCore;
 
 namespace ChatWebApi.Services

@@ -11,16 +11,10 @@ namespace ChatWebApi.Controllers
     {
         private static IUserService _userService;
         private static ChatWebApiContext _context;
-
-        /*        private readonly ChatWebApiContext _context;
-        */        /*        private static IUserService? _userService;
-                */
         public LogInController(ChatWebApiContext context)
         {
             _context = context;
             _userService = new UserService();
-            /*            _userService = new UserService();
-            */
         }
 
 
@@ -39,12 +33,9 @@ namespace ChatWebApi.Controllers
                 };
                 return Json(invalidEmptyUser);
             }
-            /*            User user =  _context.User.Where(u => u.name.Equals(parameters.username)).FirstOrDefault();
-            */
             var user = await _userService.GetUser(_context, parameters.username);
 
-            /*            User? user = await Utils.GetUser(parameters.username);
-            */            // Checking if no such user exists in the system or if the password of the user does not match what the user has entered.
+           // Checking if no such user exists in the system or if the password of the user does not match what the user has entered.
             if ((user == null) || (user.password.Equals(parameters.password) == false))
             {
                 var invalidUser = new
