@@ -1,3 +1,4 @@
+
 # Advanced Programming exercise 3:
 Submitting:
 
@@ -14,13 +15,16 @@ Ofek Koren, id: 207105933
 -  - 5170 for the server side.
 -  - 5189 for the rankings.
 - **Each sub-project must run on the port stated above**
+-  To examine the api server alone you are required to and run the "chatWebApi" project as your startup project. 
+
 -  To run the two sub-projects in parallel:
 -   - Go to the *ChatApplciation* folder, open in visual studio the solution on the project. In the solution explorer of visual studio right click on the solution,click on properties,choose the option "Multiple startup projects" and choose both "ChatWebApi" (for server side) and "ChatWebApp" (for Ranks).
 - If you wish to check our android client and current server with the web application of the chat from ex2 you can go to [the repository of ex2](https://github.com/TOMER-77/AP2-EX2) download ex2 as explaind there, then go to the `clientSide` folder in the reopository of ex2 and follow the instructions to run it. The web application should run on port 3000.
 - When running the android client with the server side sub-projects together you can check the whole project. 
 - Please run the server before running the androit or web applications.
-- **Important!** if the database does problems and the application gets stuck after sending messages or adding new contacts please follow the next steps:
+- **Important!** if the database does problems and the application gets stuck after sending messages ,adding new contacts or trying to reach the ranks page please follow the next steps:
 - - Click on "Tools", then click on "NuGet Package Manager" and then click on "Package Manager Console"
+- - In "Default project" choose `ChatWebApi`if the problem is with the server of `ChatWebApp` if the problem is with ranks. If the problem occurs in both cases repeat the next steps for both of the projects.
 - - Type the next commands in the Package Manager Console:
 - - - `EntityFrameworkCore\Add-Migration Testing` 
 - - - `EntityFrameworkCore\Update-Database`
