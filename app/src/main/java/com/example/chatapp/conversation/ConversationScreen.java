@@ -47,43 +47,11 @@ public class ConversationScreen extends AppCompatActivity {
     private RecyclerMessageListAdapter messagesListAdapter;
     private BroadcastReceiver broadcastReceiver;
 
-/*    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-            String message = intent.getStringExtra("message");
-            Log.d("qqqq","rcded");
-        }
-    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversationscreen);
-        /*Contact con = new Contact(0, "Tomer Eligayev", "Tomer-77", MyApp.getContext().getString(R.string.BaseUrl), "Have " +
-                "a nice day", "2022-05-26T03:53:23.8120000");
-        currentConversation = new Conversation("Ofek KorenTomer Eligayev", new ArrayList<Message>(), con);
-        Message m1 = new Message(1, "Hello, how are you?", "2022-05-26T03:53:23.8120000", true);
-        Message m2 = new Message(2, "I'm fine, thanks", "2022-05-26T03:53:23.8120000", false);
-        Message m3 = new Message(3, "Have a nice day.", "2022-05-26T03:53:23.8120000", false);
-        Message m4 = new Message(4, "Have a nice day.", "2022-05-26T03:53:23.8120000", false);
-        Message m5 = new Message(5, "Have a nice day.ggggggg ggggg gggggggggggg gggggggggggggggggggggggggggggg",
-                "2022-05-26T03:53:23.8120000", false);
-        Message m6 = new Message(6, "Have a nice day.", "2022-05-26T03:53:23.8120000", false);
-        Message m7 = new Message(7, "Have", "2022-05-26T03:53:23.8120000", true);
-        Message m8 = new Message(6, "Have", "2022-05-26T03:53:23.8120000", false);
-        Message m9 = new Message(9, "Have a nice day.ggggggg ggggg gggggggggggg gggggggggggggggggggggggggggggg",
-                "2022-05-26T03:53:23.8120000", true);
-
-        currentConversation.getMessages().add(m1);
-        currentConversation.getMessages().add(m2);
-        currentConversation.getMessages().add(m3);
-        currentConversation.getMessages().add(m4);
-        currentConversation.getMessages().add(m5);
-        currentConversation.getMessages().add(m6);
-        currentConversation.getMessages().add(m7);
-        currentConversation.getMessages().add(m8);
-        currentConversation.getMessages().add(m9);*/
         String currentUsername = getIntent().getExtras().getString(getString(R.string.conversationContactExtraKey));
         db = MyAppDB.getInstance(getApplicationContext());
         conversationDao = db.conversationDao();
@@ -97,8 +65,6 @@ public class ConversationScreen extends AppCompatActivity {
         messagesListAdapter.setMessages(currentConversation.getMessages());
         chatBody.scrollToPosition(currentConversation.getMessages().size() - 1);
         createMessageBroadcastReceiver();
-/*        LocalBroadcastManager.getInstance(MyApp.getContext()).registerReceiver(mMessageReceiver,
-                new IntentFilter("custom-event-name"));*/
         setBackBtnListener();
         setSendBtnListener();
     }
@@ -107,7 +73,6 @@ public class ConversationScreen extends AppCompatActivity {
         ImageButton backBtn = findViewById(R.id.conversationBackBtn);
         backBtn.setOnClickListener(view -> {
             this.finish();
-            //TODO set current cur to null?
         });
     }
 
@@ -128,7 +93,6 @@ public class ConversationScreen extends AppCompatActivity {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             TransferAPI transferAPI = transferRetrofit.create(TransferAPI.class);
-            //TODO fix to
             TransferAPI.TransferParams params = new TransferAPI.TransferParams(MyApp.getCurrentUser().getId(),
                     currentConversation.getContact().getUsername(), messageContent);
             Call<Void> transferCall = transferAPI.transferMessage(MyApp.getCookie(), params);
@@ -174,20 +138,16 @@ public class ConversationScreen extends AppCompatActivity {
                 public void onFailure(Call<Void> call, Throwable t) {
                 }
             });
-            //ContactAPI contactAPIAPI = retrofit.create(ContactAPI.class);
             textBox.setText("");
         });
     }
 
     private void addNewMessage(Message message, Conversation updatedConversation) {
-/*        db = MyAppDB.getInstance(getApplicationContext());
-        conversationDao = db.conversationDao();*/
         Conversation existingConversation = conversationDao.getConversation(currentConversation.getContact().getUsername());
         existingConversation.setContact(updatedConversation.getContact());
         existingConversation.messages.add(message);
         conversationDao.update(existingConversation);
         messagesListAdapter.addMessage(message);
-        //messagesListAdapter.updateList(existingConversation.messages);
         currentConversation = existingConversation;
         RecyclerView chatBody = findViewById(R.id.chatBody);
         chatBody.scrollToPosition(currentConversation.getMessages().size() - 1);

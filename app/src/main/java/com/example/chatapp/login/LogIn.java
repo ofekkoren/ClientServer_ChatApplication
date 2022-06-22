@@ -83,7 +83,6 @@ public class LogIn {
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = response.body();
                 setCurrentUser(user);
-//                MyApp.setCurrentUser(user1);
             }
 
             @Override

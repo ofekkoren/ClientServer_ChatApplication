@@ -42,10 +42,6 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
         LogIn logIn = new LogIn();
-//        db = Room.databaseBuilder(getApplicationContext(), MyAppDB.class, "MyAppDB")
-//                .allowMainThreadQueries().build();
-//        conversationDao = db.conversationDao();
-
         Button logInButton = findViewById(R.id.LogInButton);
         EditText logInUsername = findViewById(R.id.LogInUsername);
         EditText logInPassword = findViewById(R.id.LogInPassword);
@@ -99,30 +95,13 @@ public class LogInActivity extends AppCompatActivity {
                                 Log.d("sda", "Adds");
                             }
                         });
-                    }/* else
-                        logInValidationMessage.setText("");*/
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<LogInAPI.LogInResults> call, Throwable t) {
                 }
             });
-            /*if(logIn.logInCheckValidation(username, password, logInValidationMessage)) {
-                logIn.getAndSetCurrentUser();
-                Intent i = new Intent(this, contactsList.class);
-                //pass current user?
-                startActivity(i);
-            }
-            }
-            else {
-                logInValidationMessage.setText("");
-            }*/
-
-            // if(logInCheckValidation(username,password) == true) {
-            //  Intent i = new Intent(this, ChatScreen.class);
-//            startActivity(i);
-//            }
-//>>>>>>> fe232e855793507b9a0c04ed383a671772ab748b
         });
 
     }

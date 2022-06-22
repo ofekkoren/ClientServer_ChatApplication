@@ -57,9 +57,6 @@ public class contactsList extends AppCompatActivity {
     private boolean firstInitialization;
     private BroadcastReceiver broadcastReceiver;
 
-//    ConversationDao conversationDao;
-//    private ConversationsViewModel viewModel;
-
     public contactsList() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(MyApp.getBaseUrl())
@@ -79,24 +76,14 @@ public class contactsList extends AppCompatActivity {
         Intent activityIntent = getIntent();
         db = MyAppDB.getInstance(getApplicationContext());
         if (activityIntent == null) {
-//            if(MyApp.getCurrentUser() != null) {
-//                int x = 5;
-//            }
         }
         TextView toplogInUsername = findViewById(R.id.ToplogInUsername);
         toplogInUsername.setText(MyApp.getCurrentUser().getId());
-        //ImageView topProfilePictureLogInUser = findViewById(R.id.topProfilePictureLogInUser);
         toplogInUsername.setText(MyApp.getCurrentUser().getName());
-        //topProfilePictureLogInUser.setImageResource(R.drawable.defaultimage);
         setProfilePicture();
-//        db = Room.databaseBuilder(getApplicationContext(), MyAppDB.class, "MyAppDB")
-//                .allowMainThreadQueries().build();
         conversationDao = db.conversationDao();
-//        viewModel = new ViewModelProvider(this).get(ConversationsViewModel.class);
-
         RecyclerView listOfContacts = findViewById(R.id.ListOfContacts);
         adapter = new ContactsListAdapter(this);
-//        final ContactsListAdapter adapter = new ContactsListAdapter(this);
         listOfContacts.setAdapter(adapter);
         listOfContacts.setLayoutManager(new LinearLayoutManager(this));
         usersDTO.IdClass param = new usersDTO.IdClass(MyApp.getCurrentUser().getId());
@@ -104,19 +91,12 @@ public class contactsList extends AppCompatActivity {
         userRequest.enqueue(new Callback<List<Conversation>>() {
             @Override
             public void onResponse(Call<List<Conversation>> call, Response<List<Conversation>> response) {
-//                    List<Conversation> conversationList = response.body();
-//                    List<Contact> contactsList = new ArrayList<>();
-//                    conversationsList = new ArrayList<>();
                 conversationsList = response.body();
                 List<Conversation> daoConversationList = conversationDao.getAllConversations();
                 for (Conversation c : daoConversationList) {
                     conversationDao.delete(c);
                 }
-//                    conversationDao.deleteAll(conversationDao.getAllConversations());
-//        List<Conversation> conversations = conversationDao.getAllConversations();
                 for (Conversation c : conversationsList) {
-                    //contactList.add(c.contact);
-                    //todo
                     conversationDao.insert(c);
                 }
                 conversationsList = conversationDao.getAllConversations();
@@ -134,58 +114,16 @@ public class contactsList extends AppCompatActivity {
         FloatingActionButton btnAddNewContact = findViewById(R.id.btnAddNewContact);
         btnAddNewContact.setOnClickListener(view -> {
             Intent i = new Intent(this, AddNewContact.class);
-/*            Gson gson = new Gson();
-            String myJson = gson.toJson(adapter);
-            i.putExtra("contactAdapter", myJson);*/
             startActivity(i);
         });
         setSettingsBtnListener();
-//        viewModel.getAllConversations().observe(this, conversations -> {
-//            List<Contact> contactsList = getAllContacts(conversations);
-//            adapter.setContacts(contactsList);
-//        });
-//        adapter.setContacts(contactList);
-
     }
-
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        List<Conversation> conDao = conversationDao.getAllConversations();
-//        List<Conversation> currentConList = conversationsList;
-//        contactList.clear();
-//        conversationsList.clear();
-//        conversationsList.addAll(conversationDao.getAllConversations());
-////        List<Conversation> conversationList = conversationDao.getAllConversations();
-////        List<Contact> contactsList;
-//        for (Conversation c : conversationsList) {
-//            contactList.add(c.contact);
-//        }
-////        contactList.addAll(contactsList);
-//        adapter.notifyDataSetChanged();
-//        //        contactList.clear();
-////        conversationsList.clear();
-////        conversationDao.deleteAll(conversationDao.getAllConversations());
-////        for (Conversation c : conversationsList) {
-////            conversationDao.insert(c);
-////        }
-//    }
 
     @Override
     protected void onResume() {
         super.onResume();
         if (!firstInitialization) {
             refreshContactList();
-            /*contactList.clear();
-            conversationsList.clear();
-            conversationsList.addAll(conversationDao.getAllConversations());
-//        List<Conversation> conversationList = conversationDao.getAllConversations();
-//        List<Contact> contactsList;
-            for (Conversation c : conversationsList) {
-                contactList.add(c.contact);
-            }
-//        contactList.addAll(contactsList);
-            adapter.setContacts(contactList);*/
         } else
             firstInitialization = false;
     }
@@ -194,12 +132,9 @@ public class contactsList extends AppCompatActivity {
         contactList.clear();
         conversationsList.clear();
         conversationsList.addAll(conversationDao.getAllConversations());
-//        List<Conversation> conversationList = conversationDao.getAllConversations();
-//        List<Contact> contactsList;
         for (Conversation c : conversationsList) {
             contactList.add(c.contact);
         }
-//        contactList.addAll(contactsList);
         adapter.setContacts(contactList);
     }
 
@@ -236,18 +171,4 @@ public class contactsList extends AppCompatActivity {
         } else
             topProfilePictureLogInUser.setImageResource(R.drawable.defaultimage);
     }
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        conversationDao.deleteAll(conversationDao.getAllConversations());
-//    }
-
-    //    public List<Contact> getAllContacts(List<Conversation> conversations) {
-//        List<Contact> contactsList = new ArrayList<>();
-////        List<Conversation> conversations = conversationDao.getAllConversations();
-//        for (Conversation c : conversations) {
-//            contactsList.add(c.contact);
-//        }
-//        return contactsList;
-//    }
 }

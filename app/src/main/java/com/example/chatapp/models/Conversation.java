@@ -27,12 +27,6 @@ public class Conversation {
     @Embedded
     public Contact contact;
 
-//    @TypeConverter
-//    public List<Message> getAllMessages() {
-//
-//    }
-
-
     public Conversation() {
     }
 

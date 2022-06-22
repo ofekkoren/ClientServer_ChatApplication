@@ -21,9 +21,6 @@ public interface ConversationDao {
     @Query("SELECT * FROM conversation WHERE username = :conversationId")
     Conversation getConversation(String conversationId);
 
-/*    @Query("SELECT * FROM Conversation ORDER BY lastdate DESC,id DESC")
-    List<Conversation> getAllConversationsByDate();*/
-
     @Insert
     void insert(Conversation...conversations);
 

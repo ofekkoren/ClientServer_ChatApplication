@@ -1,26 +1,13 @@
 package com.example.chatapp.api;
 
-import com.example.chatapp.models.ContactToJson;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
-import retrofit2.Retrofit;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface SignUpAPI {
 
     @POST("api/SignUp")
     Call<signUpResults> signUp(@Body signUpParams parameters);
-
-    //TODO delete!!!
-/*    @GET("Contacts")
-    Call <ArrayList<ContactToJson>> getContacts(@Header("Cookie") String session);*/
 
     public class signUpParams {
         public String username;

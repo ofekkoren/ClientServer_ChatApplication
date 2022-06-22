@@ -5,16 +5,11 @@ namespace ChatWebApi.Services
 {
     public class ContactService : IContactService
     {
-/*        private readonly ChatWebApiContext _context;
-*/        private static IUserService? _userService;
+        private static IUserService? _userService;
         private static IConversationService? _conversationService;
-        // Counts the number of total contacts we have in system so far
-/*        private static int _ids = 8;
-*/
+
         public ContactService()
         {
-/*            ChatWebApiContext context = new ChatWebApiContext(new Microsoft.EntityFrameworkCore.DbContextOptions<ChatWebApiContext>());
-*/
             _userService = new UserService();
             _conversationService = new ConversationService();
         }
@@ -34,10 +29,7 @@ namespace ChatWebApi.Services
             if (conversations == null)
             {
                 user.conversations = new List<Conversation>();
-/*                context.SaveChanges();
-*/                conversations = user.conversations;
-                /*                return false;
-*/
+               conversations = user.conversations;
             }
 
             int convLength = conversations.Count();
@@ -47,17 +39,9 @@ namespace ChatWebApi.Services
                     return false;
             }
             Contact contact = new Contact() { username = id, name = name, server = server, last = "", lastdate = "" };
-/*            Contact contact = new Contact() { id = _ids, username = id, name = name, server = server, last = "", lastdate = "" };
-            _ids++;
-*/
             if (_conversationService == null || await _conversationService.Add(context, username, contact) == false)
                 return false;
-            //todo
-
             context.SaveChanges();
-
-            /*            await context.SaveChangesAsync();
-            */
             return true;
         }
 
@@ -77,19 +61,10 @@ namespace ChatWebApi.Services
             Conversation conversation = await _conversationService.GetConversation(context, username, id);
             if (conversation == null)
                 return false;
-            /*            context.User.Include(x => x.conversations).Where(u => u.id.Equals(id));
-            *//*            context.User.Include(x => x.conversations).ToList().Find(u=>u.id.Equals(username).ToString().Remove()
-            */
             context.Conversation.Attach(conversation);
             context.Conversation.Remove(conversation);
-
-/*            conversations.Remove(conversation);
-*/            //todo
-/*            User user = await _userService.GetUser(context, username);
-            user.conversations = conversations;
-*/            context.SaveChanges();
-/*            await context.SaveChangesAsync();
-*/            return true;
+            context.SaveChanges();
+            return true;
         }
 
         
@@ -100,10 +75,8 @@ namespace ChatWebApi.Services
             Contact? contact = await GetContact(context, username, id);
             if (contact != null)
             {
-                //todo - make sure it updates it in the list.
                 contact.name = name;
                 contact.server = server;
-                //todo
                 await context.SaveChangesAsync();
                 return true;
             }

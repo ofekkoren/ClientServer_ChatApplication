@@ -34,26 +34,12 @@ namespace ChatWebApi.Controllers
 
         }
 
-        /*        [HttpGet]
-                public async Task<IActionResult> getUser()
-                {
-                    var listOfUsers = _context.User.ToList();
-                    var user = UtilsUser.GetUser(_context,"Ofek Koren").Result;
-                    return Json(user);
-                }*/
-
         [HttpPost]
         public async Task<IActionResult> Index()
         {
             if (HttpContext.Session.GetString(currentUser) == null)
                 return Redirect(redirectTo);
             var user = await _userService.GetUser(_context, HttpContext.Session.GetString(currentUser));
-
-            /*            var user = from u in _context.User
-                                   where u.name.Equals(HttpContext.Session.GetString(currentUser))
-                                   select u;*/
-            /*            User? user = await Utils.GetUser(HttpContext.Session.GetString(currentUser));
-            */
             if (user == null)
             {
                 return NotFound();

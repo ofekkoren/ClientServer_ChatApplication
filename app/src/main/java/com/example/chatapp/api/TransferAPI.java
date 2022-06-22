@@ -1,7 +1,5 @@
 package com.example.chatapp.api;
 
-import com.example.chatapp.models.User;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;

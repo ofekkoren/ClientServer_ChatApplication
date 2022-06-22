@@ -5,9 +5,7 @@
 
 - The Android application was devolped with API 31 using Room as local DB , Firebase Cloud Messaging for receiving notifications about new messages and chats and Retrofit to send requests to the server.
 - After downloading the project you can run the android chat application by opening Android studio, clicking on "file" and then "open" the folder where you downloaded the project to.
-- **There are 5 initial users signed-up to the chat. Their user names are: Ofek Koren, Tomer Eligayev, Avi Cohen, Shir Levi, Moti Luhim. The password of each one of them is "123456" followed by the first letter of their last name (in upper case).** 
-- For example: the password of the user "Avi Cohen" is "123456C" .
-- **To see all of our hard-coded db you can enter the "Services" directory in the chatWebApi project, and enter the  UserService file. The information is initialized in the constructor of the service.**
+
 
 ## **Explanation:**
 This android chat application allows registered users to communicate with each other on our application. It is also possible to communicate with users of the web version of the application (It is explained in the main readme of the project)

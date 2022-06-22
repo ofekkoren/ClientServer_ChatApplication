@@ -11,9 +11,6 @@ namespace ChatWebApi.Controllers
     {
         private static IUserService _userService;
         private static ChatWebApiContext _context;
-
-        /*        private readonly ChatWebApiContext _context;
-        */
         public SignUpController(ChatWebApiContext context)
         {
             _userService = new UserService();
