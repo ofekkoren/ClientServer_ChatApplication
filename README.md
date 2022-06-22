@@ -18,7 +18,7 @@ Ofek Koren, id: 207105933
 -  To examine the api server alone you are required to and run the "chatWebApi" project as your startup project. 
 
 -  To run the two sub-projects in parallel:
--   - Go to the *ChatApplciation* folder, open in visual studio the solution on the project. In the solution explorer of visual studio right click on the solution,click on properties,choose the option "Multiple startup projects" and choose both "ChatWebApi" (for server side) and "ChatWebApp" (for Ranks).
+-   - Go to the *ChatApplciation* folder, open in visual studio the solution on the project. In the solution explorer of visual studio right click on the solution,click on properties,choose the option "Multiple startup projects" and choose both "ChatWebApi" (for server side) and "ChatWebApp" (for Ranks) by changing the from "none" to "start" in the "Action" column.
 - If you wish to check our android client and current server with the web application of the chat from ex2 you can go to [the repository of ex2](https://github.com/TOMER-77/AP2-EX2) download ex2 as explaind there, then go to the `clientSide` folder in the reopository of ex2 and follow the instructions to run it. The web application should run on port 3000.
 - When running the android client with the server side sub-projects together you can check the whole project. 
 - Please run the server before running the androit or web applications.
