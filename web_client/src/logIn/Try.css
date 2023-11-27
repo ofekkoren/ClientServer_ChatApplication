@@ -1,0 +1,10 @@
+.form {
+    background-color: aquamarine;
+    margin: 50dp;
+    width: 80vh;
+    display: grid;
+    place-items: center;
+    padding: 10vh;
+    margin-left: 30%;
+    margin-top: 15%;
+}

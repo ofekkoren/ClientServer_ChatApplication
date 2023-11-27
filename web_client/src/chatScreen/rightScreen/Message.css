@@ -1,0 +1,43 @@
+.sent-message {
+    background-color: #C0D9FF;
+    align-self: end;
+}
+
+.received-message {
+    background-color: white;
+    align-self: start;
+}
+
+.general-message {
+    width: available;
+    border-style: solid;
+    border-color: gray;
+    border-width: 1.5px;
+    border-radius: 7px;
+    margin: 0.5% 2%;
+    padding: 1%;
+    position: relative;
+}
+
+.text-message {
+    white-space: pre-wrap; /*starts new line for newLine character*/
+    word-break: break-all; /*starts new line if the text is too long*/
+}
+
+.text-date {
+    float: right;
+    font-size: small;
+    color: grey;
+}
+
+video {
+    width: auto;
+    max-height: 45vh;
+    border-radius: 2%;
+
+}
+
+.image-message {
+
+    max-width: 40vh;
+}

@@ -1,0 +1,85 @@
+.top-profile-image {
+    height: 100%;
+    max-width: 6%;
+    margin-right: 2%;
+    margin-left: 3%;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    position: relative;
+    border-radius: 100%;
+}
+
+.chat-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    resize: none;
+    overflow-y: scroll;
+
+}
+
+.chat-body::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.chat-body::-webkit-scrollbar {
+    width: 10px;
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: lightgray;
+}
+
+.chat-body-bottom {
+    margin-top: 1%;
+}
+
+.bottom-input-line {
+    display: flex;
+    background-color: #748DB3;
+}
+
+.bottom-btn {
+    background-color: #748DB3;
+    color: white;
+    border: 0;
+    box-shadow: none !important;
+}
+
+.bottom-btn:hover {
+    background-color: lavender;
+    color: black;
+}
+
+.attach-dropup {
+    display: flex;
+    float: left;
+    background-color: silver;
+}
+
+.attach-btn {
+    border: thin solid black;
+
+}
+
+.attach-ul {
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+}
+
+.message-box {
+    border-radius: 10px;
+    border: 2px solid #748DB3;
+    flex: 1; /*box as big as possible*/
+    outline: none;
+    resize: none; /*hide resize option for the inputbox*/
+    -ms-overflow-style: none; /*hide scrollbar for Internet Explorer/Edge */
+    scrollbar-width: none; /*hide scrollbar for Firefox */
+    overflow-y: scroll;
+}
+
+.message-box::-webkit-scrollbar {
+    display: none; /*hide scrollbar for Chrome, Safari, and Opera */
+}

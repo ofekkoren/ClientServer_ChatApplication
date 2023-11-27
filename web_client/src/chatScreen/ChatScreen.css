@@ -1,0 +1,43 @@
+.leftScreen {
+    background-color: white !important;
+}
+
+.rightScreen {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-image: url("../../public/images/designImages/inner-chat.jpg");
+}
+
+.chatScreen {
+    background-color: blueviolet !important;
+    position: absolute;
+
+    height: 75vh;
+    width: 140vh;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+}
+
+.topLine {
+    background-color: #748DB3;
+    height: 10%;
+    padding: 0.25%;
+    align-items: center;
+    display: flex;
+}
+
+.container-chat-screen {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}
+
+.inner-chat-cube {
+    display: flex;
+    background-color: transparent;
+    margin-top: -30px;
+    height: 90vh;
+    width: 85vw;
+    box-shadow: -1px 4px 20px -6px black;
+}
