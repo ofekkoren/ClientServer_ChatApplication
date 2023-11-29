@@ -9,7 +9,7 @@
 - The server side consists of two sub-projects and runs on two different ports:
 -  - 5170 for the server side.
 -  - 5189 for the rankings.
-- **Each sub-project must run on the port stated above**
+**Each sub-project must run on the port stated above**
 -  To examine the API server alone you are required to run the "chatWebApi" project as your startup project. 
 
 -  To run the two sub-projects in parallel:
