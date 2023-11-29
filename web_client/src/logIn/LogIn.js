@@ -30,7 +30,6 @@ function LogIn() {
   
   function handle(e) {
     var text = document.getElementById("appendTxt");
-    // text.setText("hello")
     console.log("hello")
   }
 
@@ -40,7 +39,6 @@ function LogIn() {
 
 <html>
     <head>
-            {/* <Link href="Try.css" rel="stylesheet"></Link> */}
     </head>
     <body>
       <div className='form'>
