@@ -4,7 +4,7 @@
 ## **About the project**	
 - The project was developed with Android Studio (for the Android application) and MVC architecture (for the server side and ranks part).
 - On the server side two Nuget packages were used: FirebaseAdmin and Microsoft.AspNetCore.SignalIR as well as Entity framework packages.
-- The Android application was developed with API 31 using Room as local DB, Firebase Cloud Messaging for receiving notifications about new messages and chats, and Retrofit to send requests to the server.- You can download the project using the command `git clone https://github.com/ofekkoren/ap2-ex3.git`
+- The Android application was developed with API 31 using Room as local DB, Firebase Cloud Messaging for receiving notifications about new messages and chats, and Retrofit to send requests to the server.
 - After downloading the project you can run the Android chat application by opening Android Studio, clicking on "file" and then "open" the folder in which you downloaded the project.
 - The server side consists of two sub-projects and runs on two different ports:
 -  - 5170 for the server side.
