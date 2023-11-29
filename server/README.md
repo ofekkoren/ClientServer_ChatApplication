@@ -1,11 +1,6 @@
 ﻿
 
-# Advanced Programming exercise 2:
-Submitting:
-
-Tomer Eligayev, id: 208668129
-
-Ofek Koren, id: 207105933
+# Server side:
 
 ## **Running the project**	
 Our project is divided into two sub-projects, "chatWebApp" project and "chatWebApi" project.
