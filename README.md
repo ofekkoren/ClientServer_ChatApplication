@@ -1,10 +1,5 @@
 
-# Advanced Programming exercise 3:
-Submitting:
-
-Tomer Eligayev, id: 208668129
-
-Ofek Koren, id: 207105933
+# Cross-platform Client-Server Real-time Messaging App :
 
 ## **About the project**	
 - The project was developed with Android Studio (for the Android application) and MVC architecture (for the server side and ranks part).
