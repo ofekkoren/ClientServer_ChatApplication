@@ -2,18 +2,17 @@
 # Cross-platform Client-Server Real-time Messaging App :
 
 ## **About the project**	
-- The project was developed with Android Studio (for the Android application) and MVC architecture (for the server side and ranks part).
-- On the server side two Nuget packages were used: FirebaseAdmin and Microsoft.AspNetCore.SignalIR as well as Entity framework packages.
-- The Android application was developed with API 31 using Room as local DB, Firebase Cloud Messaging for receiving notifications about new messages and chats, and Retrofit to send requests to the server.
-- After downloading the project you can run the Android chat application by opening Android Studio, clicking on "file" and then "open" the folder in which you downloaded the project.
-- The server side consists of two sub-projects and runs on two different ports:
+The project was developed with Android Studio (for the Android application) and MVC architecture (for the server side and ranks part).
+On the server side two Nuget packages were used: FirebaseAdmin and Microsoft.AspNetCore.SignalIR as well as Entity framework packages.
+The Android application was developed with API 31 using Room as local DB, Firebase Cloud Messaging for receiving notifications about new messages and chats, and Retrofit to send requests to the server.
+After downloading the project you can run the Android chat application by opening Android Studio, clicking on "file" and then "open" the folder in which you downloaded the project.
+The server side consists of two sub-projects and runs on two different ports:
 -  - 5170 for the server side.
 -  - 5189 for the rankings.
 **Each sub-project must run on the port stated above**
--  To examine the API server alone you are required to run the "chatWebApi" project as your startup project. 
-
--  To run the two sub-projects in parallel:
--   - Go to the *ChatApplciation* folder, and open in Visual Studio the solution on the project. In the solution explorer of the visual studio right click on the solution, click on properties, choose the option "Multiple startup projects" and choose both "ChatWebApi" (for server-side) and "ChatWebApp" (for Ranks) by changing the from "none" to "start" in the "Action" column.
+To examine the API server alone you are required to run the "chatWebApi" project as your startup project. 
+To run the two sub-projects in parallel:
+Go to the *ChatApplciation* folder, and open in Visual Studio the solution on the project. In the solution explorer of the visual studio right click on the solution, click on properties, choose the option "Multiple startup projects" and choose both "ChatWebApi" (for server-side) and "ChatWebApp" (for Ranks) by changing the from "none" to "start" in the "Action" column.
 - If you wish to check our Android client and current server with the web application of the chat from ex2 you can go to [the repository of ex2](https://github.com/TOMER-77/AP2-EX2) download ex2 as explained there, then go to the `clientSide` folder in the repository of ex2 and follow the instructions to run it. The web application should run on port 3000.
 - When running the Android client with the server-side sub-projects together you can check the whole project. 
 - Please run the server before running the Android or web applications.
