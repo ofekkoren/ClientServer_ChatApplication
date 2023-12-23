@@ -30,7 +30,6 @@ function LogIn() {
   
   function handle(e) {
     var text = document.getElementById("appendTxt");
-    console.log("hello")
   }
 
   var tag = $('#appendTxt');
